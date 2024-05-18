@@ -1,0 +1,9 @@
+Steps to Run the Script
+Ensure pyusb is installed:
+pip install pyusb
+
+
+Run the script with appropriate permissions:
+If you face permission issues, run the script with sudo:
+
+sudo python test.py
