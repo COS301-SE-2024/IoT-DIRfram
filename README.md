@@ -22,11 +22,23 @@ Check out our GitHub Project Board for project management: [Project Board](#)
 
 - **Quintin d'Hotman de Villiers**
   - Role: Project Manager
-  - LinkedIn: [Quintin d'Hotman](#)
+  - LinkedIn: [Quintin d'Hotman](https://www.linkedin.com/in/quintin-d-hotman-de-villiers-8563b4240/)
 
-- **Will Fill in**
+- **Lloyd Creighton**
   - Role: Software Developer
-  - LinkedIn: [example person](#)
+  - LinkedIn: [Lloyd Creighton](https://www.linkedin.com/in/lloyd-creighton-8367822b9/)
+
+- **Carter Shin**
+  - Role: Software Developer
+  - LinkedIn: [Carter Shin](https://za.linkedin.com/in/carter-shin-b0483b243)
+
+- **Ze-Lin(Daniel) Zhang**
+  - Role: Software Developer
+  - LinkedIn: [Ze-Lin Zhang](https://www.linkedin.com/in/z%C3%A9-lin-zhang-a87676241/)
+
+- **Yi-Rou(Monica) Hung**
+  - Role: Software Developer
+  - LinkedIn: [Yi-Rou Hung](https://www.linkedin.com/in/yi-rou-hung-7bb6a6305?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BEZJLj7i3R5mMJu94ANnKCg%3D%3D)
 
 ## Git Repository
 
@@ -51,8 +63,8 @@ We follow the Git Flow branching model, with main, develop, feature, and release
 
 ## Monitoring
 
-We utilize example:NodePing for monitoring server uptime and performance.
+We do not have a server for housing the XML data as it is stored locally on the Raspberry Pi for now, and thus don't need to utilize software such as NodePing for monitoring server uptime and performance.
 
 ## Conclusion
 
-With this comprehensive GitHub documentation, we aim to provide transparency and insight into our project's development process, organization, and team members. We welcome collaboration and feedback from the community.
+With this comprehensive GitHub documentation, we aim to provide transparency and insight into our project's development process, organization, and team members. We welcome collaboration and feedback from the Course co-ordinators, clients, or any other members involved with the project.
