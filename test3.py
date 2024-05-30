@@ -1,98 +1,34 @@
-import pyudev
-import os
-import usb.core
 import usb.util
-import serial.tools.list_ports
 
-def get_usb_device_info(vid, pid):
-    try:
-        # Find the device
-        dev = usb.core.find(idVendor=vid, idProduct=pid)
-        if dev is None:
-            return "Device not found"
-        
-        # Get device descriptor
-        descriptor = dev.get_active_configuration().bDescriptorRaw
+# Find a specific USB device by Vendor ID and Product ID
+dev = usb.core.find(idVendor=0x29da, idProduct=0x000a)
 
-        # Parse the descriptor
-        device_info = {}
-        device_info['bLength'] = hex(descriptor[0])
-        device_info['bDescriptorType'] = hex(descriptor[1])
-        device_info['bcdUSB'] = hex(descriptor[2] << 8 | descriptor[3])
-        device_info['bDeviceClass'] = hex(descriptor[4])
-        device_info['bDeviceSubClass'] = hex(descriptor[5])
-        device_info['bDeviceProtocol'] = hex(descriptor[6])
-        device_info['bMaxPacketSize0'] = hex(descriptor[7])
-        device_info['idVendor'] = hex(dev.idVendor)
-        device_info['idProduct'] = hex(dev.idProduct)
-        device_info['bcdDevice'] = hex(dev.bcdDevice)
-        device_info['iManufacturer'] = hex(descriptor[14])
-        device_info['iProduct'] = hex(descriptor[15])
-        device_info['iSerialNumber'] = hex(descriptor[16])
-        device_info['bNumConfigurations'] = hex(descriptor[17])
-        device_info['bMaxPower'] = hex(descriptor[8])  # bMaxPower is at index 8 in the descriptor
+# Check if the device is found
+if dev is None:
+    raise ValueError('Device not found')
 
-        return device_info
-    except Exception as e:
-        return f"Error: {e}"
+# Get device descriptor
+dev_desc = dev.get_device_descriptor()
 
+# Print device information
+print("Device ID: {:04x}:{:04x} on Bus {:03d} Address {:03d}".format(
+    dev_desc.idVendor, dev_desc.idProduct, dev.bus, dev.address))
+print("bcdUSB:", hex(dev_desc.bcdUSB))
+print("bDeviceClass:", hex(dev_desc.bDeviceClass))
+print("bDeviceSubClass:", hex(dev_desc.bDeviceSubClass))
+print("bDeviceProtocol:", hex(dev_desc.bDeviceProtocol))
+print("bMaxPacketSize0:", dev_desc.bMaxPacketSize0)
+print("iManufacturer:", dev_desc.iManufacturer)
+print("iProduct:", dev_desc.iProduct)
+print("iSerialNumber:", dev_desc.iSerialNumber)
+print("bNumConfigurations:", dev_desc.bNumConfigurations)
 
+# Detach kernel driver if active
+if dev.is_kernel_driver_active(0):
+    dev.detach_kernel_driver(0)
 
-def read_sysfs_voltage(device_path):
-    try:
-        voltage_file = os.path.join(device_path, 'power', 'voltage_now')
-        if os.path.exists(voltage_file):
-            with open(voltage_file, 'r') as file:
-                voltage = int(file.read().strip()) / 1000  # Convert µV to mV
-                return f"{voltage} mV"
-        return "N/A"
-    except Exception as e:
-        return f"Error reading voltage: {e}"
+# Reset the device
+dev.reset()
 
-def get_usb_info_pyudev():
-    try:
-        context = pyudev.Context()
-        devices = []
-        print(context.list_devices(subsystem='usb', DEVTYPE='usb_device'))
-        for device in context.list_devices(subsystem='usb', DEVTYPE='usb_device'):
-            voltage = read_sysfs_voltage(device.device_path)
-            max_power = device.get('POWER_SUPPLY_USB_MAXPOWER', "N/A")
-            devices.append({
-                "Device": device,
-                "Device Node": device.device_node or "N/A",
-                "Device Path": device.device_path or "N/A",
-                "Vendor ID": device.get('ID_VENDOR_ID', "N/A"),
-                "Product ID": device.get('ID_MODEL_ID', "N/A"),
-                "Manufacturer": device.get('ID_VENDOR', "N/A"),
-                "Product": device.get('ID_MODEL', "N/A"),
-                "Serial": device.get('ID_SERIAL_SHORT', "N/A"),
-                "Voltage": voltage,
-                "Max Power (mA)": max_power
-            })
-            device_info = get_usb_device_info(device.get('ID_VENDOR_ID', "N/A"), device.get('ID_MODEL_ID', "N/A"))
-            if isinstance(device_info, dict):
-                for key, value in device_info.items():
-                    print(f"{key}: {value}")
-            else:
-                print(device_info)
-        return devices
-    except Exception as e:
-        return str(e)
-
-def main():
-    print("USB Info from pyudev:")
-    pyudev_info = get_usb_info_pyudev()
-    if isinstance(pyudev_info, str):
-        print(f"Error: {pyudev_info}")
-    else:
-        for device in pyudev_info:
-            for key, value in device.items():
-                print(f"{key}: {value}")
-            print("-" * 20)
-
-if __name__ == "__main__":
-    main()
-
-
-
-
+# Reattach the kernel driver
+usb.util.dispose_resources(dev)
