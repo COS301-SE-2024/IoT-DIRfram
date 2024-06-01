@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Devices>
+	<Device idVendor="1d6b" idProduct="0003" bus="002" address="001">
+		<bLength>
+			0x12
+		</bLength>
+		<bDescriptorType>
+			0x01
+		</bDescriptorType>
+		<bcdUSB>
+			0x0300
+		</bcdUSB>
+		<bDeviceClass>
+			0x09
+		</bDeviceClass>
+		<bDeviceSubClass>
+			0x00
+		</bDeviceSubClass>
+		<bDeviceProtocol>
+			0x03
+		</bDeviceProtocol>
+		<bMaxPacketSize0>
+			0x09
+		</bMaxPacketSize0>
+		<bcdDevice>
+			0x0515
+		</bcdDevice>
+		<iManufacturer>
+			0x03 Linux 5.15.84-v8+ xhci-hcd
+		</iManufacturer>
+		<iProduct>
+			0x02 xHCI Host Controller
+		</iProduct>
+		<iSerialNumber>
+			0x01 0000:01:00.0
+		</iSerialNumber>
+		<Manufacturer>
+			Linux Foundation
+		</Manufacturer>
+		<Product>
+			3.0 root hub
+		</Product>
+		<bNumConfigurations>
+			0x01
+		</bNumConfigurations>
+		<Configuration bConfigurationValue="0x01" bMaxPower="0">
+			<bLength>
+				0x09
+			</bLength>
+			<bDescriptorType>
+				0x02
+			</bDescriptorType>
+			<wTotalLength>
+				0x001f
+			</wTotalLength>
+			<bNumInterfaces>
+				0x01
+			</bNumInterfaces>
+			<iConfiguration>
+				0x00
+			</iConfiguration>
+			<bmAttributes>
+				0xe0
+			</bmAttributes>
+			<bMaxPower>
+				0x00 (0 mA)
+			</bMaxPower>
+			<Interface bInterfaceNumber="0">
+				<Endpoint bEndpointAddress="81">
+					<bLength>
+						7
+					</bLength>
+					<bDescriptorType>
+						5
+					</bDescriptorType>
+					<bmAttributes>
+						3
+					</bmAttributes>
+					<wMaxPacketSize>
+						4
+					</wMaxPacketSize>
+					<bInterval>
+						12
+					</bInterval>
+					<bRefresh>
+						0
+					</bRefresh>
+					<bSynchAddress>
+						0
+					</bSynchAddress>
+				</Endpoint>
+			</Interface>
+		</Configuration>
+	</Device>
+	<Device idVendor="2109" idProduct="3431" bus="001" address="015">
+		<bLength>
+			0x12
+		</bLength>
+		<bDescriptorType>
+			0x01
+		</bDescriptorType>
+		<bcdUSB>
+			0x0210
+		</bcdUSB>
+		<bDeviceClass>
+			0x09
+		</bDeviceClass>
+		<bDeviceSubClass>
+			0x00
+		</bDeviceSubClass>
+		<bDeviceProtocol>
+			0x01
+		</bDeviceProtocol>
+		<bMaxPacketSize0>
+			0x40
+		</bMaxPacketSize0>
+		<bcdDevice>
+			0x0421
+		</bcdDevice>
+		<iManufacturer>
+			0x00 None
+		</iManufacturer>
+		<iProduct>
+			0x01 USB2.0 Hub
+		</iProduct>
+		<iSerialNumber>
+			0x00 None
+		</iSerialNumber>
+		<Manufacturer>
+			VIA Labs, Inc.
+		</Manufacturer>
+		<Product>
+			Hub
+		</Product>
+		<bNumConfigurations>
+			0x01
+		</bNumConfigurations>
+		<Configuration bConfigurationValue="0x01" bMaxPower="100">
+			<bLength>
+				0x09
+			</bLength>
+			<bDescriptorType>
+				0x02
+			</bDescriptorType>
+			<wTotalLength>
+				0x0019
+			</wTotalLength>
+			<bNumInterfaces>
+				0x01
+			</bNumInterfaces>
+			<iConfiguration>
+				0x00
+			</iConfiguration>
+			<bmAttributes>
+				0xe0
+			</bmAttributes>
+			<bMaxPower>
+				0x32 (100 mA)
+			</bMaxPower>
+			<Interface bInterfaceNumber="0">
+				<Endpoint bEndpointAddress="81">
+					<bLength>
+						7
+					</bLength>
+					<bDescriptorType>
+						5
+					</bDescriptorType>
+					<bmAttributes>
+						3
+					</bmAttributes>
+					<wMaxPacketSize>
+						1
+					</wMaxPacketSize>
+					<bInterval>
+						12
+					</bInterval>
+					<bRefresh>
+						0
+					</bRefresh>
+					<bSynchAddress>
+						0
+					</bSynchAddress>
+				</Endpoint>
+			</Interface>
+		</Configuration>
+	</Device>
+	<Device idVendor="1d6b" idProduct="0002" bus="001" address="001">
+		<bLength>
+			0x12
+		</bLength>
+		<bDescriptorType>
+			0x01
+		</bDescriptorType>
+		<bcdUSB>
+			0x0200
+		</bcdUSB>
+		<bDeviceClass>
+			0x09
+		</bDeviceClass>
+		<bDeviceSubClass>
+			0x00
+		</bDeviceSubClass>
+		<bDeviceProtocol>
+			0x01
+		</bDeviceProtocol>
+		<bMaxPacketSize0>
+			0x40
+		</bMaxPacketSize0>
+		<bcdDevice>
+			0x0515
+		</bcdDevice>
+		<iManufacturer>
+			0x03 Linux 5.15.84-v8+ xhci-hcd
+		</iManufacturer>
+		<iProduct>
+			0x02 xHCI Host Controller
+		</iProduct>
+		<iSerialNumber>
+			0x01 0000:01:00.0
+		</iSerialNumber>
+		<Manufacturer>
+			Linux Foundation
+		</Manufacturer>
+		<Product>
+			2.0 root hub
+		</Product>
+		<bNumConfigurations>
+			0x01
+		</bNumConfigurations>
+		<Configuration bConfigurationValue="0x01" bMaxPower="0">
+			<bLength>
+				0x09
+			</bLength>
+			<bDescriptorType>
+				0x02
+			</bDescriptorType>
+			<wTotalLength>
+				0x0019
+			</wTotalLength>
+			<bNumInterfaces>
+				0x01
+			</bNumInterfaces>
+			<iConfiguration>
+				0x00
+			</iConfiguration>
+			<bmAttributes>
+				0xe0
+			</bmAttributes>
+			<bMaxPower>
+				0x00 (0 mA)
+			</bMaxPower>
+			<Interface bInterfaceNumber="0">
+				<Endpoint bEndpointAddress="81">
+					<bLength>
+						7
+					</bLength>
+					<bDescriptorType>
+						5
+					</bDescriptorType>
+					<bmAttributes>
+						3
+					</bmAttributes>
+					<wMaxPacketSize>
+						4
+					</wMaxPacketSize>
+					<bInterval>
+						12
+					</bInterval>
+					<bRefresh>
+						0
+					</bRefresh>
+					<bSynchAddress>
+						0
+					</bSynchAddress>
+				</Endpoint>
+			</Interface>
+		</Configuration>
+	</Device>
+</Devices>

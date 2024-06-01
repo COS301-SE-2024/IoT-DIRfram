@@ -50,7 +50,7 @@ def get_usb_info_pyudev(usb_ids):
                 "Product": device.get('ID_MODEL', "N/A"),
                 "Serial": device.get('ID_SERIAL_SHORT', "N/A"),
                 "Vendor Name": vendor_name,
-                "Product Name": product_name
+                "Product Name": product_name,
             })
 
         return devices
