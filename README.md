@@ -8,7 +8,7 @@ This project aims to develop software for a Raspberry Pi that automatically exec
 
 ## Demo Video
 
-Watch our project demo: [TeamName-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
+Watch our project demo: [CodeCrafters-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
 
 ## Functional Requirements (SRS) Document
 
