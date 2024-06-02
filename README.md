@@ -29,7 +29,7 @@ Check out our GitHub Project Board for project management: [Project Board](https
   - LinkedIn: [Lloyd Creighton](https://www.linkedin.com/in/lloyd-creighton-8367822b9/)
 
 - **Carter Shin**
-  - Role: Software Developer
+  - Role: Testing Engineer
   - LinkedIn: [Carter Shin](https://za.linkedin.com/in/carter-shin-b0483b243)
 
 - **Ze-Lin(Daniel) Zhang**
@@ -37,7 +37,7 @@ Check out our GitHub Project Board for project management: [Project Board](https
   - LinkedIn: [Ze-Lin Zhang](https://www.linkedin.com/in/z%C3%A9-lin-zhang-a87676241/)
 
 - **Yi-Rou(Monica) Hung**
-  - Role: Software Developer
+  - Role: Dev-Ops
   - LinkedIn: [Yi-Rou Hung](https://www.linkedin.com/in/yi-rou-hung-7bb6a6305?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BEZJLj7i3R5mMJu94ANnKCg%3D%3D)
 
 ## Git Repository
