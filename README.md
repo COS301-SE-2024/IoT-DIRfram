@@ -10,15 +10,15 @@ This project aims to develop software for a Raspberry Pi that automatically exec
 
 ## Demo Video
 
-Watch our project demo: [TeamName-Demo1](#)
+Watch our project demo: [TeamName-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
 
 ## Functional Requirements (SRS) Document
 
-Access the Functional Requirements document [here](#).
+Access the Functional Requirements document [here](https://github.com/COS301-SE-2024/IoT-DIRfram/wiki/Functional-Requirements).
 
 ## GitHub Project Board
 
-Check out our GitHub Project Board for project management: [Project Board](#)
+Check out our GitHub Project Board for project management: [Project Board](https://github.com/orgs/COS301-SE-2024/projects/50)
 
 ## Team Members
 
@@ -58,9 +58,9 @@ We follow the Git Flow branching model, with main, develop, feature, and release
 
 ### Code Quality Badges
 
-- **Code Coverage:** Coveralls
+- **Code Coverage:** None
 - **Build:** GitHub Actions
-- **Requirements:** Requires.io
+- **Requirements:** None
 - **Issue Tracking:** GitHub Issues
 
 ## Monitoring
