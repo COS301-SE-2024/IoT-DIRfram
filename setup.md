@@ -1,9 +1,10 @@
-Here is the entire content in a single markdown file:
 
 ```markdown
+
 # Steps to Run the Script
 
 ## Ensure pyusb is installed:
+
 ```bash
 sudo pip install pyusb
 ```
@@ -45,4 +46,4 @@ Ensure the file location for logging is a valid location.
 ```bash
 sudo chmod +x p2.sh
 ```
-```
+
