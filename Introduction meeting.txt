@@ -1,7 +1,0 @@
-Introduction meeting
-USB
-UART 
-IoT - smart fridge, everyday household items
-as many as possible, as generic as possible
-standardised way, used for penetration testing
-possible consideration: detect if IoT, if not, ignore.
