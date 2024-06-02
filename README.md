@@ -1,7 +1,7 @@
 # Code Crafters
 
 Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT DirFram project!
-When Creating a branch, please base it off Dev and push it to Dev, not main when merging.
+*When Creating a branch, please base it off Dev and push it to Dev, not main when merging.
 Please also put the readme in a .gitignore file
 
 ## Project Description
