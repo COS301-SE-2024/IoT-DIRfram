@@ -1,5 +1,18 @@
 [MESSAGES CONTROL]
+# Enable or disable specific messages
 disable=
     C0114, # Missing module docstring
     C0115, # Missing class docstring
     C0116  # Missing function or method docstring
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=80
+
+[BASIC]
+# Variable names can be 1 to 30 characters long.
+variable-rgx=[a-z_][a-z0-9_]{0,29}$
+
+[DESIGN]
+# Maximum number of arguments for function / method.
+max-args=5
