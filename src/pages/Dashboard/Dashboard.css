@@ -1,0 +1,56 @@
+.dashboard {
+  display: flex;
+  flex-direction: column; /* Ensure header and content stack vertically */
+}
+
+.sidebar {
+  width: 250px;
+  background: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.header {
+  background: transparent;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: end; 
+  align-items: center; 
+}
+
+.logout-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  margin-right: 20px; /* Add margin to push button to the right */
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
+}
