@@ -1,0 +1,67 @@
+/* Signup.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-form {
+  background-color: #000;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.auth-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.auth-form p {
+  margin-top: 10px;
+}
+
+.auth-form p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.auth-form p a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,65 @@
+body, html, #root {
+    height: 100%;
+    margin: 0;
+    background-color: #181818; /* Darker background */
+    color: #fff; /* Text color */
+  }
+  
+  .splash-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: flex-start; /* Align buttons slightly left */
+    align-items: center;
+    margin-bottom: 20px; /* Add margin at the bottom */
+  }
+  
+  .button-container {
+    display: flex;
+  }
+  
+  .button-container button {
+    margin-left: 10px; /* Adjusted button spacing */
+  }
+  
+  .content {
+    padding: 20px;
+    text-align: center; /* Center content text */
+  }
+  
+  h1{
+    margin: 20;
+  }
+  
+  p {
+    width: 70%; 
+    margin: 10px auto; 
+  }
+
+  /* Add animation transitions */
+/* Update button styles */
+.login-btn, .signup-btn {
+  background-color: transparent;
+  color: #fff;
+  border: transparent; /* Add border for transition effect */
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 5px 5px;
+  margin: 10px;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Change background and text color on hover */
+.login-btn:hover, .signup-btn:hover {
+  background-color: #fff; /* Background color inverted */
+  color: #1c1c1c; /* Text color inverted */
+}
