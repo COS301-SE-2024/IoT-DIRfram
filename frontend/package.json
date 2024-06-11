@@ -1,5 +1,5 @@
 {
-  "name": "iot-dirfram",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -38,8 +38,8 @@
     ]
   },
   "jest": {
-      "moduleNameMapper": {
-        "gsap": "<rootDir>/__mocks__/gsap.js"
-      }
-  }  
+    "moduleNameMapper": {
+      "gsap": "<rootDir>/__mocks__/gsap.js"
+    }
+  }
 }
