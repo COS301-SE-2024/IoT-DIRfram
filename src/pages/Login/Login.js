@@ -1,3 +1,5 @@
+// Login.js
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css'; // Import CSS file for styling
@@ -9,11 +11,8 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Here you can add your login logic, like calling an API to authenticate user
-    // For simplicity, I'll just check if username and password are not empty
     if (username && password) {
       setLoggedIn(true);
-      // You can also add redirection logic here after successful login
     } else {
       alert('Please enter username and password');
     }
@@ -31,17 +30,19 @@ const Login = () => {
           <form onSubmit={handleLogin}>
             <h2>Login</h2>
             <div>
-              <label>Username:</label>
+              <label htmlFor="username">Username:</label>
               <input
                 type="text"
+                id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div>
-              <label>Password:</label>
+              <label htmlFor="password">Password:</label>
               <input
                 type="password"
+                id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

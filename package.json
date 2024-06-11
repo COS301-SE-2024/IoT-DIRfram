@@ -36,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "jest": {
+      "moduleNameMapper": {
+        "gsap": "<rootDir>/__mocks__/gsap.js"
+      }
+  }  
 }

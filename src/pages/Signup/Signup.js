@@ -1,4 +1,4 @@
-// pages/Signup.js
+// Signup.js
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,6 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send data to server)
     console.log('Form submitted:', formData);
   };
 
