@@ -1,5 +1,3 @@
-// Login.js
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css'; // Import CSS file for styling
@@ -24,30 +22,32 @@ const Login = () => {
         {loggedIn ? (
           <div>
             <h2>Welcome, {username}!</h2>
-            <button onClick={() => setLoggedIn(false)}>Logout</button>
+            <button className="btn-logout" onClick={() => setLoggedIn(false)}>Logout</button>
           </div>
         ) : (
           <form onSubmit={handleLogin}>
             <h2>Login</h2>
-            <div>
-              <label htmlFor="username">Username:</label>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
-            <div>
-              <label htmlFor="password">Password:</label>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
-            <button type="submit">Login</button>
+            <button type="submit" className="btn-submit">Login</button>
           </form>
         )}
         <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
