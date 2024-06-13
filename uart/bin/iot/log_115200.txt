@@ -1,0 +1,265 @@
+HELO
+CPUI
+L1CI
+
+DRAM
+----
+PHYS
+PHYE
+DDR1
+333H
+SIZ3
+SIZ2
+RACE
+PASS
+----
+ZBSS
+CODE
+DATA
+
+L12F
+
+MAIN
+
+
+
+CFE version 1.0.38-114.174 for BCM96318 (32bit,SP,BE)
+Build Date: Wed Jan 28 09:19:14 CST 2015 (huangkun@whg-29)
+Copyright (C) 2000-2011 Broadcom Corporation.
+
+HS Serial flash device: name S25FL128, id 0x0118 size 16384KB
+
+Total Flash size: 16384K with 256 sectors
+Chip ID: BCM6318B0, MIPS: 333MHz, DDR: 333MHz, Bus: 166MHz
+Main Thread: TP0
+Total Memory: 33554432 bytes (32MB)
+Boot Address: 0xb8000000
+
+
+Board IP address                  
+: 192.168.1.1:ffffff00  
+Host IP address                   : 192.168.1.100  
+Gateway IP address                :   
+Run from flash/host (f/h)         : f  
+Default host run file name        : vmlinux  
+Default host flash file name      : bcm963xx_fs_kernel  
+Boot delay (0-9 seconds)          : 1  
+Boot image (0=latest, 1=previous) : 0  
+
+Board Id (0-1)                    : 96318_hg532d  
+Number of MAC Addresses (1-32)    : 10  
+Base MAC Address                  : 00:11:22:44:55:66  
+PSI Size (1-64) KBytes            : 24  
+Enable Backup PSI [0|1]           : 0  
+System Log Size (0-256) KBytes    : 0  
+Main Thread Number [0|1]          : 0  
+
+
+
+ Boot :e=192.168.1.1:ffffff00 h=192.168.1.100 g= r=f f=vmlinux i=bcm963xx_fs_kernel d=1 p=0 
+*** Press any key to stop auto run (3 seconds) ***
+Auto run second count down: 33
+2
+1
+0
+Boot from main system!
+
+SIGN CHK ALWAYLYS.
+check tag crc ok
+tag copy is ok
+
+========= Is ready to boot ===========
+
+Code Address: 0x80010000, Entry Address: 0x80303f00
+
+Decompression OK!
+Entry at 0x80303f00
+Closing network.
+no Disabling Switch ports.
+
+Flushing Receive Buffers...
+0 buffers found.
+Closing DMA Channels.
+Starting program at 0x80303f00
+l d!
+
+init started: BusyBox vv1.9.1 (2015-07-29 08:53:08 CST)
+
+starting pid 24, tty '': '/etc/init.d/rcS'
+
+RCS DONE
+starting pid 26, tty '': '/bin/sh'
+
+
+BusyBox vv1.9.1 (2015-07-29 08:53:08 CST) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+
+rootdir=/
+table='/etc/devicetable'
+-/bin/sh: startbsp: not found
+
+-/bin/sh: cannot create /proc/tty/mode: nonexistent directory
+Loading drivers and kernel modules... 
+
+Start mic now ...
+GlobeMac Init OK
+
+load cfm ok.
+
+##sendmsg return 16, errno 0.
+INSMOD START......
+
+INSMOD Done
+mac:88cefa9a0cdf
+
+INSMOD ETH START......
+INSMOD ETH Done
+
+hw-switching disable set success
+
+ARL table flush done
+Success 
+MASK- ifconfig [eth0]**********
+
+device eth0 is not a slave of br0
+
+ifconfig: SIOCGIFFLAGS: No such device
+
+ifconfig: SIOCSIFHWADDR: No such device
+
+ifconfig: SIOCGIFFLAGS: No such device
+ifconfig: SIOCGIFFLAGS: No such device
+
+atp: cur kernel version:[2.6.30] 
+
+0
+
+
+  dms init come in  
+[tv_sec:14 tv_usec:134948] FILE: wlancmsinit.c FUNC: ATP_WLAN_Init LINE: 189: Enter in the ATP_WLAN_Init[tv_sec:14 tv_usec:135134] FILE: wlancmsinit.c FUNC: ATP_WLAN_InitPowerMode LINE: 151: Enable WLAN MAX POWR MODE, Initiling...
+
+[tv_sec:14 tv_usec:374433] FILE: wlancmsinit.c FUNC: ATP_WLAN_InitPowerMode LINE: 162: Attention: Need Set Max Power to Board.
+INSMOD wlan START......
+
+INSMOD wlan Done
+
+Setting SSID: "HUAWEI-XGQMKQ75"
+WlanSetSsid:  SSID=HUAWEI-XGQMKQ75
+
+Chanspec set to 0x1803
+
+wlancms: events/0 is running as Real Time process.
+
+wl: Unsupported
+
+wl: Unsupported
+
+
+ begin WlanUpInterfaces...
+
+
+ begin WlanStartServices...
+
+
+ wlan wps enabled
+
+Sorry, rule does not exist.
+
+lBridgeKey is 0
+
+============GET Interface Failed
+
+devName:nas0
+
+Create interface OVER
+devName:nas0
+
+
+ wps_gpio_led_blink: blinktype = 5.
+
+ wps_gpio_led_blink: blinktype = 4.
+
+************************Write db to flash now ...
+
+done sync
+
+============GET Interface Failed
+
+main 587
+
+Error: either "to" is duplicate, or "hoplimit" is a garbage.
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+iptables: No chain/target/match by that name
+
+Sat Jan  1 05:00:00 UTC 2000
+
+
+Current sntp process is 1133!
+
+==========ATP_SYS_SetConsole_Type======[0]
+
+
+Recvd netlink msg now ...
+
+Setting SSID: "HUAWEI-XGQMKQ75"
+WlanSetSsid:  SSID=HUAWEI-XGQMKQ75
+
+Cms netlink msg 0 finished.
+
+************************Write db to flash now ...
+
+done sync
+
+Recvd netlink msg now ...
+
+Setting SSID: "HUAWEI-XGQMKQ75"
+WlanSetSsid:  SSID=HUAWEI-XGQMKQ75
+
+Chanspec set to 0x1803
+
+wlancms: events/0 is running as Real Time process.
+
+Sorry, rule does not exist.
+Sorry, rule does not exist.
+Sorry, rule does not exist.
+
+Sorry, rule does not exist.
+Sorry, rule does not exist.
+Sorry, rule does not exist.
+wl: Unsupported
+
+wl: Unsupported
+
+
+ begin WlanUpInterfaces...
+
+
+ begin WlanStartServices...
+
+
+ wlan wps enabled
+
+Cms netlink msg 1952985134 finished.
+
+************************Write db to flash now ...
+
+
+ wps_gpio_led_blink: blinktype = 5.
+
+ wps_gpio_led_blink: blinktype = 4.
+
+done sync
+

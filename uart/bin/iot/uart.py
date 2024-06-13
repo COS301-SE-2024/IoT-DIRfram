@@ -9,14 +9,14 @@ def main():
     # parser.add_argument('baudrate', type=int, help='The baud rate (e.g., 9600)')
     baudrate = 115200
     args = parser.parse_args()
-    port = "/dev/" + args.port 
+
     # Open the serial port
     try:
-        ser = serial.Serial(port=port, baudrate=baudrate, timeout=1)
+        ser = serial.Serial(port='/dev/' + args.port, baudrate=baudrate, timeout=1)
         print(f'Opened {args.port} at {baudrate} baudrate.')
 
         last_received_time = time.time()
-        log_filename = f'log_{baudrate}.txt'
+        log_filename = f'/usr/local/bin/iot/log_{baudrate}.txt'
 
         with open(log_filename, 'a') as log_file:
         # Read and write data
