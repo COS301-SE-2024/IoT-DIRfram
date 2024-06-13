@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="tty", RUN+="/usr/local/bin/p1.sh %k"
