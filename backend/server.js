@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,12 +11,12 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 
-// this is where database connection will take place
-// mongoose.connect('your-mongodb-url', { useNewUrlParser: true, useUnifiedTopology: true })
-//    .then(() => console.log('Database connected!'))
-//    .catch(err => console.log(err));
+//mongoDB Atlas connection
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected!'))
+    .catch(err => console.log(err));
 
-// Routes
+//routes
 const deviceRoutes = require('./routes/device');
 const authRoutes = require('./routes/auth');
 

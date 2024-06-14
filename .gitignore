@@ -24,3 +24,6 @@ yarn-error.log*
 # Ignore Python cache files
 __pycache__/
 *.pyc
+
+backend/.env
+frontend/.env
