@@ -1,6 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
+# MongoDB connection URI
 uri = "mongodb+srv://fluffythedragonslayer:RckbSNrFQpgO2cV2@cluster0.qisokbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Create a new client and connect to the server
@@ -17,17 +18,22 @@ except Exception as e:
 db = client['file_upload']
 collection = db['file_data']
 
-# Example document to insert
-example_document = {
-    "name": "Sample File",
-    "type": "text",
-    "content": "This is a sample file content",
-    "upload_date": "2024-06-14"
-}
+# Read data from the text file
+file_path = 'log_115200.txt'
 
-# Insert the example document
 try:
-    collection.insert_one(example_document)
-    print("Database 'file_upload' and collection 'file_data' set up successfully!")
+    with open(file_path, 'r') as file:
+        file_content = file.read()  # Read the entire content of the file
+
+    # Create a document to insert into the collection
+    document = {
+        "type": "text",
+        "content": file_content,
+        "filename": file_path.split('/')[-1]  # Optional: Store the filename
+    }
+
+    # Insert the document into the collection
+    collection.insert_one(document)
+    print("Data inserted successfully!")
 except Exception as e:
-    print(f"An error occurred while setting up the database and collection: {e}")
+    print(f"An error occurred: {e}")
