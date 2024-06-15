@@ -1,0 +1,56 @@
+/* Sidebar container */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #f1f1f1;
+    position: fixed;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+}
+
+/* Sidebar open state */
+.sidebar.open {
+    left: 0;
+}
+
+/* Sidebar content */
+.sidebar-content {
+    padding: 20px;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Sidebar toggle icon */
+.sidebar-toggle .icon {
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    position: relative;
+}
+
+/* Sidebar toggle icon lines */
+.sidebar-toggle .icon::before,
+.sidebar-toggle .icon::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.sidebar-toggle .icon::before {
+    transform: translateY(-6px);
+}
+
+.sidebar-toggle .icon::after {
+    transform: translateY(6px);
+}
