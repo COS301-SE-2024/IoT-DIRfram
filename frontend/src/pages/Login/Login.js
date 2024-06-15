@@ -1,18 +1,40 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Import CSS file for styling
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (username && password) {
-      setLoggedIn(true);
+      fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Invalid credentials');
+        })
+        .then(data => {
+          setLoggedIn(true);
+          setError('');
+          navigate('/dashboard'); // Redirect to dashboard
+        })
+        .catch(err => {
+          setError(err.message);
+        });
     } else {
-      alert('Please enter username and password');
+      setError('Please enter username and password');
     }
   };
 
@@ -27,6 +49,7 @@ const Login = () => {
         ) : (
           <form onSubmit={handleLogin}>
             <h2>Login</h2>
+            {error && <p className="error">{error}</p>}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input

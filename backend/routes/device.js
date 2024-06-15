@@ -1,22 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
-// Placeholder for future database model
-// const Device = require('../models/Device');
+module.exports = (client) => {
+  const db = client.db('your-database-name'); // Replace with your database name
+  const devicesCollection = db.collection('devices');
 
-// Retrieve Data
-router.get('/retrieve', (req, res) => {
-   // Future implementation with database
-   // Device.find().then(data => res.json(data)).catch(err => res.status(500).json(err));
-   res.send('Retrieve Data');
-});
+  // Retrieve Data
+  router.get('/retrieve', async (req, res) => {
+    try {
+      const data = await devicesCollection.find().toArray();
+      res.json(data);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
-// Store Data
-router.post('/store', (req, res) => {
-   // Future implementation with database
-   // const newData = new Device(req.body);
-   // newData.save().then(() => res.status(201).send('Data stored')).catch(err => res.status(500).json(err));
-   res.send('Store Data');
-});
+  // Store Data
+  router.post('/store', async (req, res) => {
+    try {
+      const newData = req.body;
+      await devicesCollection.insertOne(newData);
+      res.status(201).send('Data stored');
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
-module.exports = router;
+  return router;
+};
