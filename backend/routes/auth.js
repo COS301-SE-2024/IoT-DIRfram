@@ -1,36 +1,75 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); //need to change this model, very simple model for now
+const crypto = require('crypto');
 
-//register User
-router.post('/register', (req, res) => {
-    const newUser = new User(req.body);
-    newUser.save()
-        .then(() => res.status(201).send('User registered'))
-        .catch(err => res.status(500).json(err));
-});
+module.exports = (client) => {
+  const db = client.db('sample_mflix'); // Use the sample_mflix database
+  const usersCollection = db.collection('users');
 
-//authenticate User
-router.post('/login', (req, res) => {
-    User.findOne({ email: req.body.email, password: req.body.password })
-        .then(user => user ? res.json({ token: 'auth-token' }) : res.status(400).send('Invalid credentials'))
-        .catch(err => res.status(500).json(err));
-});
+  const hashPassword = (password) => {
+    return crypto.createHash('sha256').update(password).digest('hex');
+  };
 
-//check if Username Exists
-router.post('/check-username', (req, res) => {
-    const { username } = req.body;
-    User.findOne({ username })
-        .then(user => user ? res.status(400).send('Username already exists') : res.send('Username available'))
-        .catch(err => res.status(500).json(err));
-});
+  // Register User
+  router.post('/register', async (req, res) => {
+    try {
+      const newUser = req.body;
+      console.log('Received new user:', newUser); // Log received data
+      newUser.password = hashPassword(newUser.password); // Hash the password
+      await usersCollection.insertOne(newUser);
+      console.log('User registered successfully');
+      res.status(201).json({ message: 'User registered' }); // Send JSON response
+    } catch (err) {
+      console.error('Error registering user:', err);
+      res.status(500).json(err);
+    }
+  });
 
-//check if Email Exists
-router.post('/check-email', (req, res) => {
-    const { email } = req.body;
-    User.findOne({ email })
-        .then(user => user ? res.status(400).send('Email already exists') : res.send('Email available'))
-        .catch(err => res.status(500).json(err));
-});
+  // Authenticate User
+  router.post('/login', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const hashedPassword = hashPassword(password);
+      const user = await usersCollection.findOne({ username, password: hashedPassword });
+      if (user) {
+        res.json({ message: 'Login successful', username: user.username });
+      } else {
+        res.status(400).send('Invalid credentials');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
-module.exports = router;
+  // Check if Username Exists
+  router.post('/check-username', async (req, res) => {
+    try {
+      const { username } = req.body;
+      const user = await usersCollection.findOne({ username });
+      if (user) {
+        res.status(400).send('Username already exists');
+      } else {
+        res.send('Username available');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
+  // Check if Email Exists
+  router.post('/check-email', async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = await usersCollection.findOne({ email });
+      if (user) {
+        res.status(400).send('Email already exists');
+      } else {
+        res.send('Email available');
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
+  return router;
+};
