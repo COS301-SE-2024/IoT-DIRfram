@@ -2,7 +2,8 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 # MongoDB connection URI
-uri = "mongodb+srv://fluffythedragonslayer:RckbSNrFQpgO2cV2@cluster0.qisokbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# uri = "mongodb+srv://fluffythedragonslayer:RckbSNrFQpgO2cV2@cluster0.qisokbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://uart:testpassword@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -15,7 +16,7 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 #     print(e)
 
 # Define the database and collection
-db = client['file_upload']
+db = client['uart_data']
 collection = db['file_data']
 
 # Read data from the text file
