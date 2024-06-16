@@ -23,7 +23,8 @@ def main():
         print(f'Opened {args.port} at {baudrate} baudrate.')
 
         last_received_time = time.time()
-        log_filename = f'log_{last_received_time}.txt'
+        formatted_time = time.strftime('%Y/%m/%d-%H:%M:%S', time.localtime(last_received_time))
+        log_filename = f'log_{formatted_time}.txt'
 
         with open(log_filename, 'a') as log_file:
         # Read and write data
@@ -52,7 +53,6 @@ def main():
         if not check_garbage(log_filename):
             upload_to_server(log_filename)
 
-
 def check_garbage(filepath):
     # Regex to identify garbage lines
     garbage_regex = re.compile(r"[^\x00-\x7F]")
@@ -65,6 +65,10 @@ def check_garbage(filepath):
         # Read the file and check each line
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.readlines()
+
+            if not content:
+                return True  # Return True if the file is empty
+
             for line_num, line in enumerate(file, start=1):
                 if garbage_regex.search(line):
                     warning_line += f"Garbage detected in line {line_num}: {line.strip()}\n"
@@ -96,12 +100,14 @@ def upload_to_server(filepath):
             file_content = file.read()  # Read the entire content of the file
 
         device_name = os.uname()[1]
+        device_serial_number = get_raspberry_pi_serial_number()
         # Create a document to insert into the collection
         document = {
             "type": "text",
             "content": file_content,
             "filename": file_path.split('/')[-1],  # Optional: Store the filename
-            "device_id": device_name
+            "device_name": device_name,
+            "device_serial_number": device_serial_number
         }
 
         # Insert the document into the collection
@@ -109,6 +115,20 @@ def upload_to_server(filepath):
         print("Data inserted successfully!")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def get_raspberry_pi_serial_number():
+    serial = "0000000000000000"
+    try:
+        with open('/proc/cpuinfo', 'r') as f:
+            for line in f:
+                if line.startswith('Serial'):
+                    serial = line.split(':')[1].strip()
+    except FileNotFoundError as e:
+        print(f"File not found: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    
+    return serial
 
 if __name__ == '__main__':
     main()
