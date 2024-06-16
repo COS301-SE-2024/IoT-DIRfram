@@ -50,8 +50,8 @@ def main():
             ser.close()
             print('Serial port closed.')
         
-        if not check_garbage(log_filename):
-            upload_to_server(log_filename)
+        check_garbage(log_filename)
+        upload_to_server(log_filename)
 
 def check_garbage(filepath):
     # Regex to identify garbage lines
@@ -60,14 +60,16 @@ def check_garbage(filepath):
     content = ""
     # Path to the text file
     file_path = filepath
-    warning_line = "WARNING: Values may be read using wrong baud rate\n\n"
+    warning_line = "WARNING: Values may be read using wrong baud rate.\n\n"
+    empty_line = "WARNING: The file is empty, no data was read.\n\n"
     try:
         # Read the file and check each line
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.readlines()
 
             if not content:
-                return True  # Return True if the file is empty
+                with open(file_path, 'w') as file:
+                    file.write(empty_line)
 
             for line_num, line in enumerate(file, start=1):
                 if garbage_regex.search(line):
@@ -79,7 +81,6 @@ def check_garbage(filepath):
             with open(file_path, 'w') as file:
                 file.writelines(content)
 
-        return flag
     except Exception as e:
         print(f"An error occurred: {e}")
 
