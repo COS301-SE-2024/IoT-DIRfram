@@ -1,16 +1,30 @@
+// Sidebar.js
 import React from 'react';
-import { BrowserRouter as Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import './Sidebar.css';
 
-const Sidebar = ({ onLogout, onToggleSidebar, sidebarOpen }) => {
-    <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <h2>Dashboard</h2>
-        <ul>
-          <li><Link to="/" >Home</Link></li>
-          <li><Link to="/devices" >Devices</Link></li>
-          <li><Link to="/analytics" >Analytics</Link></li>
-          <li><Link to="/settings" >Settings</Link></li>
-        </ul>
-      </div>
-}
+const Sidebar = ({ isOpen, handleToggleSidebar }) => (
+  <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
+    <nav>
+      <ul>
+        <li>
+          <Link to="/" onClick={handleToggleSidebar}>Dashboard</Link>
+        </li>
+        <li>
+          <Link to="/devices" onClick={handleToggleSidebar}>Devices</Link>
+        </li>
+        <li>
+          <Link to="/raspberry" onClick={handleToggleSidebar}>Raspberry Pi</Link>
+        </li>
+        <li>
+          <Link to="/profile" onClick={handleToggleSidebar}>Profile</Link>
+        </li>
+        <li>
+          <Link to="/settings" onClick={handleToggleSidebar}>Settings</Link>
+        </li>
+      </ul>
+    </nav>
+  </div>
+);
 
 export default Sidebar;

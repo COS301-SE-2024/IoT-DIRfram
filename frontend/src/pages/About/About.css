@@ -1,0 +1,44 @@
+.about-container {
+    padding: 20px;
+  }
+  
+  .about-content {
+    background-color: #34495e;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .about-content h2 {
+    margin-top: 0;
+  }
+  
+  .requirements {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .requirement {
+    margin-bottom: 20px;
+  }
+  
+  .requirement h3 {
+    margin-top: 0;
+  }
+  
+  .requirement ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .requirement ul li {
+    margin-bottom: 10px;
+  }
+  
+  .requirement ul li strong {
+    font-weight: bold;
+  }
+  
+  /* Add more styles as needed */
+  

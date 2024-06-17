@@ -1,125 +1,26 @@
 .dashboard {
   display: flex;
   flex-direction: column; /* Ensure header and content stack vertically */
-}
-
-.sidebar {
-  width: 250px;
-  background: #333;
-  color: #fff;
-  padding: 20px;
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transition for smooth animation */
-  transform: translateX(-100%);
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  z-index: 1000;
-}
-
-.sidebar-open {
-  transform: translateX(0);
-  transform: translateX(0);
-}
-
-.sidebar h2 {
-  margin-top: 0;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li {
-  margin-bottom: 10px;
-}
-
-.sidebar ul li a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.RHSHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #333; /* Changed background color */
-  color: #fff;
-}
-
-.menu-btn {
-  display: inline-block; /* Ensure menu-btn is inline */
-}
-
-.about {
-  display: inline-block; /* Ensure about is inline */
-  padding-left: 20px;
-}
-
-.logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  height: 100vh; /* Make sure the dashboard takes full height of the viewport */
 }
 
 .content {
   flex: 1;
   padding: 20px;
-}
-
-.header {
-  background: #333; /* Changed background color */
-  color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between; /* Align items properly */
-  align-items: center; 
-}
-
-.header h1 {
-  margin: 0; /* Center the title */
+  margin-left: 0; /* Ensure content stays to the right of the sidebar */
+  transition: margin-left 0.3s ease; /* Smooth transition for content shift */
 }
 
 .Devices-List {
   display: flex;
   flex-wrap: wrap; /* Ensure devices wrap to next line */
-  justify-content: left; /* Center devices */
+  justify-content: left; /* Left align devices */
   padding: 20px;
 }
 
 .Devices {
   display: flex;
   flex-wrap: wrap; /* Ensure devices wrap to next line */
-  justify-content: left; /* Center devices */
+  justify-content: left; /* Left align devices */
   padding: 20px;
-}
-
-.menu-btn {
-  cursor: pointer;
-}
-
-.menu-icon {
-  width: 30px;
-  height: 3px;
-  background-color: #fff;
-  margin-bottom: 5px;
-  transition: transform 0.3s ease;
-}
-
-.menu-btn.open .menu-icon {
-  transform: rotate(-45deg);
-}
-
-.logout-btn {
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-}
-
-.logout-btn:hover {
-  text-decoration: underline;
 }
