@@ -1,0 +1,32 @@
+.device {
+  margin: 20px;
+}
+
+.device-container {
+  display: flex;
+  align-items: center;
+  background-color: #323232;
+  width: 300px; 
+  height: 300px; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.device-image {
+  width: 150px; /* Adjusted width */
+  height: 150px; /* Adjusted height */
+  border-radius: 10px;
+}
+
+.device-info {
+  flex-grow: 1;
+}
+
+.device-info h2 {
+  margin-top: 0;
+}
+
+.device-info p {
+  margin: 5px 0;
+}
