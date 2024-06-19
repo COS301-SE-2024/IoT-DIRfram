@@ -18,6 +18,26 @@
 
 This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.
 
+## Technologies Used
+
+- **Python**: Used for backend development and scripting.
+  ![Python](https://img.icons8.com/color/48/000000/python.png)
+  
+- **JavaScript (JS)**: Used for frontend development and interactive features.
+  ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png)
+  
+- **React**: JavaScript library for building user interfaces.
+  ![React](https://img.icons8.com/ultraviolet/40/000000/react.png)
+  
+- **NoSQL**: Used as a database solution for flexible and scalable data storage.
+  ![NoSQL](https://img.icons8.com/color/48/000000/database-restore.png)
+  
+- **Express**: Web application framework for Node.js, used for building APIs and web servers.
+  ![Express](https://img.icons8.com/color/48/000000/express.png)
+  
+- **Node.js**: JavaScript runtime environment used for server-side scripting.
+  ![Node.js](https://img.icons8.com/color/48/000000/nodejs.png)
+
 ## 🎥 Demo Video
 #### Watch our project demos:
 <p>
