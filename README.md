@@ -1,5 +1,7 @@
 <h1 align="center">IoT-DIRfram</h1>
-<h2 align="center">Code Crafters</h2>
+<p align="center">
+  <img src="https://github.com/COS301-SE-2024/IoT-DIRfram/assets/111583652/37fd8e4a-6e18-4c0a-9d09-fca3d2fca5c2" alt="code-crafters-logo" width="700"/>
+</p>
 <p align="center">
   <img src="https://github.com/COS301-SE-2024/IoT-DIRfram/assets/111583652/5e14524d-cf38-4e70-b5f5-38403158a446" alt="code-crafters-logo" width="200"/>
 </p>
