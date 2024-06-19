@@ -1,4 +1,5 @@
 # Code Crafters
+![code-crafters-logo](https://github.com/COS301-SE-2024/IoT-DIRfram/assets/111583652/5e14524d-cf38-4e70-b5f5-38403158a446)
 
 Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT DirFram project!
 
