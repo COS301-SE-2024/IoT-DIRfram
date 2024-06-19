@@ -7,6 +7,11 @@
   Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT-DirFram project!
 </p>
 
+| Demo 2 | Demo 3 | Demo 4 |
+|---|---|---|
+| <img src="http://i.countdownmail.com/3cqwnl.gif" border="0" alt="countdownmail.com" width=100%/> | <img src="http://i.countdownmail.com/3cqwvn.gif" border="0" alt="countdownmail.com" width=100%/> | <img src="http://i.countdownmail.com/3cqxq9.gif" border="0" alt="countdownmail.com" width=100%/> |
+
+
 ## 🚀 Project Description
 
 This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.
