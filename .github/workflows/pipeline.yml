@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - dev
+      - feature/profile
   pull_request:
     branches:
       - main
       - dev
+      - feature/profile
 
 jobs:
   lint:
