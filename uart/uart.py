@@ -6,6 +6,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import os
 import xml.etree.ElementTree as ET
+from pymongo.errors import DuplicateKeyError
 
 # MongoDB connection URI
 uri = "mongodb+srv://uart:testpassword@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
@@ -64,7 +65,7 @@ def check_garbage(filepath):
     # Path to the text file
     file_path = filepath
     warning_line = "WARNING: Values may be read using wrong baud rate.\n\n"
-    empty_line = "WARNING: The file is empty, no data was read.\n\n"
+    empty_line = "WARNING: The file is empty, no data was read."
     try:
         # Read the file and check each line
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -96,6 +97,7 @@ def upload_to_server(filepath):
     db = client['uart_data']
     collection = db['file_data']
 
+    device_collection = db['pi_devices']
     # Read data from the text file
     file_path = filepath
 
@@ -114,8 +116,19 @@ def upload_to_server(filepath):
             "device_serial_number": device_serial_number
         }
 
+        device = {
+            "_id": device_serial_number,
+            "device_name": device_name
+        }
+
         # Insert the document into the collection
         collection.insert_one(document)
+        try:
+            # Try to insert the device document
+            device_collection.insert_one(device)
+        except DuplicateKeyError:
+            # Handle the case where the device already exists
+            print(f"Device with serial number {device_serial_number} already exists.")
         print("Data inserted successfully!")
     except Exception as e:
         print(f"An error occurred: {e}")
