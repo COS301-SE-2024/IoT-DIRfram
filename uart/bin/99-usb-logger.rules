@@ -1,1 +1,1 @@
-ACTION=="add", SUBSYSTEM=="tty", RUN+="/usr/local/bin/p1.sh %k"
+ACTION=="add", SUBSYSTEM=="tty", RUN+="/bin/sh -c '/usr/local/bin/p1.sh %k | at now'"
