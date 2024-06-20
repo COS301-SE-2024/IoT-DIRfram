@@ -24,30 +24,28 @@ jobs:
 
     - name: Set up Python
       uses: actions/setup-python@v3
-      continue-on-error: true
       with:
         python-version: "3.10"
+      continue-on-error: true
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
-      continue-on-error: true
       with:
         node-version: '18'
+      continue-on-error: true
 
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install flake8
-        continue-on-error: true
+      continue-on-error: true
 
     - name: Install Node.js dependencies
-      run: |
-        npm install
+      run: npm install
       continue-on-error: true
 
     - name: Lint Python code with flake8
-      run: |
-        flake8 backend/
+      run: flake8 backend/
       continue-on-error: true
 
     - name: Lint Node.js code
@@ -56,7 +54,7 @@ jobs:
         npm run lint
         cd ../frontend
         npm run lint
-        continue-on-error: true
+      continue-on-error: true
 
   build:
     name: Build
@@ -73,8 +71,7 @@ jobs:
         node-version: '18'
 
     - name: Install Dependencies
-      run: |
-        npm install
+      run: npm install
 
     - name: Build Frontend
       run: |
@@ -106,12 +103,10 @@ jobs:
         pip install pytest
 
     - name: Install Node.js dependencies
-      run: |
-        npm install
+      run: npm install
 
     - name: Test Python code with pytest
-      run: |
-        pytest backend/tests/
+      run: pytest backend/tests/
 
     - name: Test Node.js API
       run: |
