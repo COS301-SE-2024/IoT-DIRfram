@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './Login.css'; // Import CSS file for styling
 
 const Login = () => {
@@ -28,7 +29,8 @@ const Login = () => {
         .then(data => {
           setLoggedIn(true);
           setError('');
-          navigate('/dashboard'); // Redirect to dashboard
+          Cookies.set('session', data.sessionId, { expires: 1 }); //1 day cookie session
+          navigate('/dashboard'); 
         })
         .catch(err => {
           setError(err.message);
