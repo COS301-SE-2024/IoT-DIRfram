@@ -1,26 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = (client) => {
-  const db = client.db('Auth'); // Use the Auth database
+  const db = client.db('Auth');
   const usersCollection = db.collection('Users');
 
   const hashPassword = (password) => {
     return crypto.createHash('sha256').update(password).digest('hex');
   };
 
-  // Register User
   router.post('/register', async (req, res) => {
     try {
       const { username, email, password, confirmPassword } = req.body;
 
-      // Check if password and confirmPassword match
       if (password !== confirmPassword) {
         return res.status(400).json({ message: 'Passwords do not match' });
       }
 
-      // Hash the password
       const hashedPassword = hashPassword(password);
 
       const newUser = {
@@ -29,25 +27,25 @@ module.exports = (client) => {
         password: hashedPassword,
       };
 
-      console.log('Received new user:', newUser); // Log received data
+      console.log('Received new user:', newUser);
 
       await usersCollection.insertOne(newUser);
       console.log('User registered successfully');
-      res.status(201).json({ message: 'User registered' }); // Send JSON response
+      res.status(201).json({ message: 'User registered' });
     } catch (err) {
       console.error('Error registering user:', err);
       res.status(500).json(err);
     }
   });
 
-  // Authenticate User
   router.post('/login', async (req, res) => {
     try {
       const { username, password } = req.body;
       const hashedPassword = hashPassword(password);
       const user = await usersCollection.findOne({ username, password: hashedPassword });
       if (user) {
-        res.json({ message: 'Login successful', username: user.username });
+        const sessionId = uuidv4(); //unique session id
+        res.json({ message: 'Login successful', sessionId });
       } else {
         res.status(400).send('Invalid credentials');
       }
@@ -56,7 +54,6 @@ module.exports = (client) => {
     }
   });
 
-  // Check if Username Exists
   router.post('/check-username', async (req, res) => {
     try {
       const { username } = req.body;
@@ -71,7 +68,6 @@ module.exports = (client) => {
     }
   });
 
-  // Check if Email Exists
   router.post('/check-email', async (req, res) => {
     try {
       const { email } = req.body;

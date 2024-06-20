@@ -1,15 +1,17 @@
-// Header.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import logo from "../../assets/code-crafters-logo.png";
 import Sidebar from '../Sidebar/Sidebar';
 import './Header.css';
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    alert('Logged out!'); 
+    Cookies.remove('session');
+    navigate('/splash'); 
   };
 
   const handleToggleSidebar = () => {
