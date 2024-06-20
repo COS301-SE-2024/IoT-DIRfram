@@ -42,6 +42,7 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
+      working-directory: frontend
       continue-on-error: true
 
     - name: Lint Python code with flake8
@@ -49,11 +50,8 @@ jobs:
       continue-on-error: true
 
     - name: Lint Node.js code
-      run: |
-        cd api
-        npm run lint
-        cd ../frontend
-        npm run lint
+      run: npm run lint
+      working-directory: frontend
       continue-on-error: true
 
   build:
@@ -72,11 +70,11 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+      working-directory: frontend
 
     - name: Build Frontend
-      run: |
-        cd frontend
-        npm run build
+      run: npm run build
+      working-directory: frontend
 
   test:
     name: Test
@@ -104,6 +102,7 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
+      working-directory: frontend
 
     - name: Test Python code with pytest
       run: pytest backend/tests/
@@ -114,9 +113,8 @@ jobs:
         npm test
 
     - name: Test React Frontend
-      run: |
-        cd frontend
-        npm test
+      run: npm test
+      working-directory: frontend
 
   deploy:
     name: Deploy
@@ -141,6 +139,7 @@ jobs:
       run: |
         npm install
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      working-directory: frontend
 
     - name: Deploy to DigitalOcean
       run: |
