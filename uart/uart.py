@@ -5,6 +5,7 @@ import re
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import os
+import xml.etree.ElementTree as ET
 
 # MongoDB connection URI
 uri = "mongodb+srv://uart:testpassword@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
@@ -23,8 +24,8 @@ def main():
         print(f'Opened {args.port} at {baudrate} baudrate.')
 
         last_received_time = time.time()
-        formatted_time = time.strftime('%Y/%m/%d-%H:%M:%S', time.localtime(last_received_time))
-        log_filename = f'log_{formatted_time}.txt'
+        formatted_time = time.strftime('%Y:%m:%d-%H:%M:%S', time.localtime(last_received_time))
+        log_filename = f'/usr/local/bin/iot/log_{formatted_time}.txt'
 
         with open(log_filename, 'a') as log_file:
         # Read and write data
@@ -52,6 +53,8 @@ def main():
         
         check_garbage(log_filename)
         upload_to_server(log_filename)
+        xmlname = f'/usr/local/bin/iot/output_{formatted_time}.xml'
+        create_xml(log_filename, xmlname)
 
 def check_garbage(filepath):
     # Regex to identify garbage lines
@@ -87,8 +90,8 @@ def check_garbage(filepath):
     
 def upload_to_server(filepath):
     # Create a new client and connect to the server
-    client = MongoClient(uri, server_api=ServerApi('1'))
-
+    # client = MongoClient(uri, server_api=ServerApi('1'))
+    client = MongoClient(uri)
     # Define the database and collection
     db = client['uart_data']
     collection = db['file_data']
@@ -130,6 +133,41 @@ def get_raspberry_pi_serial_number():
         print(f"An error occurred: {e}")
     
     return serial
+
+def sanitize_text(text):
+    # Define a regex pattern to match invalid XML characters
+    invalid_xml_chars = re.compile(
+        '[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uD800-\uDFFF\uFDD0-\uFDEF\uFFFE\uFFFF]'
+        '|[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD]', 
+        re.UNICODE
+    )
+    return invalid_xml_chars.sub('', text)
+
+def create_xml(filename, xmlname):
+    # Read the input text from a
+    # Read the input text from a file
+    with open(filename, 'r') as file:
+        data = file.read()
+
+    # Sanitize the entire input data
+    data = sanitize_text(data)
+
+    # Split the data into sections based on two or more consecutive newlines
+    sections = re.split(r'\n{3,}', data.strip())
+
+    # Create the root XML element
+    root = ET.Element("root")
+
+    # Add each section as a child element to the root
+    for i, section in enumerate(sections):
+        section_element = ET.SubElement(root, f"section_{i + 1}")
+        section_element.text = section
+
+    # Create an ElementTree object and write it to an XML file
+    tree = ET.ElementTree(root)
+    tree.write(xmlname, encoding='utf-8', xml_declaration=True)
+
+    print("XML file 'output.xml' has been created.")
 
 if __name__ == '__main__':
     main()
