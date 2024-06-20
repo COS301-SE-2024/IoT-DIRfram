@@ -1,57 +1,53 @@
 body, html, #root {
-    height: 100%;
-    margin: 0;
-    background-color: #181818; /* Darker background */
-    color: #fff; /* Text color */
-  }
-  
-  .splash-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    height: 100%;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: flex-start; /* Align buttons slightly left */
-    align-items: center;
-    margin-bottom: 20px; /* Add margin at the bottom */
-  }
-  
-  .button-container {
-    display: flex;
-  }
-  
-  .button-container button {
-    margin-left: 10px; /* Adjusted button spacing */
-  }
-  
-  .content {
-    padding: 20px;
-    text-align: center; /* Center content text */
-  }
-  
-  h1{
-    margin: 20;
-  }
-  
-  p {
-    width: 70%; 
-    margin: 10px auto; 
-  }
+  height: 100%;
+  margin: 0;
+  background-color: #181818; /* Darker background */
+  color: #fff; /* Text color */
+}
 
-  /* Add animation transitions */
+.splash-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  height: 100%;
+  background-color: #181818; /* Ensure background color is consistent */
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons horizontally */
+  margin-bottom: 20px; /* Add margin at the bottom */
+}
+
+.button-container .login-btn, .button-container .signup-btn {
+  margin: 10px 0; /* Adjusted button spacing */
+}
+
+.content {
+  padding: 20px;
+  text-align: center; /* Center content text */
+}
+
+h1 {
+  margin: 20px 0;
+}
+
+p {
+  width: 70%; 
+  margin: 10px auto; 
+}
+
 /* Update button styles */
 .login-btn, .signup-btn {
   background-color: transparent;
   color: #fff;
-  border: transparent; /* Add border for transition effect */
+  border: 1px solid #fff; /* Add border for transition effect */
   font-weight: 700;
   font-size: 20px;
   border-radius: 5px;
-  padding: 5px 5px;
+  padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
   text-decoration: none; /* Remove underline */
@@ -62,4 +58,15 @@ body, html, #root {
 .login-btn:hover, .signup-btn:hover {
   background-color: #fff; /* Background color inverted */
   color: #1c1c1c; /* Text color inverted */
+}
+
+/* Ensure buttons and content are initially hidden and only shown after preloader animation */
+.splash-page.hide .button-container, .splash-page.hide .content {
+  display: none;
+}
+
+.splash-page.show .button-container, .splash-page.show .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
