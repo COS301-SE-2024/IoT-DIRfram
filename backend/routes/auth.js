@@ -3,8 +3,8 @@ const router = express.Router();
 const crypto = require('crypto');
 
 module.exports = (client) => {
-  const db = client.db('sample_mflix'); // Use the sample_mflix database
-  const usersCollection = db.collection('users');
+  const db = client.db('Auth'); // Use the Auth database
+  const usersCollection = db.collection('Users');
 
   const hashPassword = (password) => {
     return crypto.createHash('sha256').update(password).digest('hex');
@@ -13,9 +13,24 @@ module.exports = (client) => {
   // Register User
   router.post('/register', async (req, res) => {
     try {
-      const newUser = req.body;
+      const { username, email, password, confirmPassword } = req.body;
+
+      // Check if password and confirmPassword match
+      if (password !== confirmPassword) {
+        return res.status(400).json({ message: 'Passwords do not match' });
+      }
+
+      // Hash the password
+      const hashedPassword = hashPassword(password);
+
+      const newUser = {
+        username,
+        email,
+        password: hashedPassword,
+      };
+
       console.log('Received new user:', newUser); // Log received data
-      newUser.password = hashPassword(newUser.password); // Hash the password
+
       await usersCollection.insertOne(newUser);
       console.log('User registered successfully');
       res.status(201).json({ message: 'User registered' }); // Send JSON response
