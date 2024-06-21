@@ -24,7 +24,9 @@ version, chip model, and voltage usage, compiling them into an XML format. This 
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/COS301-SE-2024/IoT-DIRfram)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/COS301-SE-2024/IoT-DIRfram)
 ![GitHub branch status](https://img.shields.io/github/checks-status/COS301-SE-2024/IoT-DIRfram/dev)
-
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/COS301-SE-2024/IoT-DIRfram)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/COS301-SE-2024/IoT-DIRfram)
+![Codecov](https://img.shields.io/codecov/c/github/COS301-SE-2024/IoT-DIRfram)
 
 ## Technologies Used
 
