@@ -3,10 +3,14 @@ import "./Preloader.css";
 import logo from "./code-crafters-logo.png";
 import { preLoaderAnim } from "./SplashAnime";
 
-const PreLoader = () => {
+const PreLoader = ({ onAnimationEnd }) => {
   useEffect(() => {
-    preLoaderAnim();
-  }, []);
+    preLoaderAnim().then(() => {
+      if (onAnimationEnd) {
+        onAnimationEnd();
+      }
+    });
+  }, [onAnimationEnd]);
 
   return (
     <div className="preloader">

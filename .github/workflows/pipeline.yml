@@ -76,7 +76,6 @@ jobs:
       run: npm run build
       working-directory: frontend
 
-
   test:
     name: Test
     runs-on: ubuntu-latest
