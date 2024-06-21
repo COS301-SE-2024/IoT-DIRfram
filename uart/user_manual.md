@@ -29,8 +29,11 @@ Add the following line to the file:
 ```bash
 ACTION=="add", SUBSYSTEM=="tty", RUN+="/bin/sh -c '/usr/local/bin/p1.sh %k | at now'"
 ```
-
-Save and close the file.
+Save and close the file then enter the following into the console:
+```bash
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
 
 ### 3. Install Necessary Packages and Services
 Install the at package and ensure the atd service is enabled and started:
