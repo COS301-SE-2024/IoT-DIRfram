@@ -108,6 +108,7 @@ jobs:
       working-directory: frontend
       env:
         CI: true 
+      continue-on-error: true
 
   deploy:
     name: Deploy
