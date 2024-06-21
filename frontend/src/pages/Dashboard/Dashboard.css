@@ -11,16 +11,40 @@
   transition: margin-left 0.3s ease; /* Smooth transition for content shift */
 }
 
-.Devices-List {
+.devices-header {
   display: flex;
-  flex-wrap: wrap; /* Ensure devices wrap to next line */
-  justify-content: left; /* Left align devices */
-  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
 }
 
-.Devices {
-  display: flex;
-  flex-wrap: wrap; /* Ensure devices wrap to next line */
-  justify-content: left; /* Left align devices */
+.devices-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.view-all-button {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.view-all-button:hover {
+  font-style: italic;
+}
+
+.section-break {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
+
+.devices-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ensure devices wrap to the next line */
+  gap: 20px; /* Add space between grid items */
   padding: 20px;
 }

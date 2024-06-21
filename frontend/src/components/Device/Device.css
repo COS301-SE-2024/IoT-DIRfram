@@ -2,6 +2,11 @@
   margin: 20px;
 }
 
+.device-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .device-container {
   display: flex;
   align-items: center;

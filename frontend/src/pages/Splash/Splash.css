@@ -13,9 +13,8 @@ body, html, #root {
     height: 100%;
   }
   
-  .header {
+  .buttons {
     display: flex;
-    justify-content: flex-start; /* Align buttons slightly left */
     align-items: center;
     margin-bottom: 20px; /* Add margin at the bottom */
   }

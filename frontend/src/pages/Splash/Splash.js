@@ -8,7 +8,7 @@ function Splash() {
     <>
     <Preloader />
     <div className="splash-page">
-      <header className="header">
+      <header className="buttons">
         <Link to="/login" className="login-btn">Login</Link>
         <Link to="/signup" className="signup-btn">Signup</Link>
       </header>

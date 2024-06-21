@@ -1,15 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Dashboard.css';
 import Device from '../../components/Device/Device'; 
 import Header from '../../components/Header/Header';
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="dashboard">
       <Header />
       <div className="content">
-        <h2 className='Devices'>Devices</h2>
-        <div className='Devices-List'>
+        <div className="devices-header">
+          <h2 className='devices-title'>Devices</h2>
+          <Link to="/device-list" className="view-all-button">
+            View All
+          </Link>
+        </div>
+        <hr className="section-break" />
+        <div className='devices-list'>
+          <Device />
           <Device />
           <Device />
         </div>
