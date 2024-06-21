@@ -3,38 +3,33 @@ name: Deploy to DigitalOcean
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+    - name: Copy files to server
+      run: |
+        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ ${SSH_USER}@${SSH_HOST}:/IoT
 
-      - name: Build React app
-        working-directory: ./frontend  # Adjust the path to React frontend folder
-        run: |
-          npm install
-          npm run build
+    - name: Install npm packages and start the application
+      run: |
+        ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'EOF'
+        cd /IoT/frontend
+        npm install
+        npm start
+        EOF
 
-      - name: Deploy to DigitalOcean
-        run: |
-          scp -r -o StrictHostKeyChecking=no ./frontend/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/frontend  # Adjust the remote path
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          cd /path/to/backend  # Adjust the path to Node.js backend folder
-          git pull origin main
-          npm install
-          pm2 restart all  # Adjust if use a different process manager
-          EOF
+    env:
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
