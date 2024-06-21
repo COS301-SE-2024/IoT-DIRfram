@@ -1,1 +1,0 @@
-ACTION=="add", SUBSYSTEM=="usb", RUN+="/bin/bash /usr/local/bin/p2.sh"

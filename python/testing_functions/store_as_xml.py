@@ -4,7 +4,7 @@ import usb.util
 
 def parse_usb_ids():
     vendor_dict = {}
-    with open('/usr/local/bin/iot/usb.ids', 'r', encoding='ISO-8859-1') as file:
+    with open('usb.ids', 'r', encoding='ISO-8859-1') as file:
         current_vendor_id = None
         current_product_id = None
         for line in file:
@@ -105,7 +105,7 @@ def write_to_xml(devices):
                     interface_elem.append(endpoint_elem)
                     
     tree = ET.ElementTree(root)
-    tree.write("/usr/local/bin/iot/device_data.xml", encoding="utf-8", xml_declaration=True)
+    tree.write("device_data.xml", encoding="utf-8", xml_declaration=True)
 
 devices = usb.core.find(find_all=True)
 
