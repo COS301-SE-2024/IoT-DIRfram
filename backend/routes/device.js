@@ -7,6 +7,7 @@ module.exports = (client) => {
   const piDevicesCollection = db.collection('pi_devices'); 
   const usersCollection = clientDB.collection('Users');
   const usersToDevicesCollection = db.collection('users_devices');
+  const deviceFilesCollection = db.collection('file_data');
 
   router.get('/devices', async (req, res) => {
     try {
@@ -46,6 +47,22 @@ module.exports = (client) => {
       res.json(devicesDetails);
     } catch (err) {
       res.status(500).json({ error: 'Failed to fetch devices' });
+    }
+  });
+
+  router.get('/getDeviceFiles', async (req, res) => {
+    try{
+      const { device_id } = req.body;
+
+      //Find files for device
+      const files = await deviceFilesCollection
+        .find({ device_serial_number: device_id })
+        .toArray();
+
+      res.json(files);
+    }
+    catch (err) {
+      res.status(500).json({ error: 'Failed to fetch files' });
     }
   });
 
