@@ -19,7 +19,6 @@ body, html, #root {
   margin-bottom: 20px; /* Add margin at the bottom */
 }
 
-
 .login-btn, .signup-btn {
   background-color: transparent;
   color: #fff;
@@ -29,7 +28,6 @@ body, html, #root {
   border-radius: 5px;
   padding: 5px 10px; /* Adjusted padding */
   margin: 0 10px; /* Adjusted margin */
-
   cursor: pointer;
   text-decoration: none; /* Remove underline */
   transition: background-color 0.3s, color 0.3s;
