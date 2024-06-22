@@ -152,5 +152,50 @@ module.exports = (client) => {
     }
   });
 
+  router.post('/removeDeviceFromUser', async (req, res) => {
+    try {
+      const { device_id, username } = req.body;
+
+      //Find user in Auth database
+      const user = await usersCollection.findOne({
+        username,
+      });
+
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+
+      //Find device in pi_devices database
+      const device = await piDevicesCollection.findOne({
+        _id: device_id,
+      });
+
+      if (!device) {
+        return res.status(400).json({ error: 'Device does not exist' });
+      }
+
+      //Check if device is assigned to user
+      const userToDevice = await usersToDevicesCollection.findOne({
+        username,
+        device_id,
+      });
+
+      if (!userToDevice) {
+        return res.status(400).json({ error: 'Device not assigned to user' });
+      }
+
+      //Remove device from user
+      await usersToDevicesCollection.deleteOne({
+        username,
+        device_id,
+      });
+
+      return res.status(200).json({ message: 'Device removed from user' });
+
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to remove device' });
+    }
+  });
+
   return router;
 };
