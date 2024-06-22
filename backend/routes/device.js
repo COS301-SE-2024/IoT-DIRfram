@@ -9,6 +9,29 @@ module.exports = (client) => {
   const usersToDevicesCollection = db.collection('users_devices');
   const deviceFilesCollection = db.collection('file_data');
 
+  router.get('/getDeviceName', async (req, res) => { 
+    try {
+      const { device_id } = req.body;
+
+      //Find device in pi_devices database
+      const device = await piDevicesCollection.findOne({
+        _id: device_id,
+      });
+
+      if (!device) {
+        return res.status(400).json({ error: 'Device not found' });
+      }
+
+      //Construct json
+      const deviceDetails = {
+        device_name: device.device_name,
+      };
+
+      res.json(deviceDetails);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch device name' });
+    }
+  });
   
   router.get('/devicesForUser', async (req, res) => {
     try {
