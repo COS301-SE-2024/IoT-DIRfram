@@ -9,15 +9,6 @@ module.exports = (client) => {
   const usersToDevicesCollection = db.collection('users_devices');
   const deviceFilesCollection = db.collection('file_data');
 
-  router.get('/devices', async (req, res) => {
-    try {
-      const devices = await piDevicesCollection.find({}).toArray();
-      res.json(devices);
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to fetch devices' });
-    }
-  });
-
   
   router.get('/devicesForUser', async (req, res) => {
     try {
