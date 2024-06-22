@@ -9,11 +9,12 @@ const Dashboard = () => {
     <div className="dashboard">
       <Header />
       <div className="devices-header">
-          <h2 className='devices-title'>Devices</h2>
-          <Link to="/device-list" className="view-all-button">
-            View All
-          </Link>
-        </div>
+        <h2 className='devices-title'>Devices</h2>
+        {/* <Link to="/device-list" className="view-all-button">
+          View All
+        </Link> */}
+      </div>
+
       <div className="content">
         <hr className="section-break" />
         <div className='devices-list'>
