@@ -26,6 +26,8 @@ __pycache__/
 *.pyc
 
 backend/.env
+backend/node_modules
 frontend/.env
+frontend/node_modules
 python
 uart
