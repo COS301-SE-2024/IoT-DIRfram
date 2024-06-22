@@ -38,3 +38,16 @@
   .delete-button {
     color: #dc3545; /* Red color for delete button */
   }
+
+  .content-window {
+    max-height: calc(15 * 1.2em); /* Adjust line height as needed */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px; /* Adjust width as needed */
+  }
+  
+  .device-content {
+    margin: 0;
+    white-space: pre-wrap;
+  }
