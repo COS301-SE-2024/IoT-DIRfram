@@ -1,35 +1,33 @@
-name: Deploy to DigitalOcean
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
   deploy:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-
-    - name: Copy files to server
-      run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ ${SSH_USER}@${SSH_HOST}:/IoT
-
-    - name: Install npm packages and start the application
-      run: |
-        ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'EOF'
-        cd /IoT/frontend
-        npm install
-        npm start
-        EOF
-
-    env:
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USR }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p deploy
+            cd deploy
+            rm -rf IoT-DIRfram
+            git clone https://github.com/COS301-SE-2024/IoT-DIRfram.git
+            cd IoT-DIRfram
+            cd frontend
+            npm install
+            npm start &
+            cd ../backend
+            npm install
+            node server.js &
+            echo 'Deployment successful'
