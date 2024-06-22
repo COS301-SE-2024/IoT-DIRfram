@@ -39,8 +39,26 @@ const IoT_Device = () => {
     return segments[1] ? segments[1] : segments[0];
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     console.log(`Delete device with ID: ${id}`);
+
+    // Ask for confirmation
+    const confirmed = window.confirm("Are you sure you want to delete this device?");
+    if (!confirmed) {
+      return; // Do nothing if user cancels
+    }
+    try {
+      const response = await axios.delete('http://localhost:3001/device/deleteFile', {
+        data: {
+          file_id: id
+        }
+      });
+      console.log('Delete device response:', response.data);
+    } catch (error) {
+      console.error('Error deleting device:', error);
+    }
+
+    getDeviceFiles();
   };
 
   const downloadFile = (content, filename) => {
@@ -118,7 +136,7 @@ const IoT_Device = () => {
               <button className="icon-button edit-button" onClick={() => downloadFile(device.content, device.filename)}>
                 <FontAwesomeIcon icon={faDownload} size="2x" />
               </button>
-              <button className="icon-button delete-button" onClick={() => handleDelete(device.id)}>
+              <button className="icon-button delete-button" onClick={() => handleDelete(device._id)}>
                 <FontAwesomeIcon icon={faTrashAlt} size="2x" />
               </button>
             </div>
