@@ -11,7 +11,8 @@ const ForwardButton = () => {
 
   return (
     <button className="forward-button" onClick={handleForwardClick}>
-     →
+      →
+      <span className="forward-text">Forward</span>
     </button>
   );
 };

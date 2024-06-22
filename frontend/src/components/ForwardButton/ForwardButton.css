@@ -4,13 +4,29 @@
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 8px 12px; /* Adjust padding to move the button more to the left */
   text-decoration: none;
   display: inline-block;
+  position: relative;
+  overflow: hidden; /* Ensure the overflow is hidden */
+  transition: transform 0.3s ease, padding 0.3s ease; /* Add transition for transform and padding */
 }
-  
+
 .forward-button:hover {
-  color: #fff;
-  text-decoration: underline;
+  padding: 8px; /* Adjust padding on hover for button size change */
+  padding-left: 60px;
 }
-  
+
+.forward-text {
+  position: absolute;
+  top: 50%;
+  left: 69%; /* Initially positioned outside the button */
+  transform: translateX(100%) translateY(-50%);
+  padding-left: 0px; /* Adjust padding for spacing */
+  white-space: nowrap; /* Prevent wrapping of text */
+  transition: transform 0.3s ease; /* Add transition for transform */
+}
+
+.forward-button:hover .forward-text {
+  transform: translateX(-100%) translateY(-50%); /* Slide text into view */
+}
