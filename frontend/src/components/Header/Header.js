@@ -4,15 +4,12 @@ import Cookies from 'js-cookie';
 import logo from "../../assets/code-crafters-logo.png";
 import Sidebar from '../Sidebar/Sidebar';
 import './Header.css';
+import BackButton from '../BackButton/BackButton';
+import ForwardButton from '../ForwardButton/ForwardButton';
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    Cookies.remove('session');
-    navigate('/splash'); 
-  };
 
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -38,8 +35,9 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="logout-btn" onClick={handleLogout}>
-          Logout
+        <div>
+          <BackButton />
+          <ForwardButton />
         </div>
       </header>
       <Sidebar isOpen={sidebarOpen} handleToggleSidebar={handleToggleSidebar} />

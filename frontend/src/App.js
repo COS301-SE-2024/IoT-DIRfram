@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import { BrowserRouter as Router, MemoryRouter, Routes, Route } from 'react-router-dom';
 import Splash from './pages/Splash/Splash';

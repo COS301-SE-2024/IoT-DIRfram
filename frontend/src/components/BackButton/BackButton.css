@@ -1,0 +1,16 @@
+.back-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .back-button:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  
