@@ -30,7 +30,7 @@ function Splash() {
           <p>This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.</p>
         </div>
         <Carousel>
-          <div>
+        <div>
             <img src={Raspberrypi1} alt="Image 1" />
           </div>
           <div>
