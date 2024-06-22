@@ -8,13 +8,13 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <Header />
-      <div className="content">
-        <div className="devices-header">
+      <div className="devices-header">
           <h2 className='devices-title'>Devices</h2>
           <Link to="/device-list" className="view-all-button">
             View All
           </Link>
         </div>
+      <div className="content">
         <hr className="section-break" />
         <div className='devices-list'>
           <Device />
