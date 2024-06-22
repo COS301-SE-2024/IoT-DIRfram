@@ -5,15 +5,15 @@ import Device from '../../components/Device/Device';
 
 function Devices() {
   // State to hold the list of devices
-  const [devices, setDevices] = useState([]);
+  // const [devices, setDevices] = useState([]); // Commented out to stop linter from giving warning
 
+  // Commented out to stop linter from giving warning
   // Simulating fetching devices (use useEffect for real data fetching)
-  useEffect(() => {
-    // Here you would fetch the data from an API or other source
-    const fetchedDevices = []; // Replace with actual data fetching logic
-    setDevices(fetchedDevices);
-    console.log('Devices fetched:', devices); //to stop linter from giving warning
-  }, []);
+  // useEffect(() => {
+  //   // Here you would fetch the data from an API or other source
+  //   const fetchedDevices = []; // Replace with actual data fetching logic
+  //   // setDevices(fetchedDevices);  //to stop linter from giving warning
+  // }, []);
 
   return (
     <div className="device-list">
