@@ -6,10 +6,16 @@
     "babel-jest": "^29.7.0"
   },
   "jest": {
-  "transform": {
-    "^.+\\.jsx?$": "babel-jest"
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testEnvironment": "jsdom"
   },
-  "moduleFileExtensions": ["js", "jsx"],
-  "testEnvironment": "jsdom"
+  "dependencies": {
+    "react-router-dom": "^6.23.1"
   }
 }

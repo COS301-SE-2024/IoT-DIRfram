@@ -52,15 +52,3 @@
 .menu-btn.open .menu-icon {
   transform: rotate(-45deg);
 }
-
-.logout-btn {
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-}
-
-.logout-btn:hover {
-  text-decoration: underline;
-}
