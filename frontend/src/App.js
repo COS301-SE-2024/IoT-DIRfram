@@ -10,6 +10,7 @@ import RaspberryPi from './pages/RaspberryPi/RaspberryPi';
 import Profile from './pages/Profile/Profile';
 import Settings from './pages/Settings/Settings';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Layout from './pages/Help/Layout'; // Import your Layout component
 
 const App = () => {
   const RouterComponent = process.env.NODE_ENV === 'test' ? MemoryRouter : Router;
@@ -21,12 +22,12 @@ const App = () => {
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/device-list" element={<ProtectedRoute><Devices /></ProtectedRoute>} />
-        <Route path="/raspberrypi" element={<ProtectedRoute><RaspberryPi /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/about" element={<Layout><About /></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/dashboard" element={<Layout><ProtectedRoute><Dashboard /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/device-list" element={<Layout><ProtectedRoute><Devices /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/raspberrypi" element={<Layout><ProtectedRoute><RaspberryPi /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/profile" element={<Layout><ProtectedRoute><Profile /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
       </Routes>
     </RouterComponent>
   );
