@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (client) => {
-  const db = client.db('Auth');
+  const db = client.db('Auth'); 
   const usersCollection = db.collection('Users');
 
   const hashPassword = (password) => {
@@ -44,7 +44,7 @@ module.exports = (client) => {
       const hashedPassword = hashPassword(password);
       const user = await usersCollection.findOne({ username, password: hashedPassword });
       if (user) {
-        const sessionId = uuidv4(); //unique session id
+        const sessionId = uuidv4();
         res.json({ message: 'Login successful', sessionId });
       } else {
         res.status(400).send('Invalid credentials');
