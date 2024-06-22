@@ -66,7 +66,7 @@ module.exports = (client) => {
 
   router.get('/getDeviceFiles', async (req, res) => {
     try{
-      const { device_id } = req.body;
+      const { device_id } = req.query;
 
       //Find files for device
       const files = await deviceFilesCollection
