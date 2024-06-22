@@ -5,6 +5,7 @@ import { Carousel } from 'react-responsive-carousel'; // Import Carousel
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import Carousel styles
 import Preloader from './Preloader';
 import './Splash.css';
+import React, { useState } from 'react';
 import Raspberrypi1 from '../../assets/Raspberrypi1.jpeg';
 import Raspberrypi2 from '../../assets/Raspberrypi2.jpeg';
 import Raspberrypi3 from '../../assets/Raspberrypi3.jpeg';
