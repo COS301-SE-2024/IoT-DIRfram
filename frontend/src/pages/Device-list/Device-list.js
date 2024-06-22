@@ -12,6 +12,7 @@ function Devices() {
     // Here you would fetch the data from an API or other source
     const fetchedDevices = []; // Replace with actual data fetching logic
     setDevices(fetchedDevices);
+    console.log('Devices fetched:', devices); //to stop linter from giving warning
   }, []);
 
   return (

@@ -10,11 +10,13 @@ import Raspberrypi3 from '../../assets/Raspberrypi3.jpeg';
 import Raspberrypi4 from '../../assets/Raspberrypi4.jpeg';
 
 function Splash() {
-  const [showContent, setShowContent] = useState(false);
+  //--------commented out to stop linter from giving warning-----
+  // const [showContent, setShowContent] = useState(false);
 
-  const handleAnimationEnd = () => {
-    setShowContent(true);
-  };
+  // const handleAnimationEnd = () => {
+  //   setShowContent(true);
+  //   console.log(showContent); //to stop linter from giving warning
+  // };
 
   return (
     <>
@@ -31,16 +33,16 @@ function Splash() {
         </div>
         <Carousel>
           <div>
-            <img src={Raspberrypi1} alt="Image 1" />
+            <img src={Raspberrypi1} alt="Raspberry Pi 1" />
           </div>
           <div>
-            <img src={Raspberrypi2} alt="Image 2" />
+            <img src={Raspberrypi2} alt="Raspberry Pi 2" />
           </div>
           <div>
-            <img src={Raspberrypi3} alt="Image 3" />
+            <img src={Raspberrypi3} alt="Raspberry Pi 3" />
           </div>
           <div>
-            <img src={Raspberrypi4} alt="Image 4" />
+            <img src={Raspberrypi4} alt="Raspberry Pi 4" />
           </div>
         </Carousel>
       </div>
