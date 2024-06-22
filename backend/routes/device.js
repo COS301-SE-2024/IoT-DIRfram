@@ -19,7 +19,7 @@ module.exports = (client) => {
 
   router.post('/addDeviceToUser', async (req, res) => {
     try {
-      const { deviceName, deviceID, username } = req.body;
+      const { deviceID, username } = req.body;
 
       //Find user in Auth database
       const user = await usersCollection.findOne({ username });
@@ -51,7 +51,6 @@ module.exports = (client) => {
       await usersToDevicesCollection.insertOne({
         username,
         deviceID,
-        deviceName,
       });
 
     } catch (err) {
