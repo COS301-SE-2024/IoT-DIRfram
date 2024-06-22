@@ -3,20 +3,18 @@ import { Carousel } from 'react-responsive-carousel'; // Import Carousel
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import Carousel styles
 import Preloader from './Preloader';
 import './Splash.css';
-import React from 'react'; // { useState } commented out to stop linter from giving warning
+import React, { useState } from 'react';
 import Raspberrypi1 from '../../assets/Raspberrypi1.jpeg';
 import Raspberrypi2 from '../../assets/Raspberrypi2.jpeg';
 import Raspberrypi3 from '../../assets/Raspberrypi3.jpeg';
 import Raspberrypi4 from '../../assets/Raspberrypi4.jpeg';
 
 function Splash() {
-  //--------commented out to stop linter from giving warning-----
-  // const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
-  // const handleAnimationEnd = () => {
-  //   setShowContent(true);
-  //   console.log(showContent); //to stop linter from giving warning
-  // };
+  const handleAnimationEnd = () => {
+    setShowContent(true);
+  };
 
   return (
     <>
@@ -33,16 +31,16 @@ function Splash() {
         </div>
         <Carousel>
           <div>
-            <img src={Raspberrypi1} alt="Raspberry Pi 1" />
+            <img src={Raspberrypi1} alt="Image 1" />
           </div>
           <div>
-            <img src={Raspberrypi2} alt="Raspberry Pi 2" />
+            <img src={Raspberrypi2} alt="Image 2" />
           </div>
           <div>
-            <img src={Raspberrypi3} alt="Raspberry Pi 3" />
+            <img src={Raspberrypi3} alt="Image 3" />
           </div>
           <div>
-            <img src={Raspberrypi4} alt="Raspberry Pi 4" />
+            <img src={Raspberrypi4} alt="Image 4" />
           </div>
         </Carousel>
       </div>

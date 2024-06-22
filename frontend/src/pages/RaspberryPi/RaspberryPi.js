@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import './RaspberryPi.css';
-import IOT_DEVICE from '../../components/IoT-Device/IoT-Device';
+import IoT_Device from '../../components/IoT-Device/IoT-Device';
 
 function RaspberryPi() {
   const [deviceData, setDeviceData] = useState(null);
@@ -58,7 +58,7 @@ function RaspberryPi() {
         <div>
           <h1 className="devices-title">IoT Devices</h1>
           <hr />
-          <IOT_DEVICE />
+          <IoT_Device />
         </div>
       </div>
     </div>
