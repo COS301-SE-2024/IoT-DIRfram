@@ -8,6 +8,7 @@
 <p align="center">
   Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT-DirFram project!
 </p>
+[![CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml)
 
 | Demo 2 | Demo 3 | Demo 4 |
 |---|---|---|
