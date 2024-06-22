@@ -31,7 +31,13 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <h1>IoT-DIRfram</h1>
+
+        <div className="title">
+          <Link to="/dashboard">
+            <h1>IoT-DIRfram</h1>
+          </Link>
+        </div>
+
         <div className="logout-btn" onClick={handleLogout}>
           Logout
         </div>

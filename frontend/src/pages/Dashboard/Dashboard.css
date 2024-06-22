@@ -15,11 +15,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding-left: 30px;
+  padding-top: 20px;
 }
 
 .devices-title {
-  margin: 0;
   font-size: 24px;
 }
 
@@ -39,7 +39,6 @@
   border: 0;
   height: 1px;
   background: #ccc;
-  margin: 20px 0;
 }
 
 .devices-list {
