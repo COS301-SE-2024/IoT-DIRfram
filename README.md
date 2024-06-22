@@ -9,11 +9,6 @@
   Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT-DirFram project!
 </p>
 
-[![CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml)
-[![CI/CD Pipeline](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml)
-[![Node.js CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml)
-[![Pylint](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml)
-
 | Demo 2 | Demo 3 | Demo 4 |
 |---|---|---|
 | <img src="http://i.countdownmail.com/3cqwnl.gif" border="0" alt="countdownmail.com" width=100%/> | <img src="http://i.countdownmail.com/3cqwvn.gif" border="0" alt="countdownmail.com" width=100%/> | <img src="http://i.countdownmail.com/3cqxq9.gif" border="0" alt="countdownmail.com" width=100%/> |
@@ -32,6 +27,10 @@ version, chip model, and voltage usage, compiling them into an XML format. This 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/COS301-SE-2024/IoT-DIRfram)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/COS301-SE-2024/IoT-DIRfram)
 ![Codecov](https://img.shields.io/codecov/c/github/COS301-SE-2024/IoT-DIRfram)
+[![CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml)
+[![CI/CD Pipeline](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml)
+[![Node.js CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml)
+[![Pylint](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml)
 
 ## Technologies Used
 
