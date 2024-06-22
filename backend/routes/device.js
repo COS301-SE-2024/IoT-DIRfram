@@ -237,7 +237,34 @@ module.exports = (client) => {
     }
   });
 
+  router.delete('/deleteFile', async (req, res) => {
+    try {
+      const { file_id } = req.body;
+      console.log(file_id);
 
+      var mongoose = require('mongoose');
+      var id = new mongoose.Types.ObjectId(file_id);
+      //Find file in file_data database
+      const file = await deviceFilesCollection.findOne({
+        _id: id,
+      });
+      console.log(file);
+      if (!file) {
+        return res.status(400).json({ error: 'File does not exist' });
+      }
+      
+      //Delete file from file_data database
+      await deviceFilesCollection.deleteOne({
+        _id: id,
+      });
+
+      return res.status(200).json({ message: 'File deleted' });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to delete file' });
+    }
+  });
 
   return router;
 };
