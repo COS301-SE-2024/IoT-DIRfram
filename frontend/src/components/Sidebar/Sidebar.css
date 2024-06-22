@@ -15,6 +15,11 @@
   opacity: 0;
 }
 
+.sidebar-closed {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 .sidebar-open {
   transform: translateX(0);
   opacity: 1;
