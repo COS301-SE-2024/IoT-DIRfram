@@ -45,5 +45,18 @@
     "moduleNameMapper": {
       "gsap": "<rootDir>/__mocks__/gsap.js"
     }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "babel-jest": "^29.7.0"
+  },
+  "jest": {
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
+  },
+  "moduleFileExtensions": ["js", "jsx"],
+  "testEnvironment": "jsdom"
   }
 }
