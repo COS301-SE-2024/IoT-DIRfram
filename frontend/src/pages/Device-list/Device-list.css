@@ -1,0 +1,35 @@
+.devices-list {
+    display: flex;
+    flex-direction: column; /* Ensure header and content stack vertically */
+    height: 100vh; /* Make sure the component takes full height of the viewport */
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 0; /* Ensure content stays to the right of the sidebar */
+    transition: margin-left 0.3s ease; /* Smooth transition for content shift */
+  }
+  
+  .devices-title {
+    margin: 0;
+    font-size: 24px;
+    padding: 20px 0; /* Add some padding for spacing */
+  }
+  
+  .devices-list {
+    display: flex;
+    flex-direction: column; /* Stack devices vertically */
+    flex-wrap: wrap; /* Ensure content wraps to next line if necessary */
+    justify-content: flex-start; /* Left align content */
+    padding: 20px;
+  }
+  
+  .device-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
