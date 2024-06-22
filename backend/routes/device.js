@@ -197,5 +197,35 @@ module.exports = (client) => {
     }
   });
 
+  router.post('/deleteDevice', async (req, res) => {
+    try {
+      const { device_id } = req.body;
+
+      //Find device in pi_devices database
+      const device = await piDevicesCollection.findOne({
+        _id: device_id,
+      });
+
+      if (!device) {
+        return res.status(400).json({ error: 'Device does not exist' });
+      }
+
+      //Delete device from pi_devices database
+      await piDevicesCollection.deleteOne({
+        _id: device_id,
+      });
+
+      //Delete device from users_devices database
+      await usersToDevicesCollection.deleteMany({
+        device_id,
+      });
+
+      return res.status(200).json({ message: 'Device deleted' });
+
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to delete device' });
+    }
+  });
+
   return router;
 };
