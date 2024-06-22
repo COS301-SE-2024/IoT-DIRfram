@@ -11,35 +11,14 @@ body, html, #root {
   justify-content: center; /* Center content vertically */
   align-items: center; /* Center content horizontally */
   height: 100%;
-  background-color: #181818; /* Ensure background color is consistent */
 }
 
-.button-container {
+.buttons {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: center; /* Center buttons horizontally */
+  align-items: center;
   margin-bottom: 20px; /* Add margin at the bottom */
 }
 
-.button-container .login-btn, .button-container .signup-btn {
-  margin: 10px 0; /* Adjusted button spacing */
-}
-
-.content {
-  padding: 20px;
-  text-align: center; /* Center content text */
-}
-
-h1 {
-  margin: 20px 0;
-}
-
-p {
-  width: 70%; 
-  margin: 10px auto; 
-}
-
-/* Update button styles */
 .login-btn, .signup-btn {
   background-color: transparent;
   color: #fff;
@@ -47,8 +26,8 @@ p {
   font-weight: 700;
   font-size: 20px;
   border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px;
+  padding: 5px 10px; /* Adjusted padding */
+  margin: 0 10px; /* Adjusted margin */
   cursor: pointer;
   text-decoration: none; /* Remove underline */
   transition: background-color 0.3s, color 0.3s;
@@ -60,13 +39,60 @@ p {
   color: #1c1c1c; /* Text color inverted */
 }
 
-/* Ensure buttons and content are initially hidden and only shown after preloader animation */
-.splash-page.hide .button-container, .splash-page.hide .content {
-  display: none;
+.content {
+  padding: 20px;
+  text-align: center; /* Center content text */
 }
 
-.splash-page.show .button-container, .splash-page.show .content {
+h1 {
+  margin: 20px 0; /* Added top and bottom margin */
+}
+
+p {
+  width: 70%; 
+  margin: 10px auto; 
+}
+
+/* Carousel styles */
+.carousel-root {
+  width: 100%;
+  max-width: 800px; /* Adjust max-width to your preference */
+  margin-top: 20px; /* Margin above the carousel */
+}
+
+.carousel {
+  width: 100%;
+}
+
+.carousel .slide {
+  background-color: #333; /* Background color for slides */
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.carousel .slide img {
+  width: 30%;
+  height: auto;
+}
+
+.carousel .control-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+}
+
+.carousel .control-dots .dot {
+  background-color: rgba(255, 255, 255, 0.5); /* Dot color */
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel .control-dots .dot.selected {
+  background-color: #fff; /* Selected dot color */
 }

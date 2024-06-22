@@ -1,0 +1,40 @@
+.devices-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Ensures items stretch to full width */
+    padding: 20px;
+  }
+  
+  .device-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #000; /* Lighter background color */
+    position: relative; /* For positioning buttons */
+  }
+  
+  .device-item h2 {
+    margin-top: 0;
+  }
+  
+  .buttons-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  .edit-button {
+    color: #007bff; /* Blue color for edit button */
+  }
+  
+  .delete-button {
+    color: #dc3545; /* Red color for delete button */
+  }
