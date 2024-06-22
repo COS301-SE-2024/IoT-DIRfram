@@ -11,6 +11,7 @@
 
 [![CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml)
 [![CI/CD Pipeline](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml)
+[![Node.js CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml)
 
 | Demo 2 | Demo 3 | Demo 4 |
 |---|---|---|
