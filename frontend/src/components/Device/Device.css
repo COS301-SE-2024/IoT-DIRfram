@@ -22,14 +22,20 @@
   width: 150px; /* Adjusted width */
   height: 150px; /* Adjusted height */
   border-radius: 10px;
+  margin-right: 20px; /* Added margin to space out the image from the text */
 }
 
 .device-info {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; /* Ensure the height of the info section matches the container */
 }
 
 .device-info h2 {
-  margin-top: 0;
+  margin: 0;
+  text-align: center;
 }
 
 .device-info p {

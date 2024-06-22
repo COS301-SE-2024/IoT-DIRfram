@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import './IoT-Device.css';
+import './IOT_DEVICE.css';
 
 const IoT_Device = () => {
   const [devices, setDevices] = useState([]);

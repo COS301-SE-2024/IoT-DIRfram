@@ -2,27 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (client) => {
-  const db = client.db('your-database-name'); // Replace with your database name
-  const devicesCollection = db.collection('devices');
+  const db = client.db('uart_data'); 
+  const piDevicesCollection = db.collection('pi_devices'); 
 
-  // Retrieve Data
-  router.get('/retrieve', async (req, res) => {
+  router.get('/devices', async (req, res) => {
     try {
-      const data = await devicesCollection.find().toArray();
-      res.json(data);
+      const devices = await piDevicesCollection.find({}).toArray();
+      res.json(devices);
     } catch (err) {
-      res.status(500).json(err);
-    }
-  });
-
-  // Store Data
-  router.post('/store', async (req, res) => {
-    try {
-      const newData = req.body;
-      await devicesCollection.insertOne(newData);
-      res.status(201).send('Data stored');
-    } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json({ error: 'Failed to fetch devices' });
     }
   });
 

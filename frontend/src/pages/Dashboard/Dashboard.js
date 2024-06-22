@@ -18,8 +18,6 @@ const Dashboard = () => {
         <hr className="section-break" />
         <div className='devices-list'>
           <Device />
-          <Device />
-          <Device />
         </div>
       </div>
     </div>
