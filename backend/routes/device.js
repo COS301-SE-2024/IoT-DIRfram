@@ -6,7 +6,7 @@ module.exports = (client) => {
   const clientDB = client.db('Auth'); 
   const piDevicesCollection = db.collection('pi_devices'); 
   const usersCollection = clientDB.collection('Users');
-  const usersToDevicesCollection = clientDB.collection('UsersToDevices');
+  const usersToDevicesCollection = db.collection('users_devices');
 
   router.get('/devices', async (req, res) => {
     try {
@@ -17,13 +17,45 @@ module.exports = (client) => {
     }
   });
 
+  
+  router.get('/devicesForUser', async (req, res) => {
+    try {
+      const { username } = req.body;
+
+      //Find user in Auth database
+      const user = await usersCollection.findOne({
+        username,
+      });
+
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+
+      //Find devices assigned to user
+      const devices = await usersToDevicesCollection
+        .find({ username })
+        .toArray();
+      
+      const deviceIds = devices.map((device) => device.device_id);
+
+      //Find device details
+      const devicesDetails = await piDevicesCollection
+        .find({ _id: { $in: deviceIds } })
+        .toArray();
+
+      res.json(devicesDetails);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch devices' });
+    }
+  });
+
   router.post('/addDevice', async (req, res) => {
     try {
-      const { deviceID, deviceName } = req.body;
+      const { device_id, deviceName } = req.body;
 
       //Check if device already exists
       const device = await piDevicesCollection.findOne({
-        _id: deviceID,
+        _id: device_id,
       });
 
       if (device) {
@@ -32,11 +64,11 @@ module.exports = (client) => {
 
       //Add device to pi_devices database
       await piDevicesCollection.insertOne({
-        _id: deviceID,
+        _id: device_id,
         deviceName,
       });
 
-      res.status(200).json({ message: 'Device added' });
+      return res.status(200).json({ message: 'Device added' });
     } 
     catch (err) {
       res.status(500).json({ error: 'Failed to add device' });
@@ -46,10 +78,12 @@ module.exports = (client) => {
 
   router.post('/addDeviceToUser', async (req, res) => {
     try {
-      const { deviceID, username } = req.body;
+      const { device_id, username } = req.body;
 
       //Find user in Auth database
-      const user = await usersCollection.findOne({ username });
+      const user = await usersCollection.findOne({
+        username,
+      });
 
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
@@ -57,7 +91,7 @@ module.exports = (client) => {
 
       //Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
-        _id: deviceID,
+        _id: device_id,
       });
 
       if (!device) {
@@ -67,7 +101,7 @@ module.exports = (client) => {
       //Check if device is already assigned to user
       const userToDevice = await usersToDevicesCollection.findOne({
         username,
-        deviceID,
+        device_id,
       });
 
       if (userToDevice) {
@@ -77,10 +111,10 @@ module.exports = (client) => {
       //Add device to user
       await usersToDevicesCollection.insertOne({
         username,
-        deviceID,
+        device_id,
       });
 
-      res.status(200).json({ message: 'Device added to user' });
+      return res.status(200).json({ message: 'Device added to user' });
 
     } catch (err) {
       res.status(500).json({ error: 'Failed to add device' });
