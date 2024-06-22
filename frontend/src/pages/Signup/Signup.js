@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css'; 
 
 const Signup = () => {
@@ -13,6 +13,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [emailAvailable, setEmailAvailable] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (formData.username) {
@@ -45,7 +46,7 @@ const Signup = () => {
         console.error('Error:', error);
       });
   };
-  
+
   const checkEmailAvailability = (email) => {
     fetch(`${process.env.REACT_APP_API_URL}/auth/check-email`, {
       method: 'POST',
@@ -64,7 +65,7 @@ const Signup = () => {
       .catch(error => {
         console.error('Error:', error);
       });
-  };  
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +81,6 @@ const Signup = () => {
   };
 
   const validatePassword = (password) => {
-    // Password should be at least 8 characters long and include at least one number
     const re = /^(?=.*\d).{8,}$/;
     return re.test(password);
   };
@@ -114,7 +114,29 @@ const Signup = () => {
     } else {
       console.log('Form submitted:', formData);
       setErrors({});
-      //api call goes here
+      // API call to register the user
+      fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(data => {
+        console.log('Success:', data);
+        // Redirect to the dashboard
+        navigate('/dashboard');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle errors (e.g., show error message)
+      });
     }
   };
 

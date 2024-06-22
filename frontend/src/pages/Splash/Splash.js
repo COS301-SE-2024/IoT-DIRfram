@@ -10,6 +10,12 @@ import Raspberrypi3 from '../../assets/Raspberrypi3.jpeg';
 import Raspberrypi4 from '../../assets/Raspberrypi4.jpeg';
 
 function Splash() {
+  const [showContent, setShowContent] = useState(false);
+
+  const handleAnimationEnd = () => {
+    setShowContent(true);
+  };
+
   return (
     <>
       <Preloader />

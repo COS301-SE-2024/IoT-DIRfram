@@ -19,16 +19,17 @@ body, html, #root {
   margin-bottom: 20px; /* Add margin at the bottom */
 }
 
-/* Adjusted button spacing */
+
 .login-btn, .signup-btn {
   background-color: transparent;
   color: #fff;
-  border: transparent; /* Add border for transition effect */
+  border: 1px solid #fff; /* Add border for transition effect */
   font-weight: 700;
   font-size: 20px;
   border-radius: 5px;
   padding: 5px 10px; /* Adjusted padding */
   margin: 0 10px; /* Adjusted margin */
+
   cursor: pointer;
   text-decoration: none; /* Remove underline */
   transition: background-color 0.3s, color 0.3s;
