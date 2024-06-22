@@ -17,6 +17,33 @@ module.exports = (client) => {
     }
   });
 
+  router.post('/addDevice', async (req, res) => {
+    try {
+      const { deviceID, deviceName } = req.body;
+
+      //Check if device already exists
+      const device = await piDevicesCollection.findOne({
+        _id: deviceID,
+      });
+
+      if (device) {
+        return res.status(400).json({ error: 'Device already exists' });
+      }
+
+      //Add device to pi_devices database
+      await piDevicesCollection.insertOne({
+        _id: deviceID,
+        deviceName,
+      });
+
+      res.status(200).json({ message: 'Device added' });
+    } 
+    catch (err) {
+      res.status(500).json({ error: 'Failed to add device' });
+    }
+
+  });
+
   router.post('/addDeviceToUser', async (req, res) => {
     try {
       const { deviceID, username } = req.body;
@@ -52,6 +79,8 @@ module.exports = (client) => {
         username,
         deviceID,
       });
+
+      res.status(200).json({ message: 'Device added to user' });
 
     } catch (err) {
       res.status(500).json({ error: 'Failed to add device' });
