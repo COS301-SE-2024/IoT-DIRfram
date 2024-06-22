@@ -10,11 +10,15 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.2.0",
 =======
     "axios": "^1.7.2",
 >>>>>>> 491b114f (Updated device list page)
+=======
+    "axios": "^1.7.2",
+>>>>>>> 96ab0a92456929cad9172cc1c211032d3ff567d7
     "gsap": "^3.12.5",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
