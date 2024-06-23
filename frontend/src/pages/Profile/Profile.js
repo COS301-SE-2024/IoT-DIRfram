@@ -1,10 +1,15 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 
 function Profile() {
   return (
     <div>
-      <h1>Profile</h1>
-      <p>User profile information will be displayed here.</p>
+      <Header />
+      <div style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center' }}>
+        <h1>Under Construction</h1>
+        <p>This page is currently unavailable, please try again later.</p>
+        <p>Kind regards - Management.</p>
+      </div>
     </div>
   );
 }

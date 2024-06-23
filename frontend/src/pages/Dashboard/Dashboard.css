@@ -17,8 +17,8 @@
 }
 
 .devices-header {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   align-items: center;
   padding-left: 30px;
   padding-top: 20px;
@@ -51,4 +51,9 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ensure devices wrap to the next line */
   gap: 20px; /* Add space between grid items */
   padding: 20px;
+}
+
+.spacer {
+  flex-grow: 1; /* This will push the delete button to the right */
+  text-align: center;
 }

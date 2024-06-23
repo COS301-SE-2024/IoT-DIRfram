@@ -9,6 +9,7 @@ function RaspberryPi() {
       <Header />
       <div className="iot-content">
         <h1 className="devices-title">IoT Devices</h1>
+        <p><small style={{ color: '#B7B5B7'}}><span style={{color: 'white'}}>HINT:</span> Don't forget to consult our guide if you need help or get stuck <span style={{color: 'white'}}>*<span style={{color: '#007BFF'}}>blue icon</span> - bottom right</span></small></p>
         <hr />
         <IoT_Device />
       </div>

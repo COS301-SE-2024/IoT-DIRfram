@@ -21,7 +21,7 @@ function Splash() {
       <Preloader />
       <div className="splash-page">
         <div className='splash-content'>
-        <h1 style={{ textAlign: 'center' }}>Title</h1>
+        <h1 style={{ textAlign: 'center' }}>IoT Data Extraction</h1>
           <div className='outer-container'>
             <div className="content">
               <h1>Welcome to IoT-DIRfram</h1>
