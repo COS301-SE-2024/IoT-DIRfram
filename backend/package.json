@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:backend": "jest --config jest.backend.config.js"
   },
   "keywords": [],
   "author": "",

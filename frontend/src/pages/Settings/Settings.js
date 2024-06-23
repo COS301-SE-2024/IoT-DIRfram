@@ -5,8 +5,11 @@ function Settings() {
   return (
     <div>
       <Header />
-      <h1>Settings</h1>
-      <p>Settings options will be displayed here.</p>
+      <div style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center' }}>
+        <h1>Under Construction</h1>
+        <p>This page is currently unavailable, please try again later.</p>
+        <p>Kind regards - Management.</p>
+      </div>
     </div>
   );
 }
