@@ -15,7 +15,7 @@ const Dashboard = () => {
         </Link> */}
       </div>
 
-      <div className="content">
+      <div className="dash-content">
         <hr className="section-break" />
         <div className='devices-list'>
           <Device />

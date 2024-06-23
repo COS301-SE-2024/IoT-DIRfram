@@ -7,7 +7,7 @@ function RaspberryPi() {
   return (
     <div className="raspberry-pi">
       <Header />
-      <div className="content">
+      <div className="iot-content">
         <h1 className="devices-title">IoT Devices</h1>
         <hr />
         <IoT_Device />
