@@ -11,6 +11,7 @@ import Profile from './pages/Profile/Profile';
 import Settings from './pages/Settings/Settings';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Layout from './pages/Help/Layout'; // Import your Layout component
+import EditProfile from './pages/Edit-Profile/EditProfile';
 import './App.css';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/device-list" element={<Layout><ProtectedRoute><Devices /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/raspberrypi" element={<Layout><ProtectedRoute><RaspberryPi /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/profile" element={<Layout><ProtectedRoute><Profile /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
       </Routes>
     </RouterComponent>
