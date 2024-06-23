@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 import logo from "../../assets/code-crafters-logo.png";
 import Sidebar from '../Sidebar/Sidebar';
 import './Header.css';
@@ -9,7 +8,6 @@ import ForwardButton from '../ForwardButton/ForwardButton';
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

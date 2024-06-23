@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Dashboard.css';
 import Device from '../../components/Device/Device'; 
 import Header from '../../components/Header/Header';

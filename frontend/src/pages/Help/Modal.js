@@ -24,19 +24,19 @@ const Modal = ({ onClose }) => {
                         style={{ width: '100%', height: '50%' }}>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div style={{ flex: '1' }}>Text</div>
-                            <img src={Raspberrypi1} alt="Image 1" style={{ width: '50%', height: 'auto' }} />
+                            <img src={Raspberrypi1} alt="Image-1" style={{ width: '50%', height: 'auto' }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div style={{ flex: '1' }}>Text</div>
-                            <img src={Raspberrypi2} alt="Image 2" style={{ width: '50%', height: 'auto' }} />
+                            <img src={Raspberrypi2} alt="Image-2" style={{ width: '50%', height: 'auto' }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div style={{ flex: '1' }}>Text</div>
-                            <img src={Raspberrypi3} alt="Image 3" style={{ width: '50%', height: 'auto' }} />
+                            <img src={Raspberrypi3} alt="Image-3" style={{ width: '50%', height: 'auto' }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div style={{ flex: '1' }}>Text</div>
-                            <img src={Raspberrypi4} alt="Image 4" style={{ width: '50%', height: 'auto' }} />
+                            <img src={Raspberrypi4} alt="Image-4" style={{ width: '50%', height: 'auto' }} />
                         </div>
                     </Carousel>
                 </div>

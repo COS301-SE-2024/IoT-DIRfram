@@ -10,6 +10,7 @@ function RaspberryPi() {
       <div className="iot-content">
         <h1 className="devices-title">IoT Devices</h1>
         <hr />
+        {/* eslint-disable-next-line react/jsx-pascal-case */}
         <IoT_Device />
       </div>
     </div>
