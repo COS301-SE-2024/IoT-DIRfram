@@ -19,7 +19,7 @@ const App = () => {
   return (
     <RouterComponent>
       <Routes>
-        <Route path="/" element={<Layout><ProtectedRoute><Dashboard /></ProtectedRoute></Layout>} />
+        <Route path="/" element={<Splash />} />
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
