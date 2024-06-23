@@ -30,6 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
+    "test:frontend": "jest --config jest.frontend.config.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
