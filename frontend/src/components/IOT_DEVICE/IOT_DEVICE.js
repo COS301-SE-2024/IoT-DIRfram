@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import './IOT_DEVICE.css';
@@ -7,8 +6,8 @@ import axios from 'axios';
 
 const IoT_Device = () => {
   const [devices, setDeviceFiles] = useState([]);
-  const [error, setError] = useState(null);
-  const [deviceId, setDeviceId] = useState("1000000013dcc3ed");
+  const [setError] = useState(null);
+  const [deviceId] = useState("1000000013dcc3ed");
 
   const getDeviceFiles = async () => {
     try {
@@ -25,6 +24,7 @@ const IoT_Device = () => {
 
   useEffect(() => {
     getDeviceFiles();
+    // eslint-disable-next-line
   }, []);
 
   const extractTimeFromFilename = (filename) => {
