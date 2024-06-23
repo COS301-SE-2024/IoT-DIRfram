@@ -107,6 +107,6 @@ jobs:
       run: npm test
       working-directory: frontend
       env:
-        CI: false 
+        CI: ""
       continue-on-error: true
 
