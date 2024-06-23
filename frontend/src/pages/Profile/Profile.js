@@ -21,7 +21,6 @@ function Profile() {
     }
   }, []);
 
-  // Get login details from cookies
   const loggedInUsername = Cookies.get('username');
   const loggedInEmail = Cookies.get('email');
   const loggedInSurname = Cookies.get('surname'); 
