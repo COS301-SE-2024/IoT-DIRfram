@@ -7,15 +7,28 @@
   color: inherit;
 }
 
+.device-outer-container {
+  background-color: #21262db8;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 50%; 
+  display: block;
+  text-align: center;
+}
+
+.header-2 {
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
 .device-container {
   display: flex;
   align-items: center;
-  background-color: #323232;
-  width: 300px; 
-  height: 300px; 
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
 .device-image {
@@ -31,11 +44,16 @@
   flex-direction: column;
   justify-content: center;
   height: 100%; /* Ensure the height of the info section matches the container */
+  text-align: left;
 }
 
 .device-info h2 {
   margin: 0;
   text-align: center;
+}
+
+p {
+  width: 100%;
 }
 
 .device-info p {
