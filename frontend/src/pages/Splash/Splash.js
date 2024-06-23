@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel'; // Import Carousel
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import Carousel styles
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import Preloader from './Preloader';
 import './Splash.css';
 import Raspberrypi1 from '../../assets/Raspberrypi1.jpeg';
@@ -10,11 +10,11 @@ import Raspberrypi3 from '../../assets/Raspberrypi3.jpeg';
 import Raspberrypi4 from '../../assets/Raspberrypi4.jpeg';
 
 function Splash() {
-  const [showContent, setShowContent] = useState(false);
+  // const [showContent, setShowContent] = useState(false);
 
-  const handleAnimationEnd = () => {
-    setShowContent(true);
-  };
+  // const handleAnimationEnd = () => {
+  //   setShowContent(true);
+  // };
 
   return (
     <>
@@ -31,16 +31,16 @@ function Splash() {
         </div>
         <Carousel>
         <div>
-            <img src={Raspberrypi1} alt="Image 1" />
+            <img src={Raspberrypi1} alt="Image-1" />
           </div>
           <div>
-            <img src={Raspberrypi2} alt="Image 2" />
+            <img src={Raspberrypi2} alt="Image-2" />
           </div>
           <div>
-            <img src={Raspberrypi3} alt="Image 3" />
+            <img src={Raspberrypi3} alt="Image-3" />
           </div>
           <div>
-            <img src={Raspberrypi4} alt="Image 4" />
+            <img src={Raspberrypi4} alt="Image-4" />
           </div>
         </Carousel>
       </div>

@@ -5,14 +5,14 @@ import Device from '../../components/Device/Device';
 
 function Devices() {
   // State to hold the list of devices
-  const [devices, setDevices] = useState([]);
+  const [ setDevices] = useState([]);
 
   // Simulating fetching devices (use useEffect for real data fetching)
   useEffect(() => {
     // Here you would fetch the data from an API or other source
     const fetchedDevices = []; // Replace with actual data fetching logic
     setDevices(fetchedDevices);
-  }, []);
+  }, [setDevices]);
 
   return (
     <div className="device-list">
