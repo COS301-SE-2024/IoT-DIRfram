@@ -16,7 +16,8 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-
+    env:
+      CI: ""
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -109,38 +110,3 @@ jobs:
         CI: false 
       continue-on-error: true
 
-  # deploy:
-  #   name: Deploy
-  #   runs-on: ubuntu-latest
-  #   needs: test
-
-  #   steps:
-  #   - name: Checkout Repository
-  #     uses: actions/checkout@v2
-
-  #   - name: Set up Node.js
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: '18'
-
-  #   # - name: Set up Python
-  #   #   uses: actions/setup-python@v3
-  #   #   with:
-  #   #     python-version: "3.10"
-
-  #   - name: Install Dependencies
-  #     run: |
-  #       npm install
-  #       if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-  #     working-directory: frontend
-
-  #   - name: Deploy to DigitalOcean
-  #     run: |
-  #       scp -r ./frontend/build ${{ secrets.USER }}@${{ secrets.SERVER }}:/path/to/frontend
-  #       scp -r ./api ${{ secrets.USER }}@${{ secrets.SERVER }}:/path/to/api
-  #       scp -r ./backend ${{ secrets.USER }}@${{ secrets.SERVER }}:/path/to/backend
-  #       ssh ${{ secrets.USER }}@${{ secrets.SERVER }} 'sudo systemctl restart your-service'
-  #     env:
-  #       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #       SERVER: ${{ secrets.SERVER }}
-  #       USER: ${{ secrets.USER }}

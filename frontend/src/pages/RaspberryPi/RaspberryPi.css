@@ -1,34 +1,21 @@
-.raspberry-pi {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 0;
-    transition: margin-left 0.3s ease;
-  }
-  
-  .info-title, .devices-title {
-    margin: 0;
-    font-size: 24px;
-    padding: 20px 0;
-  }
-  
-  .system-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 20px;
-    gap: 20px;
-  }
-  
-  .info-item {
-    flex: 1 1 200px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #000; /* Changed background color for system info */
-  }
+/* .raspberry-pi {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+} */
+
+
+
+.iot-content {
+  /* flex: 1;
+  padding: 20px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease; */
+  margin: 20px;
+}
+
+.devices-title {
+  margin: 0;
+  font-size: 24px;
+  padding: 20px 0;
+}

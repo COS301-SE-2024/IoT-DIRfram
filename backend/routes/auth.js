@@ -4,11 +4,15 @@ const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (client) => {
-  const db = client.db('Auth');
+  const db = client.db('Auth'); 
   const usersCollection = db.collection('Users');
 
-  const hashPassword = (password) => {
-    return crypto.createHash('sha256').update(password).digest('hex');
+  const generateSalt = () => {
+    return crypto.randomBytes(16).toString('hex');
+  };
+
+  const hashPassword = (password, salt) => {
+    return crypto.createHash('sha256').update(password + salt).digest('hex');
   };
 
   router.post('/register', async (req, res) => {
@@ -19,12 +23,14 @@ module.exports = (client) => {
         return res.status(400).json({ message: 'Passwords do not match' });
       }
 
-      const hashedPassword = hashPassword(password);
+      const salt = generateSalt();
+      const hashedPassword = hashPassword(password, salt);
 
       const newUser = {
         username,
         email,
         password: hashedPassword,
+        salt: salt,
       };
 
       console.log('Received new user:', newUser);
@@ -41,11 +47,15 @@ module.exports = (client) => {
   router.post('/login', async (req, res) => {
     try {
       const { username, password } = req.body;
-      const hashedPassword = hashPassword(password);
-      const user = await usersCollection.findOne({ username, password: hashedPassword });
+      const user = await usersCollection.findOne({ username });
       if (user) {
-        const sessionId = uuidv4(); //unique session id
-        res.json({ message: 'Login successful', sessionId });
+        const hashedPassword = hashPassword(password, user.salt);
+        if (hashedPassword === user.password) {
+          const sessionId = uuidv4();
+          res.json({ message: 'Login successful', sessionId });
+        } else {
+          res.status(400).send('Invalid credentials');
+        }
       } else {
         res.status(400).send('Invalid credentials');
       }

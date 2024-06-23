@@ -7,15 +7,13 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
-// Middleware
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS
+app.use(cors());
 
-// MongoDB Atlas connection
 const uri = process.env.MONGO_URI;
-console.log("Connecting to MongoDB with URI:", uri); // Debugging line
+console.log("Connecting to MongoDB with URI:", uri);//debug
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -32,15 +30,14 @@ async function connectToDatabase() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } catch (error) {
     console.error("Failed to connect to MongoDB", error);
-    process.exit(1); // Exit the process with failure
+    process.exit(1);
   }
 }
 
 connectToDatabase();
 
-// Routes
-const deviceRoutes = require('./routes/device')(client); // Pass the client to the routes
-const authRoutes = require('./routes/auth')(client); // Pass the client to the routes
+const deviceRoutes = require('./routes/device')(client); 
+const authRoutes = require('./routes/auth')(client); 
 
 app.use('/device', deviceRoutes);
 app.use('/auth', authRoutes);

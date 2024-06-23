@@ -1,0 +1,93 @@
+.devices-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .device-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #30363D;
+    border-radius: 4px;
+    background-color: #161b22d1; /* Lighter background color */
+   
+  }
+  
+  .device-item h2 {
+    margin-top: 0;
+  }
+  
+  /* .buttons-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  } */
+
+  .device-container {
+    display: flex;
+  }
+  
+  .left-container {
+    flex: 1;
+  }
+  
+  .icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  .edit-button {
+    color: #356FB9; /* Blue color for edit button */
+  }
+  
+  .delete-button {
+    color: #792E2E; /* Red color for delete button */
+  }
+
+  .content-window {
+    max-height: calc(15 * 1.2em); /* Adjust line height as needed */
+    overflow-y: auto;
+    border: 1px solid #30363D;
+    padding: 10px;
+    background-color: #0D1117;
+  }
+  
+  /* Scrollbar styles */
+  .content-window::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+  }
+  
+  .content-window::-webkit-scrollbar-track {
+    background: #0D1117; /* Background color of the track */
+  }
+  
+  .content-window::-webkit-scrollbar-thumb {
+    background: #30363D; /* Color of the scroll thumb */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .content-window::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Change color on hover */
+  }
+  
+
+  .right-container {
+    width: 40%;
+  }
+  
+  .device-content {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  .buttons-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .spacer {
+    flex-grow: 1; /* This will push the delete button to the right */
+    text-align: center;
+  }

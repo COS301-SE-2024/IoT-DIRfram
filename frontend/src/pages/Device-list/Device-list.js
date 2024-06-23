@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
-import './Device-list.css';
+// import './Device-list.css';
 import Device from '../../components/Device/Device'; 
 
 function Devices() {
