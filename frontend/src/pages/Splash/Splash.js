@@ -56,7 +56,7 @@ function Splash() {
               </Carousel>
             </div>
           </div>
-        </Carousel>
+        </div>
       </div>
     </>
   );

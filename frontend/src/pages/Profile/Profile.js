@@ -3,10 +3,10 @@ import Cookies from 'js-cookie';
 import { getUserProfile } from './ProfileConfig';
 import './Profile.css';
 import Header from '../../components/Header/Header';
-import defaultAvatar from '../../assets/profile.jpg'; 
+import defaultAvatar from '../../assets/profile.jpg';
 
 function Profile() {
-  const [userDetails, setUserDetails] = useState({ username: '', surname: '', email: '' });
+  const [userDetails, setUserDetails] = useState({ username: 'John', surname: 'Doe', email: 'john.doe@gmail.com' });
 
   useEffect(() => {
     const sessionId = Cookies.get('session');
@@ -24,7 +24,7 @@ function Profile() {
   // Get login details from cookies
   const loggedInUsername = Cookies.get('username');
   const loggedInEmail = Cookies.get('email');
-  const loggedInSurname = Cookies.get('surname'); 
+  const loggedInSurname = Cookies.get('surname');
 
   return (
     <div>
@@ -35,9 +35,9 @@ function Profile() {
           <div className="avatar-container">
             <img src={defaultAvatar} alt="Avatar" className="avatar" />
           </div>
-          <p><strong>Username:</strong> {userDetails.username || loggedInUsername} Monica </p>
-          <p><strong>Surname:</strong> {userDetails.surname || loggedInSurname} Hung </p>
-          <p><strong>Email:</strong> {userDetails.email || loggedInEmail} monicahung@gmail.com</p>
+          <p><strong>Username:</strong> {userDetails.username || loggedInUsername}</p>
+          <p><strong>Surname:</strong> {userDetails.surname || loggedInSurname}</p>
+          <p><strong>Email:</strong> {userDetails.email || loggedInEmail}</p>
         </div>
       </div>
     </div>
