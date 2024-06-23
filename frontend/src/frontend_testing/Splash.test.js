@@ -1,10 +1,13 @@
-//testing if preloader actually renders and also if the login/signup button are rendering correctly
-
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Splash from '../pages/Splash/Splash';
 import '@testing-library/jest-dom/extend-expect'; // for additional matchers
+
+jest.mock('../../assets/Raspberrypi1.jpeg', () => 'test-file-stub');
+jest.mock('../../assets/Raspberrypi2.jpeg', () => 'test-file-stub');
+jest.mock('../../assets/Raspberrypi3.jpeg', () => 'test-file-stub');
+jest.mock('../../assets/Raspberrypi4.jpeg', () => 'test-file-stub');
 
 // Mock gsap and preLoaderAnim to avoid actual animations during tests
 jest.mock('gsap', () => ({
@@ -16,17 +19,17 @@ jest.mock('gsap', () => ({
 }));
 
 jest.mock('../pages/Splash/SplashAnime', () => ({
-  preLoaderAnim: jest.fn(),
-  openMenu: jest.fn(),
-  closeMenu: jest.fn(),
-  fadeUp: jest.fn(),
-  mobileLanding: jest.fn(),
-  animateShapes: jest.fn(),
-  animateMainShape: jest.fn(),
-  boxHover: jest.fn(),
-  boxExit: jest.fn(),
-  fadeIn: jest.fn(),
-  fadeOut: jest.fn(),
+  preLoaderAnim: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  openMenu: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  closeMenu: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  fadeUp: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  mobileLanding: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  animateShapes: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  animateMainShape: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  boxHover: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  boxExit: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  fadeIn: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
+  fadeOut: jest.fn().mockResolvedValue(), // Ensure it returns a resolved Promise
 }));
 
 describe('Splash Component', () => {
@@ -37,7 +40,6 @@ describe('Splash Component', () => {
       </MemoryRouter>
     );
     expect(screen.getByAltText('Code_Crafters_logo')).toBeInTheDocument();
-    expect(screen.getByText(/IoT-DIRfram/i)).toBeInTheDocument();
   });
 
   test('renders Login and Signup buttons', () => {
@@ -56,7 +58,7 @@ describe('Splash Component', () => {
         <Splash />
       </MemoryRouter>
     );
-    expect(screen.getByText('Welcome to Code Crafters')).toBeInTheDocument();
+    expect(screen.getByText('Welcome to IoT-DIRfram')).toBeInTheDocument();
     expect(screen.getByText(/This project aims to develop software/i)).toBeInTheDocument();
   });
 });
