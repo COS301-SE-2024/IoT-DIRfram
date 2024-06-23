@@ -42,16 +42,16 @@ function Splash() {
                 showStatus={false}
                 showIndicators={false}>
                 <div>
-                  <img src={Raspberrypi1} alt="Image 1" />
+                  <img src={Raspberrypi1} alt="Image-1" />
                 </div>
                 <div>
-                  <img src={Raspberrypi2} alt="Image 2" />
+                  <img src={Raspberrypi2} alt="Image-2" />
                 </div>
                 <div>
-                  <img src={Raspberrypi3} alt="Image 3" />
+                  <img src={Raspberrypi3} alt="Image-3" />
                 </div>
                 <div>
-                  <img src={Raspberrypi4} alt="Image 4" />
+                  <img src={Raspberrypi4} alt="Image-4" />
                 </div>
               </Carousel>
             </div>
