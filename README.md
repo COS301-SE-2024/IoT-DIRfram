@@ -32,6 +32,7 @@ version, chip model, and voltage usage, compiling them into an XML format. This 
 [![Node.js CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml)
 [![Pylint](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pylint.yml)
 [![Super-Linter](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/superlinter.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/superlinter.yml)
+[![Build](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/build.yml/badge.svg?branch=dev)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/build.yml)
 
 ## Technologies Used
 
