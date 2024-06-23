@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+        CI: ""
+
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x, 20.x]
@@ -29,8 +32,8 @@ jobs:
     - name: Install dependencies
       run: npm install
            npm ci
-      working-directory: frontend
       continue-on-error: true
+      working-directory: frontend
 
     - name: Build
       run: npm run build --if-present
@@ -41,6 +44,7 @@ jobs:
       run: npm test
       working-directory: frontend
       continue-on-error: true
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1
       with:

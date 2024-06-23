@@ -1,0 +1,178 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  /* background-color: #181818; Darker background */
+  color: #fff; /* Text color */
+}
+
+.splash-page {
+  flex-direction: column;
+  /* background: url('../../assets/splash1.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; */
+  height: 100%;
+}
+
+/* .all-container {
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #1e1e1ed7;
+} */
+
+/* .buttons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; 
+} */
+
+.buttons {
+  display: flex;
+  /* justify-content: flex-end; */
+  justify-content: center; /* Center content vertically */
+  align-items: center;
+  padding: 10px;
+}
+
+.login-btn,
+.signup-btn {
+  margin-left: 10px;
+}
+
+.login-btn, .signup-btn {
+  background-color: transparent;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 5px 10px; /* Adjusted padding */
+  margin: 0 10px; /* Adjusted margin */
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.signup-btn {
+  color: #1FB079;
+  border: 1px solid #1FB079;
+}
+
+.login-btn {
+  color: #359AF0;
+  border: 1px solid #359AF0; /* Add border for transition effect */
+}
+
+/* Change background and text color on hover */
+.login-btn:hover {
+  background-color: #359AF0; /* Background color inverted */
+  color: #1c1c1c; /* Text color inverted */
+}
+
+.signup-btn:hover {
+  background-color: #1FB079; /* Background color inverted */
+  color: #1c1c1c; /* Text color inverted */
+}
+
+.content {
+  float:left;
+  padding: 20px;
+  text-align: center; /* Center content text */
+}
+
+h1 {
+  margin: 20px 0; /* Added top and bottom margin */
+}
+
+p {
+  width: 70%; 
+  margin: 10px auto; 
+}
+
+.outer-container {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  height: 100%;
+}
+
+.splash-content {
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20PX;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #1e1e1ed7;
+  display: grid;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  height: 80%;
+}
+/* Carousel styles */
+/* .carousel-root {
+  width: 100%;
+  max-width: 800px; 
+  margin-top: 20px; 
+}
+
+.carousel {
+  width: 100%;
+} */
+
+.carousel-container {
+  width: 35%;
+  padding-bottom: 20px;
+}
+
+.content {
+  width: 60%;
+}
+
+.carousel-container {
+  float:right;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15%;
+}
+
+
+.splash-carousel .slide img {
+  width: 100%;
+  height: auto;
+}
+
+/* .carousel .slide {
+  background-color: #33333300;
+  border-radius: 5px;
+  overflow: hidden;
+} */
+
+/* .carousel .slide img {
+  width: 50%;
+  height: auto;
+}
+
+.carousel .control-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+} */
+
+/* .carousel .control-dots .dot {
+  background-color: rgba(255, 255, 255, 0.5); 
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel .control-dots .dot.selected {
+  background-color: #fff;
+} */

@@ -1,0 +1,21 @@
+/* .raspberry-pi {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+} */
+
+
+
+.iot-content {
+  /* flex: 1;
+  padding: 20px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease; */
+  margin: 20px;
+}
+
+.devices-title {
+  margin: 0;
+  font-size: 24px;
+  padding: 20px 0;
+}
