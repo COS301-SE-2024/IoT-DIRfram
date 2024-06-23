@@ -46,4 +46,13 @@
     transform: scale(1.1); 
   }
   
-  
+  .edit-profile-button {
+    background-color: rgb(113, 147, 158);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
