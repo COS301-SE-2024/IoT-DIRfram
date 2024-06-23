@@ -18,7 +18,7 @@ const Sidebar = ({ isOpen, handleToggleSidebar }) => {
       <nav>
         <ul>
           <li>
-            <Link to="/" onClick={handleToggleSidebar}>
+            <Link to="/dashboard" onClick={handleToggleSidebar}>
               <FontAwesomeIcon icon={faHome} /> Dashboard
             </Link>
           </li>
