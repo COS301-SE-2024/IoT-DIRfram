@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [14.x, 16.x, 18.x, 20.x]
 
     steps:
     - name: Checkout code
@@ -44,3 +44,8 @@ jobs:
       run: npm test
       working-directory: frontend
       continue-on-error: true
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
