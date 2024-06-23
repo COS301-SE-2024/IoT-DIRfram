@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; 
 import Cookies from 'js-cookie';
 import { getUserProfile } from './ProfileConfig';
 import './Profile.css';
@@ -38,6 +39,9 @@ function Profile() {
           <p><strong>Surname:</strong> {userDetails.surname || loggedInSurname} Hung </p>
           <p><strong>Email:</strong> {userDetails.email || loggedInEmail} monicahung@gmail.com</p>
         </div>
+        <Link to="/edit-profile">
+          <button className="edit-profile-button">Edit Profile</button>
+        </Link>
       </div>
     </div>
   );
