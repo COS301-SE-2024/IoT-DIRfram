@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Build the frontend
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+      
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      # Build the backend
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
