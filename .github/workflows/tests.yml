@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - CI
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies for backend
+        run: npm install
+        working-directory: ./backend
+
+      - name: Install dependencies for frontend
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Run backend tests
+        run: npm run test:backend
+        working-directory: ./backend
+
+      - name: Run frontend tests
+        run: npm run test:frontend
+        working-directory: ./frontend
