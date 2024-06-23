@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel'; // Import Carousel
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import Carousel styles
-// import React, { useState } from 'react';
+import React from 'react';
 import Preloader from './Preloader';
 import './Splash.css';
 import Raspberrypi1 from '../../assets/Raspberrypi1.jpeg';
