@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background: #121212;
   color: #e0e0e0;
+  z-index: 999;
 }
 
 .auth-container {
@@ -11,13 +11,18 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  /* background: rgba(255, 255, 255, 0.1); */
+  background: url('../../assets/auth9.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* backdrop-filter: blur(10px); */
   padding: 20px;
 }
 
 .auth-form {
-  background-color: #1e1e1e;
+  background-color: #1e1e1ed7;
   padding: 40px 30px;
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
@@ -51,8 +56,8 @@ body {
   box-sizing: border-box;
   border: 1px solid #333;
   border-radius: 4px;
-  background-color: #2b2b2b;
-  color: #e0e0e0;
+  background-color: #41434da7;
+  color: #E0E0E0;
   transition: border-color 0.3s;
 }
 

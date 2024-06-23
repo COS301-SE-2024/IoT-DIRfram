@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header';
 
 const About = () => {
   return (
-    <div className="about-container">
+    <div>
     <Header />
       <div className="about-content">
         <h2>About</h2>

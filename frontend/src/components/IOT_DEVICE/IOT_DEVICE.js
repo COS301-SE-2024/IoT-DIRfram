@@ -125,20 +125,28 @@ const IoT_Device = () => {
       ) : (
         devices.map((device, index) => (
           <div key={index} className="device-item">
-            <h2>{device.device_name}</h2>
-            <p>Extracted Time: {extractTimeFromFilename(device.filename)}</p>
-            <pre className="device-content">{extractSegmentedContent(device.content)}</pre>
-            <div className="content-window">
-              <pre className="device-content">{device.content}</pre>
-            </div>
-            <hr />
             <div className="buttons-container">
               <button className="icon-button edit-button" onClick={() => downloadFile(device.content, device.filename)}>
-                <FontAwesomeIcon icon={faDownload} size="2x" />
+                Download FIle: <FontAwesomeIcon icon={faDownload} size="2x" />
               </button>
+              <div className="spacer"><h3>IoT Device {index + 1}</h3></div> {/* Add a spacer */}
               <button className="icon-button delete-button" onClick={() => handleDelete(device._id)}>
-                <FontAwesomeIcon icon={faTrashAlt} size="2x" />
+                Delete Info: <FontAwesomeIcon icon={faTrashAlt} size="2x" />
               </button>
+            </div>
+            <div className='device-container'>
+              <div className='left-container'>
+                <h2>Extracted from: {device.device_name}</h2>
+                <p><strong>Extracted Time: </strong>{extractTimeFromFilename(device.filename)}</p>
+                <h3>Firmware and Chip information:</h3>
+                <pre className="device-content">{extractSegmentedContent(device.content)}</pre>
+              </div>
+              <div className='right-container'>
+                <h3>Full Content</h3>
+                <div className="content-window">
+                  <pre className="device-content">{device.content}</pre>
+                </div>
+              </div>
             </div>
           </div>
         ))

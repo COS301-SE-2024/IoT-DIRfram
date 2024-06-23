@@ -1,10 +1,15 @@
 .dashboard {
   display: flex;
   flex-direction: column; /* Ensure header and content stack vertically */
-  height: 100vh; /* Make sure the dashboard takes full height of the viewport */
+  /* background: url('../../assets/splash1.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%; */
 }
 
-.content {
+.dash-content {
   flex: 1;
   padding: 20px;
   margin-left: 0; /* Ensure content stays to the right of the sidebar */
@@ -15,11 +20,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding-left: 30px;
+  padding-top: 20px;
 }
 
 .devices-title {
-  margin: 0;
   font-size: 24px;
 }
 
@@ -39,7 +44,6 @@
   border: 0;
   height: 1px;
   background: #ccc;
-  margin: 20px 0;
 }
 
 .devices-list {
