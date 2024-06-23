@@ -230,6 +230,11 @@ module.exports = (client) => {
         device_id,
       });
 
+      //Delete files for device from file_data database
+      await deviceFilesCollection.deleteMany({
+        device_serial_number: device_id,
+      });
+
       return res.status(200).json({ message: 'Device deleted' });
 
     } catch (err) {
