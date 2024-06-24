@@ -26,7 +26,7 @@ version, chip model, and voltage usage, compiling them into an XML format. This 
 ![GitHub branch status](https://img.shields.io/github/checks-status/COS301-SE-2024/IoT-DIRfram/dev)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/COS301-SE-2024/IoT-DIRfram)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/COS301-SE-2024/IoT-DIRfram)
-[![codecov](https://codecov.io/github/COS301-SE-2024/IoT-DIRfram/graph/badge.svg?token=C3UflkRktq)](https://codecov.io/github/COS301-SE-2024/IoT-DIRfram)
+[![codecov](https://codecov.io/gh/COS301-SE-2024/IoT-DIRfram/branch/dev/graph/badge.svg?token=C3UflkRktq)](https://codecov.io/gh/COS301-SE-2024/IoT-DIRfram)
 [![Deployment](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/deploy.yml)
 [![CI/CD Pipeline](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/pipeline.yml)
 [![Node.js CI](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml/badge.svg)](https://github.com/COS301-SE-2024/IoT-DIRfram/actions/workflows/node.js.yml)
