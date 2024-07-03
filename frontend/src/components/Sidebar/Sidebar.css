@@ -15,11 +15,6 @@
   opacity: 0;
 }
 
-.sidebar-closed {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
 .sidebar-open {
   transform: translateX(0);
   opacity: 1;
@@ -46,13 +41,14 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  transition: background 0.3s ease;
+  padding: 10px 20px; /* Increase padding for better click/tap area */
+  transition: background 0.3s ease, padding 0.3s ease; /* Added padding transition */
 }
 
 .sidebar nav ul li a:hover {
   background: #555;
-  text-decoration: none;
+  border-radius: 5px; /* Rounded corners on hover */
+  padding: 10px 25px; /* Increase padding on hover for visual feedback */
 }
 
 .sidebar nav ul li:last-child {
@@ -69,13 +65,14 @@
   align-items: center;
   position: absolute;
   bottom: 20%;
+  padding: 10px 20px; /* Increase padding for better click/tap area */
+  transition: background 0.3s ease, padding 0.3s ease; /* Added padding transition */
 }
 
 .logout-btn:hover {
   text-decoration: underline;
 }
 
-/* Example icon styling */
 .sidebar nav ul li a svg {
-  margin-right: 10px; /* Adjust icon spacing */
+  margin-right: 10px; 
 }

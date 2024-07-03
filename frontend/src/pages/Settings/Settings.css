@@ -1,0 +1,120 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* Ensure positioning for absolute elements */
+  }
+  
+  .settings-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    margin-bottom: 20px; /* Adjust bottom margin as needed */
+  }
+  
+  .settings-header {
+    align-items: center;
+    padding-left: 30px;
+    padding-top: 20px;
+  }
+  
+  .settings-title {
+    font-size: 24px;
+  }
+  
+  .section-break {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+  }
+  
+  .settings-list {
+    display: flex;
+    flex-direction: column; /* Make the settings items stack vertically */
+    gap: 10px; /* Add space between each setting item */
+  }
+  
+  .setting-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: #21262db8;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .setting-item label {
+    margin-bottom: 8px;
+    font-size: 18px; /* Make label text bigger */
+    font-weight: bold; /* Make label text bold */
+  }
+  
+  .setting-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* Add space between checkbox and text */
+  }
+  
+  .setting-item select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .small-input {
+    width: 150px; /* Adjust this value to make the input box smaller */
+  }
+  
+  .notification-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .notification-options label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .toggle-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toggle-button.enabled {
+    background-color: red;
+  }
+  
+  .toggle-button.disabled {
+    background-color: green;
+  }
+  
+  .toggle-button:hover {
+    opacity: 0.8;
+  }
+  
+  .save-button {
+    position: fixed; /* Changed to fixed for sticking behavior */
+    bottom: 20px; /* Adjust vertical position as needed */
+    left: calc(50% - 100px); /* Center horizontally (assuming button width is 200px) */
+    width: 200px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: #333;
+    cursor: pointer;
+    z-index: 1000; /* Ensure it's above other content if needed */
+  }
