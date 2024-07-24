@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 function Profile() {
-  const [userDetails, setUserDetails] = useState({ username: '', surname: '', email: '' });
+  const [userDetails, setUserDetails] = useState({ username: '', password: '', email: '' });
 
   useEffect(() => {
     // Fetch user details from the server or use stored information from cookies/local storage

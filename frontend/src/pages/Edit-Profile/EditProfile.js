@@ -10,7 +10,7 @@ import defaultAvatar from '../../assets/profile.jpg';
 function EditProfile() {
   const [userDetails, setUserDetails] = useState({
     username: Cookies.get('username') || '',
-    surname: Cookies.get('surname') || '',
+    password: Cookies.get('password') || '',
     email: Cookies.get('email') || ''
   });
 
@@ -46,17 +46,19 @@ function EditProfile() {
           <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
         </label>
         <label>
-          Surname:
-          <input type="text" name="surname" value={userDetails.surname} onChange={handleChange} />
+          Password:
+          <input type="text" name="password" value={userDetails.password} onChange={handleChange} />
         </label>
         <label>
           Email:
           <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
         </label>
-        <button type="submit" className="save-button">Save</button>
+        
       </form>
       <ToastContainer />
-    </div></div>
+    </div>
+    <button type="submit" className="save-button">Save</button>
+    </div>
   );
 }
 

@@ -36,7 +36,6 @@ function Profile() {
             <img src={defaultAvatar} alt="Avatar" className="avatar" />
           </div>
           <p><strong>Username:</strong> {userDetails.username || loggedInUsername}</p>
-          <p><strong>Surname:</strong> {userDetails.surname || loggedInSurname}</p>
           <p><strong>Email:</strong> {userDetails.email || loggedInEmail}</p>
         </div>
         <Link to="/edit-profile">
