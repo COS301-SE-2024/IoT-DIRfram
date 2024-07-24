@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "test:backend": "jest --config jest.backend.config.js"
+    "test:backend": "jest --config jest.backend.config.js --coverage"
   },
   "keywords": [],
   "author": "",

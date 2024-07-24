@@ -29,7 +29,7 @@ const App = () => {
         <Route path="/device-list" element={<Layout><ProtectedRoute><Devices /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/raspberrypi" element={<Layout><ProtectedRoute><RaspberryPi /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/profile" element={<Layout><ProtectedRoute><Profile /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
-        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/edit-profile" element={<Layout><ProtectedRoute><EditProfile /></ProtectedRoute></Layout>} />
         <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
       </Routes>
     </RouterComponent>

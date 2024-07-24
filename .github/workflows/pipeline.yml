@@ -89,7 +89,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'
+        node-version: '20'
 
     - name: Cache Node.js dependencies
       uses: actions/cache@v2
@@ -107,6 +107,5 @@ jobs:
       run: npm test
       working-directory: frontend
       env:
-        CI: false 
+        CI: ""
       continue-on-error: true
-
