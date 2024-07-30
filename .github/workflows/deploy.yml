@@ -37,10 +37,10 @@ jobs:
 
             # Serve the frontend
             cd frontend
-            nmp i
+            npm install
             npm run build
-            pm2 stop my-app
-            pm2 start npx --name my-app -- serve -s build
+            pm2 stop frontend
+            pm2 start npx --name frontend -- serve -s build
 
             # Start the backend
             cd ../backend
