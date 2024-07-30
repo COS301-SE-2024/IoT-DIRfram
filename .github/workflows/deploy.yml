@@ -34,13 +34,13 @@ jobs:
             fi
 
             npm install -g pm2
-            npm install
 
             # Serve the frontend
             cd frontend
+            nmp i
             npm run build
-            pm2 stop frontend
-            pm2 start npx --name frontend -- serve -s build
+            pm2 stop my-app
+            pm2 start npx --name my-app -- serve -s build
 
             # Start the backend
             cd ../backend
