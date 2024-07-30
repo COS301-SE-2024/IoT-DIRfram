@@ -34,10 +34,19 @@ jobs:
             fi
 
             npm install -g pm2
+            npm install
+
+            # Serve the frontend
             cd frontend
-            server -s build &
+            npm run build
+            pm2 stop frontend
+            pm2 start npx --name frontend -- serve -s build
+
+            # Start the backend
             cd ../backend
-            pm2 start server.js --name my-app
+            pm2 stop backend
+            pm2 start server.js --name backend
+
             pm2 save
             pm2 startup
             echo 'Deployment successful'
