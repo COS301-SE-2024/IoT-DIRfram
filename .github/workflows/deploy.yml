@@ -33,10 +33,20 @@ jobs:
               cd IoT-DIRfram
             fi
 
+            npm install -g pm2
+
+            # Serve the frontend
             cd frontend
             npm install
-            npm start &
+            npm run build
+            pm2 stop frontend
+            pm2 start npx --name frontend -- serve -s build
+
+            # Start the backend
             cd ../backend
-            npm install
-            node server.js &
+            pm2 stop backend
+            pm2 start server.js --name backend
+
+            pm2 save
+            pm2 startup
             echo 'Deployment successful'
