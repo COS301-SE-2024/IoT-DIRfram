@@ -33,10 +33,26 @@ jobs:
               cd IoT-DIRfram
             fi
 
+            # Ensure PM2 is installed
+            npm install -g pm2
+
             cd frontend
             npm install
-            npm start &
+            npm run build
+
+            # Serve the React app using PM2
+            pm2 delete react-app || true
+            pm2 start npx --name react-app -- serve -s build -l 3000
+
             cd ../backend
             npm install
-            node server.js &
+
+            # Start the backend using PM2
+            pm2 delete backend || true
+            pm2 start server.js --name backend
+
+            # Save the PM2 process list and configure startup
+            pm2 save
+            pm2 startup
+
             echo 'Deployment successful'
