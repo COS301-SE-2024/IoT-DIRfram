@@ -19,6 +19,10 @@
 This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware 
 version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.
 
+
+## Website
+Follow [this link](http://165.227.161.136:3000) to access our deployed website.
+
 ## 🏅 Badges
 
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/COS301-SE-2024/IoT-DIRfram)
@@ -56,7 +60,8 @@ version, chip model, and voltage usage, compiling them into an XML format. This 
 
 ## 🎥 Demo Video
 #### Watch our project demos:
-Demo 1: [CodeCrafters-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
+- Demo 1: [CodeCrafters-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
+- Demo 2: [CodeCrafters-Demo2](https://drive.google.com/file/d/1iBnHdKHSudtYCWEkNKCwpGBSsQTjt_pv/view?usp=sharing)
 
 ## 📄 Functional Requirements (SRS) Document
 
