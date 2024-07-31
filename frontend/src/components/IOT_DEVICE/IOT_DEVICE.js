@@ -11,7 +11,7 @@ const IoT_Device = () => {
 
   const getDeviceFiles = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
+      const response = await axios.get('http://localhost:3000/device/getDeviceFiles', {
         params: { device_id: deviceId }
       });
       setDeviceFiles(response.data);

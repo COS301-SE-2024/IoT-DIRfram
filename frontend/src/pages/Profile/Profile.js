@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; 
 import Cookies from 'js-cookie';
 import { getUserProfile } from './ProfileConfig';
 import './Profile.css';
@@ -21,7 +22,6 @@ function Profile() {
     }
   }, []);
 
-  // Get login details from cookies
   const loggedInUsername = Cookies.get('username');
   const loggedInEmail = Cookies.get('email');
   const loggedInSurname = Cookies.get('surname');
@@ -36,9 +36,11 @@ function Profile() {
             <img src={defaultAvatar} alt="Avatar" className="avatar" />
           </div>
           <p><strong>Username:</strong> {userDetails.username || loggedInUsername}</p>
-          <p><strong>Surname:</strong> {userDetails.surname || loggedInSurname}</p>
           <p><strong>Email:</strong> {userDetails.email || loggedInEmail}</p>
         </div>
+        <Link to="/edit-profile">
+          <button className="edit-profile-button">Edit Profile</button>
+        </Link>
       </div>
     </div>
   );

@@ -37,10 +37,15 @@ jobs:
         run: npm install
         working-directory: ./frontend
 
-      - name: Run backend tests
+      - name: Run backend tests and collect coverage
         run: npm run test:backend
         working-directory: ./backend
 
-      - name: Run frontend tests
+      - name: Run frontend tests and collect coverage
         run: npm run test:frontend
         working-directory: ./frontend
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
