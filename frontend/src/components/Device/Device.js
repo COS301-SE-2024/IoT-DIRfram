@@ -1,30 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './Device.css'; // Create this file for styling
-import image from '../../assets/rpi.png'; // Create this file for image
+import Cookies from 'js-cookie';
+import './Device.css'; 
+import image from '../../assets/rpi.png'; 
 
 const Device = () => {
   const [devices, setDevices] = useState([]);
+  const [username, setUsername] = useState(''); 
+  var devicesArray = [];
 
   useEffect(() => {
+    const storedUsername = Cookies.get("username"); 
+    setUsername(storedUsername);
+
     const fetchDevices = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/device/devices`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/device/devicesForUser`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ storedUsername }),
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch devices');
         }
         const data = await response.json();
+        devicesArray = data;
         setDevices(data);
       } catch (error) {
         console.error('Error fetching devices:', error);
       }
     };
 
-    fetchDevices();
-  }, []);
+    if (username) {
+      fetchDevices();
+    }
+  }, [username]);
 
   return (
     <div className="devices-list">
+    <p>username: {username}</p>
+    <p>response: {devicesArray}</p>
       {devices.length === 0 ? (
         <p>You have no devices.</p>
       ) : (
