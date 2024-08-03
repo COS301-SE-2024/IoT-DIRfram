@@ -43,7 +43,7 @@ module.exports = (client) => {
     }
   });
   
-  router.get('/devicesForUser', async (req, res) => {
+  router.post('/devicesForUser', async (req, res) => {
     try {
       const { username } = req.body;
 
