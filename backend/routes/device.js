@@ -74,9 +74,18 @@ module.exports = (client) => {
     }
   });
 
-  router.get('/getDeviceFiles', async (req, res) => {
+  router.post('/getDeviceFiles', async (req, res) => {
     try{
-      const { device_id } = req.query;
+      const { device_id } = req.body;
+
+      //Find device in pi_devices database
+      const device = await piDevicesCollection.findOne({
+        _id: device_id,
+      });
+
+      if (!device) {
+        return res.status(400).json({ error: 'Device not found' });
+      }
 
       //Find files for device
       const files = await deviceFilesCollection
@@ -270,6 +279,37 @@ module.exports = (client) => {
       res.status(500).json({ error: 'Failed to delete file' });
     }
   });
+
+  router.post('/getVoltage', async (req, res) => {
+    try {
+      //with _id
+      const { _id } = req.body;
+
+      //convert to object id
+      var mongoose = require('mongoose');
+      var id = new mongoose.Types.ObjectId(_id);
+
+      //Find voltage in file_data database
+      const voltage = await deviceFilesCollection.findOne({
+        _id: id,
+      });
+
+      if (!voltage) {
+        return res.status(400).json({ error: 'File not found' });
+      }
+
+      //Construct json
+      const voltageDetails = {
+        voltage: voltage.voltage,
+      };
+
+      res.json(voltageDetails);
+
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch voltage' });
+    }
+  });
+  
 
   return router;
 };
