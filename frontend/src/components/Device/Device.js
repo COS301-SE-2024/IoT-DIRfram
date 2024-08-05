@@ -7,26 +7,26 @@ import image from '../../assets/rpi.png';
 const Device = () => {
   const [devices, setDevices] = useState([]);
   const [username, setUsername] = useState(''); 
-  var devicesArray = [];
 
   useEffect(() => {
     const storedUsername = Cookies.get("username"); 
     setUsername(storedUsername);
 
     const fetchDevices = async () => {
+      const body = JSON.stringify({ username: storedUsername }); // Construct the JSON body
+    
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/device/devicesForUser`, {
-          method: 'GET',
+          method: 'POST', // Change to POST
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ storedUsername }),
+          body: body, // Send the constructed body
         });
         if (!response.ok) {
           throw new Error('Failed to fetch devices');
         }
         const data = await response.json();
-        devicesArray = data;
         setDevices(data);
       } catch (error) {
         console.error('Error fetching devices:', error);
@@ -40,8 +40,6 @@ const Device = () => {
 
   return (
     <div className="devices-list">
-    <p>username: {username}</p>
-    <p>response: {devicesArray}</p>
       {devices.length === 0 ? (
         <p>You have no devices.</p>
       ) : (
