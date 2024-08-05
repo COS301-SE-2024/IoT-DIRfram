@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './EditProfile.css';
 import Header from '../../components/Header/Header';
-import defaultAvatar from '../../assets/profile.jpg'; 
+import defaultAvatar from '../../assets/profile1.jpg'; 
 
 function EditProfile() {
   const [userDetails, setUserDetails] = useState({
