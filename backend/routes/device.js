@@ -20,13 +20,17 @@ module.exports = (client) => {
   });
 
   router.get('/getDeviceName', async (req, res) => { 
+    console.log('Query params:', req.query);
     try {
-      const { device_id } = req.body;
+      const { device_id } = req.query;
+      console.log(device_id);
 
       //Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
+
+      console.log(device);
 
       if (!device) {
         return res.status(400).json({ error: 'Device not found' });
