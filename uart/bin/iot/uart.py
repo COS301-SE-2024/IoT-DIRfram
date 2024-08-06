@@ -7,9 +7,13 @@ from pymongo.server_api import ServerApi
 import os
 import xml.etree.ElementTree as ET
 from pymongo.errors import DuplicateKeyError
+import board
+import busio
+import adafruit_ads1x15.ads1115 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
 
 # MongoDB connection URI
-uri = "mongodb+srv://uart:testpassword@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
+uri = "mongodb+srv://uart:t*stp**sw**d@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
 
 def main():
     # Parse command line arguments
@@ -53,7 +57,8 @@ def main():
             print('Serial port closed.')
         
         check_garbage(log_filename)
-        upload_to_server(log_filename)
+        voltage_arr = get_voltage()
+        upload_to_server(log_filename, voltage_arr)
         xmlname = f'/usr/local/bin/iot/output_{formatted_time}.xml'
         create_xml(log_filename, xmlname)
 
@@ -89,7 +94,7 @@ def check_garbage(filepath):
         print(f"An error occurred: {e}")
 
     
-def upload_to_server(filepath):
+def upload_to_server(filepath, voltage_arr):
     # Create a new client and connect to the server
     # client = MongoClient(uri, server_api=ServerApi('1'))
     client = MongoClient(uri)
@@ -113,7 +118,8 @@ def upload_to_server(filepath):
             "content": file_content,
             "filename": file_path.split('/')[-1],  # Optional: Store the filename
             "device_name": device_name,
-            "device_serial_number": device_serial_number
+            "device_serial_number": device_serial_number,
+            "voltage": voltage_arr
         }
 
         device = {
@@ -181,6 +187,45 @@ def create_xml(filename, xmlname):
     tree.write(xmlname, encoding='utf-8', xml_declaration=True)
 
     print("XML file 'output.xml' has been created.")
+
+def get_voltage():
+    # Constants
+    VOLTAGE_PER_AMP = 1 / 20  # Adjust this value based on your sensor's specifications
+
+    # Initialize the I2C interface
+    i2c = busio.I2C(board.SCL, board.SDA)
+
+    # Create an ADS1115 object
+    ads = ADS.ADS1115(i2c)
+    ads.gain = 1  # Set gain to ±4.096V
+
+    # Define the analog input channel
+    channel0 = AnalogIn(ads, ADS.P0)
+
+    def getVoltage(pin):
+            return (pin.value) / 65536 * 3.3
+    
+    # Initialize an array to store current values
+    current_values = []
+
+    # Loop to read the analog input for 20 seconds
+    for _ in range(20):
+        voltage = getVoltage(channel0)  # Read voltage
+        current = voltage * 20  # Calculate current
+        current_values.append(current)  # Store current value in array
+        print(f"Analog Value 0: {channel0.value / 65536:.6f}, Voltage: {channel0.voltage:.6f}V, Current: {current:.6f}A")
+        time.sleep(1)  # Delay for 1 second
+
+    return current_values
+
+    # # Loop to read the analog input continuously
+    # while True:
+    #         voltage = getVoltage(channel0) #channel0.voltage
+    #         current = voltage * 20
+    #         print(f"Analog Value 0: {channel0.value / 65536:.6f}, Voltage: {channel0.voltage:.6f}V, Current: {current:.6f}A")
+    #         #print(getVoltage(channel0))
+    #         # Delay for 1 second
+    #         time.sleep(1)
 
 if __name__ == '__main__':
     main()
