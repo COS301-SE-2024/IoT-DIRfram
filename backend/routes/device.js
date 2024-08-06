@@ -43,27 +43,31 @@ module.exports = (client) => {
     }
   });
   
-  router.get('/devicesForUser', async (req, res) => {
+  // Change router.get to router.post to handle POST requests
+  router.post('/devicesForUser', async (req, res) => {
     try {
       const { username } = req.body;
 
-      //Find user in Auth database
-      const user = await usersCollection.findOne({
-        username,
-      });
+      // Check if the username is provided
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+      }
+
+      // Find user in Auth database
+      const user = await usersCollection.findOne({ username });
 
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
 
-      //Find devices assigned to user
+      // Find devices assigned to the user
       const devices = await usersToDevicesCollection
         .find({ username })
         .toArray();
-      
+
       const deviceIds = devices.map((device) => device.device_id);
 
-      //Find device details
+      // Find device details
       const devicesDetails = await piDevicesCollection
         .find({ _id: { $in: deviceIds } })
         .toArray();
