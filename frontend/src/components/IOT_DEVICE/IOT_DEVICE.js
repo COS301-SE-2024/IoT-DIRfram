@@ -163,10 +163,32 @@ const IoT_Device = () => {
           text: 'Current (A)' // Label for the Y-axis
         },
         min: 0, // Minimum value for the Y-axis
+        // ticks: {
+        //   callback: (value) => value.toFixed(6) // Format the Y-axis values to 6 decimal places
+        // }
       }
     },
     maintainAspectRatio: false, // Optional to maintain aspect ratio
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => {
+            // Format the tooltip value to 6 decimal places
+            return `Current (A): ${tooltipItem.raw.toFixed(6)}`;
+          }
+        }
+      }
+    }
   };
+
+  const calculateStats = (voltage) => {
+    const max = Math.max(...voltage).toFixed(6);
+    const min = Math.min(...voltage).toFixed(6);
+    const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
+  
+    return { max, min, avg };
+  };
+  
 
   return (
     <div className="devices-list">
@@ -203,6 +225,11 @@ const IoT_Device = () => {
                 <div style={{ height: '400px', width: '800px' }}>
                   <Line data={generateVoltageData(device.voltage)} options={options} />
                 </div>
+                <div className="stats">
+                <p><strong>Max Voltage:</strong> {calculateStats(device.voltage).max}</p>
+                <p><strong>Min Voltage:</strong> {calculateStats(device.voltage).min}</p>
+                <p><strong>Average Voltage:</strong> {calculateStats(device.voltage).avg}</p>
+              </div>
               </div>
             )}
             </div>
