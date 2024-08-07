@@ -166,6 +166,55 @@ module.exports = (client) => {
     }
   });
 
+  router.post('/updateDeviceName', async (req, res) => {
+    try {
+      const { device_id, device_name, username } = req.body;
+  
+      // Check if username is provided
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+      }
+  
+      // Check if device_id is provided
+      if (!device_id) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+  
+      // Check if device_name is provided
+      if (!device_name) {
+        return res.status(400).json({ error: 'Device name is required' });
+      }
+  
+      // Find user in Auth database
+      const user = await usersCollection.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Check if the device is assigned to the user
+      const userToDevice = await usersToDevicesCollection.findOne({
+        username,
+        device_id,
+      });
+  
+      if (!userToDevice) {
+        return res.status(404).json({ error: 'Device not assigned to user' });
+      }
+  
+      // Update the device name in users_devices collection
+      await usersToDevicesCollection.updateOne(
+        { username, device_id },
+        { $set: { device_name } }
+      );
+  
+      return res.status(200).json({ message: 'Device name updated successfully' });
+    } catch (err) {
+      console.error('Failed to update device name:', err);
+      res.status(500).json({ error: 'Failed to update device name due to server error' });
+    }
+  });
+  
   router.post('/removeDeviceFromUser', async (req, res) => {
     try {
       const { device_id, username } = req.body;
