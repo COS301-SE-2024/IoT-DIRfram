@@ -221,14 +221,14 @@ const IoT_Device = () => {
               </div>
               {device.voltage && device.voltage.length > 0 && (
               <div className='voltage-chart'>
-                <h3>Voltage Data</h3>
+                <h3>Current Data</h3>
                 <div style={{ height: '400px', width: '800px' }}>
                   <Line data={generateVoltageData(device.voltage)} options={options} />
                 </div>
                 <div className="stats">
-                <p><strong>Max Voltage:</strong> {calculateStats(device.voltage).max}</p>
-                <p><strong>Min Voltage:</strong> {calculateStats(device.voltage).min}</p>
-                <p><strong>Average Voltage:</strong> {calculateStats(device.voltage).avg}</p>
+                <p><strong>Max Current:</strong> {calculateStats(device.voltage).max}</p>
+                <p><strong>Min Current:</strong> {calculateStats(device.voltage).min}</p>
+                <p><strong>Average Current:</strong> {calculateStats(device.voltage).avg}</p>
               </div>
               </div>
             )}
