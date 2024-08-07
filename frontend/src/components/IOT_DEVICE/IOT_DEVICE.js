@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
 import axios from 'axios';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const IoT_Device = () => {
   const [devices, setDeviceFiles] = useState([]);
@@ -118,6 +130,66 @@ const IoT_Device = () => {
     return serializer.serializeToString(root);
   };
 
+  const generateVoltageData = (voltage) => {
+    return {
+      labels: voltage.map((_, index) => `Point ${index + 1}`),
+      datasets: [
+        {
+          label: 'Current (A)',
+          data: voltage,
+          fill: true,
+          backgroundColor: 'rgba(75,192,192,0.2)',
+          borderColor: 'rgba(75,192,192,1)',
+        }
+      ]
+    };
+  };
+
+  const options = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Data Points' // Label for the X-axis
+        },
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 10 // Limit the number of ticks on the X-axis
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Current (A)' // Label for the Y-axis
+        },
+        min: 0, // Minimum value for the Y-axis
+        // ticks: {
+        //   callback: (value) => value.toFixed(6) // Format the Y-axis values to 6 decimal places
+        // }
+      }
+    },
+    maintainAspectRatio: false, // Optional to maintain aspect ratio
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => {
+            // Format the tooltip value to 6 decimal places
+            return `Current (A): ${tooltipItem.raw.toFixed(6)}`;
+          }
+        }
+      }
+    }
+  };
+
+  const calculateStats = (voltage) => {
+    const max = Math.max(...voltage).toFixed(6);
+    const min = Math.min(...voltage).toFixed(6);
+    const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
+  
+    return { max, min, avg };
+  };
+  
+
   return (
     <div className="devices-list">
       {devices.length === 0 ? (
@@ -147,6 +219,19 @@ const IoT_Device = () => {
                   <pre className="device-content">{device.content}</pre>
                 </div>
               </div>
+              {device.voltage && device.voltage.length > 0 && (
+              <div className='voltage-chart'>
+                <h3>Voltage Data</h3>
+                <div style={{ height: '400px', width: '800px' }}>
+                  <Line data={generateVoltageData(device.voltage)} options={options} />
+                </div>
+                <div className="stats">
+                <p><strong>Max Voltage:</strong> {calculateStats(device.voltage).max}</p>
+                <p><strong>Min Voltage:</strong> {calculateStats(device.voltage).min}</p>
+                <p><strong>Average Voltage:</strong> {calculateStats(device.voltage).avg}</p>
+              </div>
+              </div>
+            )}
             </div>
           </div>
         ))
