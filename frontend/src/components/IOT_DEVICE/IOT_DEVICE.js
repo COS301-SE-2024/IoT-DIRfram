@@ -181,7 +181,7 @@ const IoT_Device = () => {
     const max = Math.max(...voltage).toFixed(6);
     const min = Math.min(...voltage).toFixed(6);
     const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
-  
+
     return { max, min, avg };
   };
 
@@ -194,6 +194,23 @@ const IoT_Device = () => {
     setIsModalOpen(false);
     setSelectedDevice(null);
   };
+
+  const downloadVoltageAsCsv = (voltage, filename) => {
+    let csvContent = "data:text/csv;charset=utf-8,Point,Current (A)\n";
+    voltage.forEach((value, index) => {
+      csvContent += `${index + 1},${value.toFixed(6)}\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    const csvFilename = filename.slice(0, -4) + '_voltage.csv';
+    link.setAttribute('download', csvFilename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="devices-list">
       {devices.length === 0 ? (
@@ -203,8 +220,8 @@ const IoT_Device = () => {
           .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
           .map((device, index) => (
             <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
-              <h3  className="filename">
-                Device {index + 1}<br/> {extractTimeFromFilename(device.filename)}
+              <h3 className="filename">
+                Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
               </h3>
             </div>
           ))
@@ -220,10 +237,13 @@ const IoT_Device = () => {
             <div className="modal-body">
               <div className="buttons-container">
                 <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                  Download File: <FontAwesomeIcon icon={faDownload} size="2x" />
+                  Download File <FontAwesomeIcon icon={faDownload} size="2x" />
                 </button>
                 <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-                  Delete Info: <FontAwesomeIcon icon={faTrashAlt} size="2x" />
+                  Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
+                </button>
+                <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
+                  Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
                 </button>
               </div>
               <div className='device-container'>
@@ -240,18 +260,18 @@ const IoT_Device = () => {
                   </div>
                 </div>
                 {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
-                <div className='voltage-chart'>
-                  <h3>Current Data</h3>
-                  <div style={{ height: '400px', width: '800px' }}>
-                    <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
+                  <div className='voltage-chart'>
+                    <h3>Current Data</h3>
+                    <div style={{ height: '400px', width: '800px' }}>
+                      <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
+                    </div>
+                    <div className="stats">
+                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
+                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
+                      <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
+                    </div>
                   </div>
-                  <div className="stats">
-                    <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-                    <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
-                    <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
-                  </div>
-                </div>
-              )}
+                )}
               </div>
             </div>
           </div>

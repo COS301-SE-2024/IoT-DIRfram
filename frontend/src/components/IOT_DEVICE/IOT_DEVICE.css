@@ -46,6 +46,10 @@
     color: #792E2E; /* Red color for delete button */
   }
 
+  .green-button {
+    color: #4BC0C0; /* Green color for edit button */
+  }
+
   .content-window {
     max-height: calc(15 * 1.2em); /* Adjust line height as needed */
     overflow-y: auto;
