@@ -23,6 +23,18 @@ module.exports = (client) => {
         return res.status(400).json({ message: 'Passwords do not match' });
       }
 
+      //Check e-mail
+      const emailExists = await usersCollection.findOne({ email });
+      if (emailExists) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+
+      //Check username
+      const usernameExists = await usersCollection.findOne({ username });
+      if (usernameExists) {
+        return res.status(400).json({ message: 'Username already taken' });
+      }
+
       const salt = generateSalt();
       const hashedPassword = hashPassword(password, salt);
 

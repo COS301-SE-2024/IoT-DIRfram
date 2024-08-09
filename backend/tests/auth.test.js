@@ -110,4 +110,45 @@ describe('Auth API', () => {
     expect(response.status).toBe(400);
     expect(response.text).toBe('Email already exists');
   });
+
+  test('should not register a user with an existing username', async () => {
+    const newUser = {
+      username: 'testuser',
+      email: 'testuser2@example.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    };
+  
+    const response = await request(app).post('/auth/register').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Username already taken');
+  });
+
+  test('should not register a user with an existing email', async () => {
+    const newUser = {
+      username: 'testuser2',
+      email: 'testuser@example.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    };
+  
+    const response = await request(app).post('/auth/register').send(newUser);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Email already exists');
+  });
+
+  test('should not login with a non-existing username', async () => {
+    const loginData = {
+      username: 'nonexistinguser',
+      password: 'password123',
+    };
+  
+    const response = await request(app).post('/auth/login').send(loginData);
+    expect(response.status).toBe(400);
+    expect(response.text).toBe('Invalid credentials');
+  });
+
+
+
+
 });
