@@ -46,6 +46,10 @@
     color: #792E2E; /* Red color for delete button */
   }
 
+  .green-button {
+    color: #4BC0C0; /* Green color for edit button */
+  }
+
   .content-window {
     max-height: calc(15 * 1.2em); /* Adjust line height as needed */
     overflow-y: auto;
@@ -91,3 +95,69 @@
     flex-grow: 1; /* This will push the delete button to the right */
     text-align: center;
   }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    max-width: 90%;
+    width: 90%;
+    height: 90%;
+    overflow: hidden;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .modal-header {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-body {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .device-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .left-container, .right-container {
+    width: 45%;
+  }
+  
+  .voltage-chart {
+    margin-top: 20px;
+  }
+  
+  .content-window {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+
+  .device-item:hover {
+    cursor: pointer;
+  }
+  

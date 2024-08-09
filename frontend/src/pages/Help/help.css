@@ -36,8 +36,8 @@
   color: black;
   /* display: flex; */
   justify-content: center;
-  align-items: center;
-  width: 70%;
+  /* align-items: center;
+  width: 70%; */
 }
 
 .carousel-root {

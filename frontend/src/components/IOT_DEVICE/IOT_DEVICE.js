@@ -18,8 +18,10 @@ ChartJS.register(
 
 const IoT_Device = () => {
   const [devices, setDeviceFiles] = useState([]);
-  const [setError] = useState(null);
+  const [error, setError] = useState(null);
   const [deviceId] = useState("1000000013dcc3ed");
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getDeviceFiles = async () => {
     try {
@@ -54,10 +56,9 @@ const IoT_Device = () => {
   const handleDelete = async (id) => {
     console.log(`Delete device with ID: ${id}`);
 
-    // Ask for confirmation
     const confirmed = window.confirm("Are you sure you want to delete this device?");
     if (!confirmed) {
-      return; // Do nothing if user cancels
+      return;
     }
     try {
       const response = await axios.delete('http://localhost:3001/device/deleteFile', {
@@ -120,7 +121,6 @@ const IoT_Device = () => {
       const sectionElement = document.createElement(`section_${index + 1}`);
       sectionElement.textContent = sectionContentWithSpaces;
       root.appendChild(sectionElement);
-      // Add two newline characters after each section's content
       if (index < sections.length - 1) {
         const newlineElement = document.createTextNode("\n\n");
         root.appendChild(newlineElement);
@@ -150,30 +150,26 @@ const IoT_Device = () => {
       x: {
         title: {
           display: true,
-          text: 'Data Points' // Label for the X-axis
+          text: 'Data Points'
         },
         ticks: {
           autoSkip: true,
-          maxTicksLimit: 10 // Limit the number of ticks on the X-axis
+          maxTicksLimit: 10
         }
       },
       y: {
         title: {
           display: true,
-          text: 'Current (A)' // Label for the Y-axis
+          text: 'Current (A)'
         },
-        min: 0, // Minimum value for the Y-axis
-        // ticks: {
-        //   callback: (value) => value.toFixed(6) // Format the Y-axis values to 6 decimal places
-        // }
+        min: 0,
       }
     },
-    maintainAspectRatio: false, // Optional to maintain aspect ratio
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
           label: (tooltipItem) => {
-            // Format the tooltip value to 6 decimal places
             return `Current (A): ${tooltipItem.raw.toFixed(6)}`;
           }
         }
@@ -185,56 +181,101 @@ const IoT_Device = () => {
     const max = Math.max(...voltage).toFixed(6);
     const min = Math.min(...voltage).toFixed(6);
     const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
-  
+
     return { max, min, avg };
   };
-  
+
+  const handleItemClick = (device) => {
+    setSelectedDevice(device);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedDevice(null);
+  };
+
+  const downloadVoltageAsCsv = (voltage, filename) => {
+    let csvContent = "data:text/csv;charset=utf-8,Point,Current (A)\n";
+    voltage.forEach((value, index) => {
+      csvContent += `${index + 1},${value.toFixed(6)}\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    const csvFilename = filename.slice(0, -4) + '_voltage.csv';
+    link.setAttribute('download', csvFilename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="devices-list">
       {devices.length === 0 ? (
         <p>No IoT devices connected.</p>
       ) : (
-        devices.map((device, index) => (
-          <div key={index} className="device-item">
-            <div className="buttons-container">
-              <button className="icon-button edit-button" onClick={() => downloadFile(device.content, device.filename)}>
-                Download FIle: <FontAwesomeIcon icon={faDownload} size="2x" />
-              </button>
-              <div className="spacer"><h3>IoT Device {index + 1}</h3></div> {/* Add a spacer */}
-              <button className="icon-button delete-button" onClick={() => handleDelete(device._id)}>
-                Delete Info: <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-              </button>
+        devices
+          .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
+          .map((device, index) => (
+            <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
+              <h3 className="filename">
+                Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
+              </h3>
             </div>
-            <div className='device-container'>
-              <div className='left-container'>
-                <h2>Extracted from: {device.device_name}</h2>
-                <p><strong>Extracted Time: </strong>{extractTimeFromFilename(device.filename)}</p>
-                <h3>Firmware and Chip information:</h3>
-                <pre className="device-content">{extractSegmentedContent(device.content)}</pre>
+          ))
+      )}
+
+      {isModalOpen && selectedDevice && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Device Details</h2>
+              <button onClick={closeModal}>Close</button>
+            </div>
+            <div className="modal-body">
+              <div className="buttons-container">
+                <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
+                  Download File <FontAwesomeIcon icon={faDownload} size="2x" />
+                </button>
+                <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+                  Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
+                </button>
+                <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
+                  Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
+                </button>
               </div>
-              <div className='right-container'>
-                <h3>Full Content</h3>
-                <div className="content-window">
-                  <pre className="device-content">{device.content}</pre>
+              <div className='device-container'>
+                <div className='left-container'>
+                  <h2>Extracted from: {selectedDevice.device_name}</h2>
+                  <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
+                  <h3>Firmware and Chip information:</h3>
+                  <pre className="device-content">{extractSegmentedContent(selectedDevice.content)}</pre>
                 </div>
-              </div>
-              {device.voltage && device.voltage.length > 0 && (
-              <div className='voltage-chart'>
-                <h3>Voltage Data</h3>
-                <div style={{ height: '400px', width: '800px' }}>
-                  <Line data={generateVoltageData(device.voltage)} options={options} />
+                <div className='right-container'>
+                  <h3>Full Content</h3>
+                  <div className="content-window">
+                    <pre className="device-content">{selectedDevice.content}</pre>
+                  </div>
                 </div>
-                <div className="stats">
-                <p><strong>Max Voltage:</strong> {calculateStats(device.voltage).max}</p>
-                <p><strong>Min Voltage:</strong> {calculateStats(device.voltage).min}</p>
-                <p><strong>Average Voltage:</strong> {calculateStats(device.voltage).avg}</p>
+                {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
+                  <div className='voltage-chart'>
+                    <h3>Current Data</h3>
+                    <div style={{ height: '400px', width: '800px' }}>
+                      <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
+                    </div>
+                    <div className="stats">
+                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
+                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
+                      <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
+                    </div>
+                  </div>
+                )}
               </div>
-              </div>
-            )}
             </div>
           </div>
-        ))
+        </div>
       )}
     </div>
   );
