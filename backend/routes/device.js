@@ -107,6 +107,16 @@ module.exports = (client) => {
     try {
       const { device_id, deviceName } = req.body;
 
+      //check if device_id is provided
+      if (!device_id) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+
+      //check if deviceName is provided
+      if (!deviceName) {
+        return res.status(400).json({ error: 'Device name is required' });
+      }
+
       //Check if device already exists
       const device = await piDevicesCollection.findOne({
         _id: device_id,

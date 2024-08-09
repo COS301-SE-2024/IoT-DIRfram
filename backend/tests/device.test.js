@@ -149,4 +149,37 @@ describe('Device API', () => {
     expect(response.status).toBe(400);
     expect(response.body.error).toBe('Device not found');
   });
+
+  test('should return an error if username is not provided in devicesForUser', async () => {
+    const response = await request(app).post('/device/devicesForUser').send({});
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Username is required');
+  });
+
+  test('should return an error if device_id is missing in addDevice', async () => {
+    const response = await request(app).post('/device/addDevice').send({ deviceName: 'New Device' });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Device ID is required');
+  });
+
+  test('should return an error if deviceName is missing in addDevice', async () => {
+    const response = await request(app).post('/device/addDevice').send({ device_id: 'device1234' });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Device name is required');
+  });
+
+  test('should return an error if device_id is invalid in updateDeviceName', async () => {
+    const response = await request(app).post('/device/updateDeviceName').send({ device_id: 'invalid_id', device_name: 'New Name', username: 'testuser' });
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe('Device not assigned to user');
+  }); 
+
+  test('should return an error if device_id is missing in updateDeviceName', async () => {
+    const response = await request(app).post('/device/updateDeviceName').send({ device_name: 'New Name', username: 'testuser' });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Device ID is required');
+  });
+  
+  
+  
 });
