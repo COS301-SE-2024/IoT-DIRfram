@@ -180,6 +180,18 @@ describe('Device API', () => {
     expect(response.body.error).toBe('Device ID is required');
   });
   
+  test('should return an error if device_name is missing in updateDeviceName', async () => {
+    const response = await request(app).post('/device/updateDeviceName').send({ device_id: 'device123', username: 'testuser' });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Device name is required');
+  });
+  
+  test('should return an error if file_id is invalid in deleteFile', async () => {
+    const response = await request(app).delete('/device/deleteFile').send({ file_id: testID });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('File does not exist');
+  });
+  
   
   
 });
