@@ -3,6 +3,8 @@ import './Dashboard.css';
 import Device from '../../components/Device/Device';
 import Header from '../../components/Header/Header';
 import Modal from './Modal';
+import Cookies from 'js-cookie';
+
 
 const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,10 +17,34 @@ const Dashboard = () => {
     setShowModal(false);
   };
 
-  const handleSaveDevice = (deviceName) => {
-    console.log('Device added:', deviceName);
-    // Handle the logic to add the device (e.g., update state, make API call, etc.)
-  };
+  const handleSaveDevice = async (deviceId) => {
+    const username = Cookies.get("username"); // Get the username from cookies
+  
+    const body = JSON.stringify({ device_id: deviceId, username });
+  
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/device/addDeviceToUser`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add device');
+      }
+  
+      const data = await response.json();
+      console.log(data.message); // Log success message
+      // Reload the page to reflect changes
+      window.location.reload();
+    } catch (error) {
+      console.error('Error adding device:', error);
+      // Reload the page to reflect changes
+      window.location.reload();
+    }
+  };  
 
   return (
     <div className="dashboard">
