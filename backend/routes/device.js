@@ -46,37 +46,42 @@ module.exports = (client) => {
       res.status(500).json({ error: 'Failed to fetch device name' });
     }
   });
-  
-  // Change router.get to router.post to handle POST requests
+
   router.post('/devicesForUser', async (req, res) => {
     try {
       const { username } = req.body;
-
+  
       // Check if the username is provided
       if (!username) {
         return res.status(400).json({ error: 'Username is required' });
       }
-
+  
       // Find user in Auth database
       const user = await usersCollection.findOne({ username });
-
+  
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
-
+  
       // Find devices assigned to the user
-      const devices = await usersToDevicesCollection
-        .find({ username })
-        .toArray();
-
+      const devices = await usersToDevicesCollection.find({ username }).toArray();
+  
+      console.log(devices);
       const deviceIds = devices.map((device) => device.device_id);
-
+  
       // Find device details
-      const devicesDetails = await piDevicesCollection
-        .find({ _id: { $in: deviceIds } })
-        .toArray();
-
-      res.json(devicesDetails);
+      const devicesDetails = await piDevicesCollection.find({ _id: { $in: deviceIds } }).toArray();
+  
+      // Append device_name from devices array to devicesDetails as custom_name
+      const updatedDevicesDetails = devicesDetails.map(deviceDetail => {
+        const associatedDevice = devices.find(device => device.device_id === deviceDetail._id.toString());
+        return {
+          ...deviceDetail,
+          custom_name: associatedDevice ? associatedDevice.device_name : null, // Append device_name as custom_name
+        };
+      });
+  
+      res.json(updatedDevicesDetails);
     } catch (err) {
       res.status(500).json({ error: 'Failed to fetch devices' });
     }
