@@ -16,10 +16,9 @@ ChartJS.register(
   Legend
 );
 
-const IoT_Device = () => {
+const IoT_Device = ({ deviceId }) => {
   const [devices, setDeviceFiles] = useState([]);
   const [error, setError] = useState(null);
-  const [deviceId] = useState("1000000013dcc3ed");
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,9 +36,10 @@ const IoT_Device = () => {
   };
 
   useEffect(() => {
-    getDeviceFiles();
-    // eslint-disable-next-line
-  }, []);
+    if (deviceId) {
+      getDeviceFiles();
+    }
+  }, [deviceId]);
 
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
@@ -54,24 +54,18 @@ const IoT_Device = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(`Delete device with ID: ${id}`);
-
     const confirmed = window.confirm("Are you sure you want to delete this device?");
     if (!confirmed) {
       return;
     }
     try {
-      const response = await axios.delete('http://localhost:3001/device/deleteFile', {
-        data: {
-          file_id: id
-        }
+      await axios.delete('http://localhost:3001/device/deleteFile', {
+        data: { file_id: id }
       });
-      console.log('Delete device response:', response.data);
+      setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
     } catch (error) {
       console.error('Error deleting device:', error);
     }
-
-    getDeviceFiles();
   };
 
   const downloadFile = (content, filename) => {
@@ -210,7 +204,7 @@ const IoT_Device = () => {
     link.click();
     document.body.removeChild(link);
   };
-
+  
   return (
     <div className="devices-list">
       {devices.length === 0 ? (
