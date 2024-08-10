@@ -10,8 +10,12 @@ import defaultAvatar from '../../assets/profile1.jpg';
 function EditProfile() {
   const [userDetails, setUserDetails] = useState({
     username: Cookies.get('username') || '',
-    password: Cookies.get('password') || '',
-    email: Cookies.get('email') || ''
+    password: '',
+    confirmPassword: '',
+    email: Cookies.get('email') || '',
+    name: Cookies.get('name') || '',
+    surname: Cookies.get('surname') || '',
+    age: Cookies.get('age') || '',
   });
 
   const navigate = useNavigate();
@@ -21,15 +25,66 @@ function EditProfile() {
     setUserDetails({ ...userDetails, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Call an API to update the user details
-    console.log('Updated Details:', userDetails);
-    
-    toast.success('Changes saved', {
-      position: "top-center", // Use string directly for position
-      onClose: () => navigate('/dashboard') // Redirect to the dashboard after closing the toast
-    });
+
+    if (userDetails.password !== userDetails.confirmPassword) {
+      toast.error('Passwords do not match', {
+        position: 'top-center',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/updateUserDetails`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentUsername: Cookies.get('username'),
+          newUsername: userDetails.username,
+          newEmail: userDetails.email,
+          newPassword: userDetails.password,
+          confirmNewPassword: userDetails.confirmPassword,
+          name: userDetails.name,
+          surname: userDetails.surname,
+          age: userDetails.age,
+        }),
+      });
+
+      console.log('Update profile response:', response);
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Save updated details in cookies
+        Cookies.set('username', userDetails.username, { expires: 7 });
+        Cookies.set('email', userDetails.email, { expires: 7 });
+        Cookies.set('name', userDetails.name, { expires: 7 });
+        Cookies.set('surname', userDetails.surname, { expires: 7 });
+        Cookies.set('age', userDetails.age, { expires: 7 });
+
+        toast.success('Changes saved', {
+          position: 'top-center',
+          onClose: () => navigate('/profile'),
+        });
+      } else {
+        const errorData = await response.json();
+        toast.error(`Failed to save changes: ${errorData.message}`, {
+          position: 'top-center',
+        });
+      }
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      toast.error('An error occurred. Please try again later.', {
+        position: 'top-center',
+      });
+    }
+  };
+
+  const handleClose = () => {
+    navigate('/profile');
   };
 
   return (
@@ -37,27 +92,46 @@ function EditProfile() {
       <Header />
       <h1 style={{ textAlign: 'center' }}>Edit Profile</h1>
       <div className="profile-container">
-      <div className="avatar-container">
-            <img src={defaultAvatar} alt="Avatar" className="avatar" />
+        <div className="avatar-container">
+          <img src={defaultAvatar} alt="Avatar" className="avatar" />
+        </div>
+        <form className="edit-profile-form" onSubmit={handleSubmit}>
+          <label>
+            Username:
+            <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
+          </label>
+          <label>
+            Change Password:
+            <input type="password" name="password" value={userDetails.password} onChange={handleChange} />
+          </label>
+          <label>
+            Confirm Password:
+            <input type="password" name="confirmPassword" value={userDetails.confirmPassword} onChange={handleChange} />
+          </label>
+          <label>
+            Email:
+            <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
+          </label>
+          <label>
+            Name (optional):
+            <input type="text" name="name" value={userDetails.name} onChange={handleChange} />
+          </label>
+          <label>
+            Surname (optional):
+            <input type="text" name="surname" value={userDetails.surname} onChange={handleChange} />
+          </label>
+          <label>
+            Age (optional):
+            <input type="number" name="age" value={userDetails.age} onChange={handleChange} />
+          </label>
+          <div className="button-container">
+          {/* className="save-button" */}
+            <button type="submit" >Save</button>
+            <button type="button" className="close-button" onClick={handleClose}>Close</button>
           </div>
-      <form className="edit-profile-form" onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
-        </label>
-        <label>
-          Password:
-          <input type="text" name="password" value={userDetails.password} onChange={handleChange} />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
-        </label>
-        
-      </form>
-      <ToastContainer />
-    </div>
-    <button type="submit" className="save-button">Save</button>
+        </form>
+        <ToastContainer />
+      </div>
     </div>
   );
 }
