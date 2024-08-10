@@ -112,6 +112,7 @@ const Device = () => {
       {devices.length === 0 ? (
         <p>You have no devices.</p>
       ) : (
+
         devices.map((device) => (
           <div className="device" key={device._id}>
             <div className='device-outer-container'>
