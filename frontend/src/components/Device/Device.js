@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import './Device.css'; 
-import image from '../../assets/rpi.png'; 
+import './Device.css';
+import image from '../../assets/rpi.png';
 
 const Device = () => {
   const [devices, setDevices] = useState([]);
-  const [username, setUsername] = useState(''); 
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    const storedUsername = Cookies.get("username"); 
+    const storedUsername = Cookies.get("username");
     setUsername(storedUsername);
 
     const fetchDevices = async () => {
-      const body = JSON.stringify({ username: storedUsername }); 
-    
+      const body = JSON.stringify({ username: storedUsername });
+
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/device/devicesForUser`, {
           method: 'POST',
@@ -45,7 +45,7 @@ const Device = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ deviceId, username }), 
+        body: JSON.stringify({ deviceId, username }),
       });
 
       if (!response.ok) {
@@ -58,6 +58,7 @@ const Device = () => {
     }
   };
 
+
   const handleEdit = (deviceId) => {
     // Add logic to handle editing the device
     console.log(`Editing device: ${deviceId}`);
@@ -68,12 +69,17 @@ const Device = () => {
       {devices.length === 0 ? (
         <p>You have no devices.</p>
       ) : (
+
         devices.map((device) => (
           <div className="device" key={device._id}>
             <div className='device-outer-container'>
               <h2 className='header-2'>Device</h2>
               <div className="device-container">
-                <Link to="/raspberrypi" className="device-link">
+                <Link
+                  to="/raspberrypi" // Change to direct path
+                  className="device-link"
+                  onClick={() => Cookies.set('deviceId', device._id)} // Set deviceId in cookies
+                >
                   <img src={image} alt="Device" className="device-image" />
                   <div className="device-info">
                     <p><strong>Device Name:</strong> {device.device_name}</p>
