@@ -10,7 +10,7 @@ import RaspberryPi from './pages/RaspberryPi/RaspberryPi';
 import Profile from './pages/Profile/Profile';
 import Settings from './pages/Settings/Settings';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import Layout from './pages/Help/Layout'; // Import your Layout component
+import Layout from './pages/Help/Layout';
 import EditProfile from './pages/Edit-Profile/EditProfile';
 import './App.css';
 

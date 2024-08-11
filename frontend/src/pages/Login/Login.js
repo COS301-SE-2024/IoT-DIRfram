@@ -33,6 +33,7 @@ const Login = () => {
         })
         .then(data => {
           Cookies.set('session', data.sessionId, { expires: 1 }); // Set session cookie for 1 day
+          Cookies.set('username', username, { expires: 1 }); // Set session cookie for 1 day
           navigate('/dashboard'); // Redirect to dashboard
         })
         .catch(err => {

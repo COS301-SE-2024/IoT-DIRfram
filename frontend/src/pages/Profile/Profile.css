@@ -1,58 +1,70 @@
 .profile-container {
-    display: flex;
-    max-width: 700px;
-    margin: 100px auto;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #f0f0f017; 
-    border: 2px solid #2f314653; 
-    border-radius: 4px; 
-    transition: transform 1s ease;
-  }
-  
-  .profile-container:hover{
-    background-color: #f0f0f01c; 
-    transform: scale(1.05); 
-  }
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f017; 
+  border: 2px solid #2f314653; 
+  border-radius: 4px; 
+  transition: transform 1s ease;
+}
 
-  .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .avatar {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 100%; 
-    border: 2px solid #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-details {
-    text-align: center;
-    padding: 10px;
-    border-radius: 4px;
-    transition: transform 1s ease;
-  }
+.profile-container:hover {
+  background-color: #f0f0f01c; 
+  transform: scale(1.05); 
+}
 
-  .profile-details:hover {
-    transform: scale(1.1); 
-  }
-  
-  .edit-profile-button {
-    background-color: rgb(113, 147, 158);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
+.text-container {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.text-left, .text-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.text-left p, .text-right p {
+  margin: 5px 0;
+}
+
+.text-right {
+  padding-left: 20px;
+  color: rgb(181, 181, 181);
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  color: rgb(215, 215, 215);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 100%; 
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-button {
+  background-color: rgb(113, 147, 158);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+

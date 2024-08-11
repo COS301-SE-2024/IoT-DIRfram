@@ -26,7 +26,7 @@ function Splash() {
             <div className="content">
               <h1>Welcome to IoT-DIRfram</h1>
               <h2>We are Code Crafters</h2>
-              <p>This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.</p>
+              <p className='p-splash'>This project aims to develop software for a Raspberry Pi that automatically executes when connected via USB or UART to retrieve information from an IoT device. The software will gather details such as firmware version, chip model, and voltage usage, compiling them into an XML format. This information can be stored onboard the Raspberry Pi or transmitted to another system for analysis.</p>
               <header className="buttons">
                 <Link to="/login" className="login-btn">Login</Link>
                 <Link to="/signup" className="signup-btn">Signup</Link>

@@ -20,13 +20,17 @@ module.exports = (client) => {
   });
 
   router.get('/getDeviceName', async (req, res) => { 
+    // console.log('Query params:', req.query);
     try {
-      const { device_id } = req.body;
+      const { device_id } = req.query;
+      // console.log(device_id);
 
       //Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
+
+      // console.log(device);
 
       if (!device) {
         return res.status(400).json({ error: 'Device not found' });
@@ -42,33 +46,42 @@ module.exports = (client) => {
       res.status(500).json({ error: 'Failed to fetch device name' });
     }
   });
-  
-  router.get('/devicesForUser', async (req, res) => {
+
+  router.post('/devicesForUser', async (req, res) => {
     try {
       const { username } = req.body;
-
-      //Find user in Auth database
-      const user = await usersCollection.findOne({
-        username,
-      });
-
+  
+      // Check if the username is provided
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+      }
+  
+      // Find user in Auth database
+      const user = await usersCollection.findOne({ username });
+  
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
-
-      //Find devices assigned to user
-      const devices = await usersToDevicesCollection
-        .find({ username })
-        .toArray();
-      
+  
+      // Find devices assigned to the user
+      const devices = await usersToDevicesCollection.find({ username }).toArray();
+  
+      // console.log(devices);
       const deviceIds = devices.map((device) => device.device_id);
-
-      //Find device details
-      const devicesDetails = await piDevicesCollection
-        .find({ _id: { $in: deviceIds } })
-        .toArray();
-
-      res.json(devicesDetails);
+  
+      // Find device details
+      const devicesDetails = await piDevicesCollection.find({ _id: { $in: deviceIds } }).toArray();
+  
+      // Append device_name from devices array to devicesDetails as custom_name
+      const updatedDevicesDetails = devicesDetails.map(deviceDetail => {
+        const associatedDevice = devices.find(device => device.device_id === deviceDetail._id.toString());
+        return {
+          ...deviceDetail,
+          custom_name: associatedDevice ? associatedDevice.device_name : null, // Append device_name as custom_name
+        };
+      });
+  
+      res.json(updatedDevicesDetails);
     } catch (err) {
       res.status(500).json({ error: 'Failed to fetch devices' });
     }
@@ -93,6 +106,16 @@ module.exports = (client) => {
   router.post('/addDevice', async (req, res) => {
     try {
       const { device_id, deviceName } = req.body;
+
+      //check if device_id is provided
+      if (!device_id) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+
+      //check if deviceName is provided
+      if (!deviceName) {
+        return res.status(400).json({ error: 'Device name is required' });
+      }
 
       //Check if device already exists
       const device = await piDevicesCollection.findOne({
@@ -162,6 +185,55 @@ module.exports = (client) => {
     }
   });
 
+  router.post('/updateDeviceName', async (req, res) => {
+    try {
+      const { device_id, device_name, username } = req.body;
+  
+      // Check if username is provided
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+      }
+  
+      // Check if device_id is provided
+      if (!device_id) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+  
+      // Check if device_name is provided
+      if (!device_name) {
+        return res.status(400).json({ error: 'Device name is required' });
+      }
+  
+      // Find user in Auth database
+      const user = await usersCollection.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Check if the device is assigned to the user
+      const userToDevice = await usersToDevicesCollection.findOne({
+        username,
+        device_id,
+      });
+  
+      if (!userToDevice) {
+        return res.status(404).json({ error: 'Device not assigned to user' });
+      }
+  
+      // Update the device name in users_devices collection
+      await usersToDevicesCollection.updateOne(
+        { username, device_id },
+        { $set: { device_name } }
+      );
+  
+      return res.status(200).json({ message: 'Device name updated successfully' });
+    } catch (err) {
+      console.error('Failed to update device name:', err);
+      res.status(500).json({ error: 'Failed to update device name due to server error' });
+    }
+  });
+  
   router.post('/removeDeviceFromUser', async (req, res) => {
     try {
       const { device_id, username } = req.body;
@@ -245,7 +317,7 @@ module.exports = (client) => {
   router.delete('/deleteFile', async (req, res) => {
     try {
       const { file_id } = req.body;
-      console.log(file_id);
+      // console.log(file_id);
 
       var mongoose = require('mongoose');
       var id = new mongoose.Types.ObjectId(file_id);
@@ -253,7 +325,7 @@ module.exports = (client) => {
       const file = await deviceFilesCollection.findOne({
         _id: id,
       });
-      console.log(file);
+      // console.log(file);
       if (!file) {
         return res.status(400).json({ error: 'File does not exist' });
       }
