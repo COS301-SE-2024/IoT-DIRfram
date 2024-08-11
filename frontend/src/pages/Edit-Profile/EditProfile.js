@@ -57,7 +57,7 @@ function EditProfile() {
 
       if (response.ok) {
         const data = await response.json();
-
+        console.log('Update profile data:', data);
         // Save updated details in cookies
         Cookies.set('username', userDetails.username, { expires: 7 });
         Cookies.set('email', userDetails.email, { expires: 7 });
