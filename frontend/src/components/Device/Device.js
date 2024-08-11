@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './Device.css';
 import image from '../../assets/rpi.png';
-import Modal from './Modal'; // Import the Modal component
+import Modal from './Modal';
 
 const Device = () => {
   const [devices, setDevices] = useState([]);
   const [username, setUsername] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [currentDevice, setCurrentDevice] = useState(null); // To hold the current device being edited
+  const [currentDevice, setCurrentDevice] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const storedUsername = Cookies.get("username");
@@ -31,7 +32,6 @@ const Device = () => {
         }
         const data = await response.json();
         setDevices(data);
-        console.log('Devices:', data);
       } catch (error) {
         console.error('Error fetching devices:', error);
       }
@@ -63,8 +63,8 @@ const Device = () => {
   };
 
   const handleEdit = (device) => {
-    setCurrentDevice(device); // Set the current device to be edited
-    setShowModal(true); // Show the modal
+    setCurrentDevice(device);
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
@@ -96,26 +96,42 @@ const Device = () => {
 
       const updatedDevices = devices.map(device => {
         if (device._id === currentDevice._id) {
-          return { ...device, custom_name: newDeviceName }; // Update the device name in the list
+          return { ...device, custom_name: newDeviceName };
         }
         return device;
       });
       setDevices(updatedDevices);
-      handleCloseModal(); // Close the modal
+      handleCloseModal();
     } catch (error) {
       console.error('Error updating device name:', error);
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredDevices = devices.filter(device =>
+    (device.custom_name && device.custom_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (device.device_name && device.device_name.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="devices-list">
-      {devices.length === 0 ? (
-        <p>You have no devices.</p>
+      <input
+        type="text"
+        placeholder="Search by device name or custom name"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
+      {filteredDevices.length === 0 ? (
+        <p>No devices found.</p>
       ) : (
-        devices.map((device) => (
+        filteredDevices.map((device) => (
           <div className="device" key={device._id}>
             <div className='device-outer-container'>
-              <h2 className='header-2'>{device.custom_name || 'Device'}</h2> {/* Display the device name or "Device" */}
+              <h2 className='header-2'>{device.custom_name || 'Device'}</h2>
               <div className="device-container">
                 <Link
                   to="/raspberrypi"
@@ -137,11 +153,11 @@ const Device = () => {
           </div>
         ))
       )}
-      <Modal 
-        show={showModal} 
-        handleClose={handleCloseModal} 
-        handleSave={handleSaveDeviceName} 
-        deviceName={currentDevice?.device_name || ''} // Pass the current device name to the modal
+      <Modal
+        show={showModal}
+        handleClose={handleCloseModal}
+        handleSave={handleSaveDeviceName}
+        deviceName={currentDevice?.device_name || ''}
       />
     </div>
   );
