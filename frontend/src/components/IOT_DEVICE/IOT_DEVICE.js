@@ -216,13 +216,17 @@ const IoT_Device = ({ deviceId }) => {
   const filterDevicesByDate = () => {
     const filtered = devices.filter(device => {
       const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
-      const from = new Date(fromDate).toISOString().split('T')[0];
-      const to = new Date(toDate).toISOString().split('T')[0];
-
-      return (!fromDate || deviceDate >= from) && (!toDate || deviceDate <= to);
+      
+      // Only convert and compare dates if fromDate or toDate is provided
+      const from = fromDate ? new Date(fromDate).toISOString().split('T')[0] : null;
+      const to = toDate ? new Date(toDate).toISOString().split('T')[0] : null;
+  
+      // Apply filtering conditions based on whether fromDate and toDate are set
+      return (!from || deviceDate >= from) && (!to || deviceDate <= to);
     });
+  
     setFilteredDevices(filtered);
-  };
+  };  
 
   const clearFilters = () => {
     setFromDate('');
