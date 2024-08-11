@@ -16,7 +16,7 @@
   z-index: 9999; /* Ensure it's above other elements */
 }
 
-.modal-overlay {
+.modal-overlay-help {
   position: fixed;
   top: 0;
   left: 0;
@@ -29,15 +29,15 @@
   z-index: 9999; /* Ensure it's above other elements */
 }
 
-.modal-content {
-  background-color: #fff;
+.modal-content-help {
+  background-color: #ffffffd0;
   padding: 20px;
   border-radius: 5px;
   color: black;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
-  /* align-items: center;
-  width: 70%; */
+  align-items: center;
+  width: 70%;
 }
 
 .carousel-root {

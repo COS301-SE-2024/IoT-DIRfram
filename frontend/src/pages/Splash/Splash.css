@@ -84,7 +84,7 @@ h1 {
   margin: 20px 0; /* Added top and bottom margin */
 }
 
-p {
+.p-splash {
   width: 70%; 
   margin: 10px auto; 
 }

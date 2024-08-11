@@ -5,6 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +29,7 @@ const IoT_Device = ({ deviceId }) => {
   const getDeviceFiles = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
-        params: { 
+        params: {
           device_id: deviceId,
           fromDate: fromDate || undefined,
           toDate: toDate || undefined
@@ -71,7 +72,12 @@ const IoT_Device = ({ deviceId }) => {
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
       setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
-      closeModal();
+
+      toast.success('Item Deleted', {
+        position: 'top-center',
+        onClose: () => closeModal(),
+      });
+      
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -149,35 +155,63 @@ const IoT_Device = ({ deviceId }) => {
   };
 
   const options = {
+    aspectRatio: 3,
+    maintainAspectRatio: true,
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Data Points'
+          text: 'Data Points',
+          color: '#fff', // White text for title
         },
         ticks: {
           autoSkip: true,
-          maxTicksLimit: 10
-        }
+          maxTicksLimit: 10,
+          color: '#fff', // White text for x-axis labels
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.3)', // Light transparent white grid lines
+        },
       },
       y: {
         title: {
           display: true,
-          text: 'Current (A)'
+          text: 'Current (A)',
+          color: '#fff', // White text for title
         },
         min: 0,
+        ticks: {
+          color: '#fff', // White text for y-axis labels
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.3)', // Light transparent white grid lines
+        },
       }
     },
-    maintainAspectRatio: false,
     plugins: {
+      legend: {
+        labels: {
+          color: '#fff', // White text for legend labels
+        }
+      },
       tooltip: {
         callbacks: {
-          label: (tooltipItem) => {
+          labelColor: function (tooltipItem) {
+            return {
+              backgroundColor: '#1F393E', // Change this to the desired color
+              borderColor: 'rgba(75,192,192,1)',
+              borderWidth: 2,
+            };
+          },
+          label: function (tooltipItem) {
             return `Current (A): ${tooltipItem.raw.toFixed(6)}`;
-          }
-        }
+          },
+        },
+        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Dark background for tooltip
+        titleColor: '#fff', // White text for tooltip title
+        bodyColor: '#fff', // White text for tooltip body
       }
-    }
+    },
   };
 
   const calculateStats = (voltage) => {
@@ -217,17 +251,17 @@ const IoT_Device = ({ deviceId }) => {
   const filterDevicesByDate = () => {
     const filtered = devices.filter(device => {
       const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
-      
+
       // Only convert and compare dates if fromDate or toDate is provided
       const from = fromDate ? new Date(fromDate).toISOString().split('T')[0] : null;
       const to = toDate ? new Date(toDate).toISOString().split('T')[0] : null;
-  
+
       // Apply filtering conditions based on whether fromDate and toDate are set
       return (!from || deviceDate >= from) && (!to || deviceDate <= to);
     });
-  
+
     setFilteredDevices(filtered);
-  };  
+  };
 
   const clearFilters = () => {
     setFromDate('');
@@ -244,6 +278,8 @@ const IoT_Device = ({ deviceId }) => {
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
+            className='date-input'
+            onClick={(e) => e.target.showPicker()}
           />
         </label>
         <label>
@@ -252,12 +288,14 @@ const IoT_Device = ({ deviceId }) => {
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
+            className='date-input'
+            onClick={(e) => e.target.showPicker()}
           />
         </label>
         <button onClick={filterDevicesByDate}>Search</button>
-        <button onClick={clearFilters}>Clear</button>
+        <button onClick={clearFilters} className='remove-button'>Clear</button>
       </div>
-
+      <br />
       {filteredDevices.length === 0 ? (
         <p>No IoT device data found.</p>
       ) : (
@@ -272,26 +310,26 @@ const IoT_Device = ({ deviceId }) => {
           ))
       )}
 
-{isModalOpen && selectedDevice && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      {isModalOpen && selectedDevice && (
+        <div className="modal-overlay-iot" onClick={closeModal}>
+          <div className="modal-content-iot" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Device Details</h2>
               <button onClick={closeModal}>Close</button>
             </div>
+            <div className="buttons-container">
+              <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
+                Download File <FontAwesomeIcon icon={faDownload} size="2x" />
+              </button>
+              <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+                Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
+              </button>
+              <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
+                Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
+              </button>
+            </div>
             <div className="modal-body">
-              <div className="buttons-container">
-                <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                  Download File <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-                <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-                  Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-                </button>
-                <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-                  Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-              </div>
-              <div className='device-container'>
+              <div className='device-container-iot'>
                 <div className='left-container'>
                   <h2>Extracted from: {selectedDevice.device_name}</h2>
                   <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
@@ -307,7 +345,8 @@ const IoT_Device = ({ deviceId }) => {
                 {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
                   <div className='voltage-chart'>
                     <h3>Current Data</h3>
-                    <div style={{ height: '400px', width: '800px' }}>
+                    {/* style={{ height: '400px', width: '800px' }} */}
+                    <div className='graphDiv'>
                       <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
                     </div>
                     <div className="stats">
@@ -322,6 +361,7 @@ const IoT_Device = ({ deviceId }) => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

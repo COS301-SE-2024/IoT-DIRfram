@@ -28,8 +28,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Modal = ({ onClose }) => {
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay-help" onClick={onClose}>
+            <div className="modal-content-help" onClick={(e) => e.stopPropagation()}>
                 <button onClick={onClose} className='close'>
                     <FaTimes /> {/* FontAwesome close icon */}
                 </button>

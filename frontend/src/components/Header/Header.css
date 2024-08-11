@@ -30,6 +30,10 @@
   cursor: pointer;
 }
 
+.menu-menu {
+  margin: 5px;
+}
+
 .about {
   display: inline-block;
   padding-left: 20px;
@@ -42,10 +46,10 @@
 }
 
 .menu-icon {
-  width: 30px;
-  height: 3px;
+  /* width: 30px; */
+  /* height: 3px;
   background-color: #fff;
-  margin-bottom: 5px;
+  margin-bottom: 10px; */
   transition: transform 0.3s ease;
 }
 
