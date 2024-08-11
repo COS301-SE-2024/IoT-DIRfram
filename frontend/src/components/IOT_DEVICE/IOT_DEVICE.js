@@ -5,6 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 ChartJS.register(
   CategoryScale,
@@ -71,7 +72,12 @@ const IoT_Device = ({ deviceId }) => {
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
       setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
-      closeModal();
+
+      toast.success('Item Deleted', {
+        position: 'top-center',
+        onClose: () => closeModal(),
+      });
+      
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -355,6 +361,7 @@ const IoT_Device = ({ deviceId }) => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
