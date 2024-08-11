@@ -149,7 +149,7 @@ describe('Auth API', () => {
   });
 
   test('should fetch user data by username', async () => {
-    const response = await request(app).get('/auth/getUserData').send({ username: 'testuser' });
+    const response = await request(app).post('/auth/getUserData').send({ username: 'testuser' });
     expect(response.status).toBe(200);
     expect(response.body.username).toBe('testuser');
     expect(response.body.email).toBe('testuser@example.com');
