@@ -23,14 +23,6 @@
     right: 10px;
   } */
 
-  .device-container {
-    display: flex;
-  }
-  
-  .left-container {
-    flex: 1;
-  }
-  
   .icon-button {
     background-color: transparent;
     border: none;
@@ -76,11 +68,6 @@
     background: #555; /* Change color on hover */
   }
   
-
-  .right-container {
-    width: 40%;
-  }
-  
   .device-content {
     margin: 0;
     white-space: pre-wrap;
@@ -96,21 +83,23 @@
     text-align: center;
   }
 
-  .modal-overlay {
+  .modal-overlay-iot {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #30363D;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 9999;
+    color: white;
   }
   
-  .modal-content {
-    background: white;
+  .modal-content-iot {
+    background: #161b22d1;
     max-width: 90%;
     width: 90%;
     height: 90%;
@@ -136,28 +125,72 @@
     overflow-y: auto;
   }
   
-  .device-container {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .left-container, .right-container {
-    width: 45%;
-  }
-  
-  .voltage-chart {
-    margin-top: 20px;
-  }
-  
   .content-window {
-    max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #0d1117d0;
+    border-radius: 5px;
   }
 
   .device-item:hover {
     cursor: pointer;
   }
+
+  .device-container-iot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .left-container,
+  .right-container {
+    flex: 1;
+    min-width: 300px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .left-container {
+    margin-left: 10px;
+  }
+  
+  .right-container {
+    margin-right: 10px;
+  }
+  
+  .voltage-chart {
+    width: 90%;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .graphDiv {
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    /* max-height: 450px; */
+  }
+  
+  .date-input {
+    padding: 10px;
+    width: 15%;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #30363D;
+    background-color: #161b22d1;
+    color: white;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+
   

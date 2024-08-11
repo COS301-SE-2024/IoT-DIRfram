@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 import { getUserProfile } from './ProfileConfig'; // Ensure this function fetches data from your API
 import './Profile.css';
 import Header from '../../components/Header/Header';
-import defaultAvatar from '../../assets/profile1.jpg';
+// import defaultAvatar from '../../assets/profile1.jpg';
 
 function Profile() {
   const [userDetails, setUserDetails] = useState({
@@ -50,17 +52,30 @@ function Profile() {
       <h1 style={{ textAlign: 'center' }}>Profile</h1>
       <div className="profile-container">
         <div className="profile-details">
-          <div className="avatar-container">
-            <img src={defaultAvatar} alt="Avatar" className="avatar" />
+        <div className="avatar-container">
+              {/* <img src={defaultAvatar} alt="Avatar" className="avatar" /> */}
+              <FontAwesomeIcon icon={faUser} size="4x" />
+            </div>
+          <div className="text-container">
+            <div className="text-left">
+              <p><strong>Username:</strong></p>
+              <p><strong>Email:</strong></p>
+              <p><strong>Name:</strong></p>
+              <p><strong>Surname:</strong></p>
+              <p><strong>Age:</strong></p>
+            </div>
+           
+            <div className="text-right">
+              <p>{userDetails.username}</p>
+              <p>{userDetails.email}</p>
+              <p>{userDetails.name}</p>
+              <p>{userDetails.surname}</p>
+              <p>{userDetails.age}</p>
+            </div>
           </div>
-          <p><strong>Username:</strong> {userDetails.username}</p>
-          <p><strong>Email:</strong> {userDetails.email}</p>
-          <p><strong>Name:</strong> {userDetails.name}</p>
-          <p><strong>Surname:</strong> {userDetails.surname}</p>
-          <p><strong>Age:</strong> {userDetails.age}</p>
         </div>
         <Link to="/edit-profile">
-          <button className="edit-profile-button">Edit Profile</button>
+          <button className="edit-button-device">Edit Profile</button>
         </Link>
       </div>
     </div>

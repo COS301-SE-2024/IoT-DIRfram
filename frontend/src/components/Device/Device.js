@@ -120,13 +120,15 @@ const Device = () => {
 
   return (
     <div className="devices-list">
-      <input
-        type="text"
-        placeholder="Search by device name or custom name"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="search-bar"
-      />
+      <div className='inputDiv'>
+        <input
+          type="text"
+          placeholder="Search by device name or custom name"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-bar"
+        />
+      </div>
       {filteredDevices.length === 0 ? (
         <p>No devices found.</p>
       ) : (
@@ -140,10 +142,10 @@ const Device = () => {
                   className="device-link"
                   onClick={() => Cookies.set('deviceId', device._id)}
                 >
-                  <img 
-                    src={device.device_name === "raspberrypi" ? image : orangeImage} 
-                    alt="Device" 
-                    className="device-image" 
+                  <img
+                    src={device.device_name === "raspberrypi" ? image : orangeImage}
+                    alt="Device"
+                    className="device-image"
                   />
                   <div className="device-info">
                     <p><strong>Device Name:</strong> {device.device_name || 'Device'}</p>
@@ -152,7 +154,7 @@ const Device = () => {
                 </Link>
               </div>
               <div className="button-group">
-                <button className="edit-button" onClick={() => handleEdit(device)}>Edit</button>
+                <button className="edit-button-device" onClick={() => handleEdit(device)}>Edit</button>
                 <button className="remove-button" onClick={() => handleRemove(device._id)}>Remove</button>
               </div>
             </div>

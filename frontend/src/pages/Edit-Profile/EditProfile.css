@@ -1,7 +1,6 @@
 .edit-profile-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-top: 20px;
   }
   
@@ -11,11 +10,18 @@
   }
   
   .edit-profile-form input {
-    padding: 8px;
+    /* padding: 8px;
     margin-left: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 16px; */
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #30363D;
+    background-color: #161b22d1;
+    color: white;
+    outline: none;
   }
   
   .save-button {
