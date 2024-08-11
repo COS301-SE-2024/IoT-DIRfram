@@ -71,6 +71,7 @@ const IoT_Device = ({ deviceId }) => {
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
       setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
+      closeModal();
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -265,7 +266,7 @@ const IoT_Device = ({ deviceId }) => {
           .map((device, index) => (
             <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
               <h3 className="filename">
-                Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
+                IoT Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
               </h3>
             </div>
           ))
