@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2';
@@ -21,25 +21,32 @@ const IoT_Device = ({ deviceId }) => {
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [filteredDevices, setFilteredDevices] = useState([]);
 
-  const getDeviceFiles = async () => {
+  const getDeviceFiles = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
-        params: { device_id: deviceId }
+        params: { 
+          device_id: deviceId,
+          fromDate: fromDate || undefined,
+          toDate: toDate || undefined
+        }
       });
       setDeviceFiles(response.data);
-      console.log('Device files:', response.data);
-    } catch (error) {
-      setError('Failed to fetch device files');
+      setFilteredDevices(response.data);
+    } catch (e) {
+      setError(e);
       console.error('Error fetching device files:', error);
     }
-  };
+  }, [deviceId, fromDate, toDate, error]);
 
   useEffect(() => {
     if (deviceId) {
       getDeviceFiles();
     }
-  }, [deviceId]);
+  }, [deviceId, getDeviceFiles]);
 
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
@@ -63,6 +70,7 @@ const IoT_Device = ({ deviceId }) => {
         data: { file_id: id }
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
+      setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -204,13 +212,55 @@ const IoT_Device = ({ deviceId }) => {
     link.click();
     document.body.removeChild(link);
   };
+
+  const filterDevicesByDate = () => {
+    const filtered = devices.filter(device => {
+      const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
+      
+      // Only convert and compare dates if fromDate or toDate is provided
+      const from = fromDate ? new Date(fromDate).toISOString().split('T')[0] : null;
+      const to = toDate ? new Date(toDate).toISOString().split('T')[0] : null;
   
+      // Apply filtering conditions based on whether fromDate and toDate are set
+      return (!from || deviceDate >= from) && (!to || deviceDate <= to);
+    });
+  
+    setFilteredDevices(filtered);
+  };  
+
+  const clearFilters = () => {
+    setFromDate('');
+    setToDate('');
+    setFilteredDevices(devices);
+  };
+
   return (
     <div className="devices-list">
-      {devices.length === 0 ? (
-        <p>No IoT devices connected.</p>
+      <div className="date-filter">
+        <label>
+          From:
+          <input
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+          />
+        </label>
+        <label>
+          To:
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+          />
+        </label>
+        <button onClick={filterDevicesByDate}>Search</button>
+        <button onClick={clearFilters}>Clear</button>
+      </div>
+
+      {filteredDevices.length === 0 ? (
+        <p>No IoT device data found.</p>
       ) : (
-        devices
+        filteredDevices
           .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
           .map((device, index) => (
             <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
@@ -221,7 +271,7 @@ const IoT_Device = ({ deviceId }) => {
           ))
       )}
 
-      {isModalOpen && selectedDevice && (
+{isModalOpen && selectedDevice && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
