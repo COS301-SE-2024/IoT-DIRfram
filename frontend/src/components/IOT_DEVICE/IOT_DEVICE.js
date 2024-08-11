@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2';
@@ -22,24 +22,24 @@ const IoT_Device = ({ deviceId }) => {
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getDeviceFiles = async () => {
+  const getDeviceFiles = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
         params: { device_id: deviceId }
       });
       setDeviceFiles(response.data);
       console.log('Device files:', response.data);
-    } catch (error) {
-      setError('Failed to fetch device files');
+    } catch (e) {
+      setError(e);
       console.error('Error fetching device files:', error);
     }
-  };
+  }, [deviceId, error]);
 
   useEffect(() => {
     if (deviceId) {
       getDeviceFiles();
     }
-  }, [deviceId]);
+  }, [deviceId, getDeviceFiles]);  
 
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
@@ -204,7 +204,7 @@ const IoT_Device = ({ deviceId }) => {
     link.click();
     document.body.removeChild(link);
   };
-  
+
   return (
     <div className="devices-list">
       {devices.length === 0 ? (
