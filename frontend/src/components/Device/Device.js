@@ -33,6 +33,7 @@ const Device = () => {
         }
         const data = await response.json();
         setDevices(data);
+        console.log('Devices:', data);
       } catch (error) {
         console.error('Error fetching devices:', error);
       }
