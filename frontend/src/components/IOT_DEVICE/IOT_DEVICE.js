@@ -287,7 +287,7 @@ const IoT_Device = ({ deviceId }) => {
           />
         </label>
         <button onClick={filterDevicesByDate}>Search</button>
-        <button onClick={clearFilters}>Clear</button>
+        <button onClick={clearFilters} className='remove-button'>Clear</button>
       </div>
       <br />
       {filteredDevices.length === 0 ? (
