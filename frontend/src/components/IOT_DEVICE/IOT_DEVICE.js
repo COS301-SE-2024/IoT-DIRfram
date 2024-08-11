@@ -21,25 +21,32 @@ const IoT_Device = ({ deviceId }) => {
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [filteredDevices, setFilteredDevices] = useState([]);
 
   const getDeviceFiles = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
-        params: { device_id: deviceId }
+        params: { 
+          device_id: deviceId,
+          fromDate: fromDate || undefined,
+          toDate: toDate || undefined
+        }
       });
       setDeviceFiles(response.data);
-      console.log('Device files:', response.data);
+      setFilteredDevices(response.data);
     } catch (e) {
       setError(e);
       console.error('Error fetching device files:', error);
     }
-  }, [deviceId, error]);
+  }, [deviceId, fromDate, toDate, error]);
 
   useEffect(() => {
     if (deviceId) {
       getDeviceFiles();
     }
-  }, [deviceId, getDeviceFiles]);  
+  }, [deviceId, getDeviceFiles]);
 
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
@@ -63,6 +70,7 @@ const IoT_Device = ({ deviceId }) => {
         data: { file_id: id }
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
+      setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -205,68 +213,101 @@ const IoT_Device = ({ deviceId }) => {
     document.body.removeChild(link);
   };
 
+  const filterDevicesByDate = () => {
+    const filtered = devices.filter(device => {
+      const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
+      const from = new Date(fromDate).toISOString().split('T')[0];
+      const to = new Date(toDate).toISOString().split('T')[0];
+
+      return (!fromDate || deviceDate >= from) && (!toDate || deviceDate <= to);
+    });
+    setFilteredDevices(filtered);
+  };
+
+  const clearFilters = () => {
+    setFromDate('');
+    setToDate('');
+    setFilteredDevices(devices);
+  };
+
   return (
     <div className="devices-list">
-      {devices.length === 0 ? (
-        <p>No IoT devices connected.</p>
+      <div className="date-filter">
+        <label>
+          From: 
+          <input 
+            type="date" 
+            value={fromDate} 
+            onChange={(e) => setFromDate(e.target.value)} 
+          />
+        </label>
+        <label>
+          To: 
+          <input 
+            type="date" 
+            value={toDate} 
+            onChange={(e) => setToDate(e.target.value)} 
+          />
+        </label>
+        <button onClick={filterDevicesByDate}>Search</button>
+        <button onClick={clearFilters}>Clear</button>
+      </div>
+
+      {filteredDevices.length === 0 ? (
+        <p>No IoT device data found.</p>
       ) : (
-        devices
+        filteredDevices
           .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
           .map((device, index) => (
             <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
-              <h3 className="filename">
-                Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
-              </h3>
+              <h3>{extractTimeFromFilename(device.filename)}</h3>
             </div>
           ))
       )}
 
       {isModalOpen && selectedDevice && (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="modal" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>Device Details</h2>
-              <button onClick={closeModal}>Close</button>
+            <h2>{extractTimeFromFilename(selectedDevice.filename)}</h2>
+            <div className="modal-buttons">
+              <button
+                className="download-button"
+                onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}
+              >
+                <FontAwesomeIcon icon={faDownload} /> Download
+              </button>
+              <button
+                className="delete-button"
+                onClick={() => handleDelete(selectedDevice._id)}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} /> Delete
+              </button>
+              <button
+                className="download-button"
+                onClick={() => downloadVoltageAsCsv(JSON.parse(extractSegmentedContent(selectedDevice.content)).voltage, selectedDevice.filename)}
+              >
+                <FontAwesomeIcon icon={faDownload} /> Download Voltage as CSV
+              </button>
             </div>
-            <div className="modal-body">
-              <div className="buttons-container">
-                <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                  Download File <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-                <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-                  Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-                </button>
-                <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-                  Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-              </div>
-              <div className='device-container'>
-                <div className='left-container'>
-                  <h2>Extracted from: {selectedDevice.device_name}</h2>
-                  <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
-                  <h3>Firmware and Chip information:</h3>
-                  <pre className="device-content">{extractSegmentedContent(selectedDevice.content)}</pre>
-                </div>
-                <div className='right-container'>
-                  <h3>Full Content</h3>
-                  <div className="content-window">
-                    <pre className="device-content">{selectedDevice.content}</pre>
-                  </div>
-                </div>
-                {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
-                  <div className='voltage-chart'>
-                    <h3>Current Data</h3>
-                    <div style={{ height: '400px', width: '800px' }}>
-                      <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
-                    </div>
-                    <div className="stats">
-                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
-                      <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
+            <div className="graph-container">
+              <Line
+                data={generateVoltageData(JSON.parse(extractSegmentedContent(selectedDevice.content)).voltage)}
+                options={options}
+                height={400}
+              />
+            </div>
+            <div className="statistics">
+              <h3>Voltage Statistics</h3>
+              {(() => {
+                const stats = calculateStats(JSON.parse(extractSegmentedContent(selectedDevice.content)).voltage);
+                return (
+                  <>
+                    <p>Max Voltage: {stats.max} A</p>
+                    <p>Min Voltage: {stats.min} A</p>
+                    <p>Avg Voltage: {stats.avg} A</p>
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>
