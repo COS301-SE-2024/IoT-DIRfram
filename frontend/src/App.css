@@ -67,7 +67,7 @@ body {
   z-index: 9999; /* Ensure it's above other elements */
 }
 
-.modal-overlay {
+.modal-overlay-app {
   position: fixed;
   top: 0;
   left: 0;
@@ -81,8 +81,8 @@ body {
   backdrop-filter: blur(8px); /* Stronger blur for a more immersive feel */
 }
 
-.modal-content {
-  background-color: #1e1e1e; /* Dark background */
+.modal-content-app {
+  background-color: #21262d8b;; /* Dark background */
   padding: 30px;
   border-radius: 10px;
   color: #fff;
@@ -107,7 +107,7 @@ body {
 }
 
 .close:hover {
-  color: #f00; /* Red color on hover */
+  color: rgb(175, 0, 0); /* Red color on hover */
 }
 
 h2 {
@@ -121,13 +121,13 @@ input {
   margin-bottom: 20px;
   border: 1px solid #444;
   border-radius: 5px;
-  background-color: #2e2e2e;
-  color: #fff;
+  background-color: #ffffffd9;
+  color: #1E252C;
   outline: none;
 }
 
 input::placeholder {
-  color: #888;
+  color: #21262d;
 }
 
 .modal-actions {
@@ -146,6 +146,6 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.addButton:hover {
   background-color: #0056b3;
 }

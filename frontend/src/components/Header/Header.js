@@ -18,7 +18,7 @@ const Header = () => {
       <header className="header">
         <div className="RHSHeader">
           <div className={`menu-btn ${sidebarOpen ? 'open' : ''}`} onClick={handleToggleSidebar}>
-            <div className="menu-icon"></div>
+             <div className="menu-icon"><div className='menu-menu'><u>Menu</u></div></div>
           </div>
           <div className="about">
             <Link to="/about">

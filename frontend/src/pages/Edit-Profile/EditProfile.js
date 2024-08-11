@@ -127,7 +127,7 @@ function EditProfile() {
           <div className="button-container">
           {/* className="save-button" */}
             <button type="submit" >Save</button>
-            <button type="button" className="close-button" onClick={handleClose}>Close</button>
+            <button type="button" className="remove-button" onClick={handleClose}>Close</button>
           </div>
         </form>
         <ToastContainer />

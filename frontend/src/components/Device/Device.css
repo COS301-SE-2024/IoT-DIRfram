@@ -60,7 +60,8 @@
   margin-top: 20px;
 }
 
-.edit-button, .remove-button {
+.edit-button,
+.remove-button {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
@@ -68,14 +69,15 @@
   transition: background-color 0.3s ease;
 }
 
-.edit-button {
+.edit-button-device {
   background-color: #28a745;
   color: white;
 }
 
-.edit-button:hover {
+.edit-button-device:hover {
   background-color: #218838;
 }
+
 
 .remove-button {
   background-color: #dc3545;
@@ -84,4 +86,27 @@
 
 .remove-button:hover {
   background-color: #c82333;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 50%;
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid #30363D;
+  background-color: #fff;
+  color: 161b22d1;
+  outline: none;
+
+}
+
+.search-bar::placeholder {
+  color: #30363D;
+}
+
+.inputDiv {
+  align-items: center;
+  
+  display: flex;
+  flex-direction: column;
 }

@@ -18,8 +18,8 @@ const Modal = ({ show, handleClose, handleSave }) => {
   }
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay-app">
+      <div className="modal-content-app">
         <button className="close" onClick={handleClose}>✖</button>
         <h2>Add Device</h2>
         <input
