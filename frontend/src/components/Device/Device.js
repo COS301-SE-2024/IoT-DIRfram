@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './Device.css';
 import image from '../../assets/rpi.png';
+import orangeImage from '../../assets/orange-cropped.svg'; // Import the SVG
 import Modal from './Modal';
 
 const Device = () => {
@@ -138,7 +139,11 @@ const Device = () => {
                   className="device-link"
                   onClick={() => Cookies.set('deviceId', device._id)}
                 >
-                  <img src={image} alt="Device" className="device-image" />
+                  <img 
+                    src={device.device_name === "raspberrypi" ? image : orangeImage} 
+                    alt="Device" 
+                    className="device-image" 
+                  />
                   <div className="device-info">
                     <p><strong>Device Name:</strong> {device.device_name || 'Device'}</p>
                     <p><strong>Device Serial Number:</strong> {device._id}</p>
