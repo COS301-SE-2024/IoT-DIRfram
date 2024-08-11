@@ -20,17 +20,17 @@ module.exports = (client) => {
   });
 
   router.get('/getDeviceName', async (req, res) => { 
-    console.log('Query params:', req.query);
+    // console.log('Query params:', req.query);
     try {
       const { device_id } = req.query;
-      console.log(device_id);
+      // console.log(device_id);
 
       //Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
 
-      console.log(device);
+      // console.log(device);
 
       if (!device) {
         return res.status(400).json({ error: 'Device not found' });
@@ -66,7 +66,7 @@ module.exports = (client) => {
       // Find devices assigned to the user
       const devices = await usersToDevicesCollection.find({ username }).toArray();
   
-      console.log(devices);
+      // console.log(devices);
       const deviceIds = devices.map((device) => device.device_id);
   
       // Find device details
@@ -317,7 +317,7 @@ module.exports = (client) => {
   router.delete('/deleteFile', async (req, res) => {
     try {
       const { file_id } = req.body;
-      console.log(file_id);
+      // console.log(file_id);
 
       var mongoose = require('mongoose');
       var id = new mongoose.Types.ObjectId(file_id);
@@ -325,7 +325,7 @@ module.exports = (client) => {
       const file = await deviceFilesCollection.findOne({
         _id: id,
       });
-      console.log(file);
+      // console.log(file);
       if (!file) {
         return res.status(400).json({ error: 'File does not exist' });
       }
