@@ -101,7 +101,7 @@ module.exports = (client) => {
     }
   });
 
-  router.get('/getUserData', async (req, res) => {
+  router.post('/getUserData', async (req, res) => {
     try {
       const { username } = req.body;
       const user = await usersCollection.findOne({ username: username });
@@ -118,7 +118,7 @@ module.exports = (client) => {
   router.post('/updateUserDetails', async (req, res) => {
     try {
         const { currentUsername, newUsername, newEmail, newPassword, confirmNewPassword, name, surname, age } = req.body;
-
+      
         // Validate that the current username is provided
         if (!currentUsername) {
             return res.status(400).json({ message: 'Current username is required' });
