@@ -64,6 +64,11 @@ Follow [this link](http://165.227.161.136:3000) to access our deployed website.
 - Demo 2: [CodeCrafters-Demo2](https://drive.google.com/file/d/1iBnHdKHSudtYCWEkNKCwpGBSsQTjt_pv/view?usp=sharing)
 - Demo 3: [CodeCrafters-Demo3](https://drive.google.com/file/d/1yoVWX57l2jNtrnrx8A1hzZzjUipvPuEx/view?usp=sharing)
 
+## Manuals
+### Access our manuals:
+- Techinal Installation Manual: [Tech Manual](https://github.com/COS301-SE-2024/IoT-DIRfram/wiki/Technical-Installation-Manual)
+- User Manual: [User Manual](https://github.com/COS301-SE-2024/IoT-DIRfram/wiki/User-Manual)
+
 ## 📄 Functional Requirements (SRS) Document
 
 Access the Functional Requirements document [here](https://github.com/COS301-SE-2024/IoT-DIRfram/wiki/Functional-Requirements).
