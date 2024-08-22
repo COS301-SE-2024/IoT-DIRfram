@@ -12,6 +12,8 @@ import Settings from './pages/Settings/Settings';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Layout from './pages/Help/Layout';
 import EditProfile from './pages/Edit-Profile/EditProfile';
+import PostsList from './components/Posts/PostsList';
+import PostDetails from './components/Posts/PostDetails';
 import './App.css';
 
 const App = () => {
@@ -31,6 +33,8 @@ const App = () => {
         <Route path="/profile" element={<Layout><ProtectedRoute><Profile /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/edit-profile" element={<Layout><ProtectedRoute><EditProfile /></ProtectedRoute></Layout>} />
         <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
+        <Route path="/postslist" element={<PostsList />} />
+        <Route path="/posts/:postId" element={<PostDetails />} />
       </Routes>
     </RouterComponent>
   );

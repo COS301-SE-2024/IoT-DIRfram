@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faTrashAlt, faExchange } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faExchange } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
@@ -65,27 +65,27 @@ const IoT_Device = ({ deviceId }) => {
     return segments[1] ? segments[1] : segments[0];
   };
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this device?");
-    if (!confirmed) {
-      return;
-    }
-    try {
-      await axios.delete('http://localhost:3001/device/deleteFile', {
-        data: { file_id: id }
-      });
-      setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
-      setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
+  // const handleDelete = async (id) => {
+  //   const confirmed = window.confirm("Are you sure you want to delete this device?");
+  //   if (!confirmed) {
+  //     return;
+  //   }
+  //   try {
+  //     await axios.delete('http://localhost:3001/device/deleteFile', {
+  //       data: { file_id: id }
+  //     });
+  //     setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
+  //     setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
 
-      toast.success('Item Deleted', {
-        position: 'top-center',
-        onClose: () => closeModal(),
-      });
+  //     toast.success('Item Deleted', {
+  //       position: 'top-center',
+  //       onClose: () => closeModal(),
+  //     });
 
-    } catch (error) {
-      console.error('Error deleting device:', error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Error deleting device:', error);
+  //   }
+  // };
 
   const downloadFile = (content, filename) => {
     const fileExtension = prompt("Choose file format: 'xml' or 'text'");
