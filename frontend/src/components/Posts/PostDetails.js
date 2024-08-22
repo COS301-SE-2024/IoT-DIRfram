@@ -47,12 +47,12 @@ const PostDetails = () => {
     <div>
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-      <h6>{post.authorId}</h6>
+      <h6>- {post.authorId}</h6>
       <br/>
       <h2>Responses</h2>
       <ul>
         {responses.map((response, index) => (
-          <li key={index}>{response.content} - {response.authorId}</li>
+          <div key={index}>{response.content} <h6>- {response.authorId}</h6></div>
         ))}
       </ul>
       <form onSubmit={handleAddResponse}>

@@ -62,12 +62,12 @@ const PostsList = () => {
       <button onClick={openModal}>Create Post</button>
       <ul>
         {posts.map((post) => (
-          <li key={post._id}>
+          <div key={post._id}>
             <Link to={`/posts/${post._id}`}>{post.title}</Link>
             {post.authorId === currentUserId && (
               <button onClick={() => handleDeletePost(post._id)}>Delete</button>
             )}
-          </li>
+          </div>
         ))}
       </ul>
 
