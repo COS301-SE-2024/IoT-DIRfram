@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faTrashAlt, faExchange } from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
@@ -500,14 +500,14 @@ return (
                 <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
                   Download File <FontAwesomeIcon icon={faDownload} size="2x" />
                 </button>
-                <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+                {/* <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
                   Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-                </button>
+                </button> */}
                 <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
                   Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
                 </button>
                 <button className="icon-button compare-button" onClick={() => handleCompareClick()}>
-                  Compare{/* Compare <FontAwesomeIcon icon={faArrowRight} size="2x" /> */}
+                  Compare Current <FontAwesomeIcon icon={faExchange} size="2x" />
                 </button>
               </>
             )}
