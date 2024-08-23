@@ -8,13 +8,13 @@ const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [responses, setResponses] = useState([]);
   const [newResponse, setNewResponse] = useState('');
+  const currentUserId = Cookies.get("username"); // Replace with actual user ID
 
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
         const postResponse = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${postId}`);
         setPost(postResponse.data.post);
-        console.log(postResponse);
         setResponses(postResponse.data.responses);
       } catch (error) {
         console.error('Error fetching post details:', error);
@@ -27,17 +27,94 @@ const PostDetails = () => {
   const handleAddResponse = async (e) => {
     e.preventDefault();
     try {
-      const currentUserId = Cookies.get("username"); // Replace with actual user ID
       await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses`, {
         postId,
         content: newResponse,
         authorId: currentUserId,
       });
 
-      setResponses([...responses, { content: newResponse, authorId: currentUserId }]);
+      setResponses([...responses, { content: newResponse, authorId: currentUserId, likes: [], dislikes: [] }]);
       setNewResponse('');
     } catch (error) {
       console.error('Error adding response:', error);
+    }
+  };
+
+  const toggleLike = async (responseId, hasLiked) => {
+    try {
+      if (hasLiked) {
+        // Remove the like
+        await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses/${responseId}/unlike`, { userId: currentUserId });
+
+        const updatedResponses = responses.map(response => {
+          if (response._id === responseId) {
+            return {
+              ...response,
+              likes: response.likes.filter(id => id !== currentUserId),
+            };
+          }
+          return response;
+        });
+        setResponses(updatedResponses);
+      } else {
+        // Add the like
+        await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses/${responseId}/like`, { userId: currentUserId });
+
+        const updatedResponses = responses.map(response => {
+          if (response._id === responseId) {
+            const dislikes = Array.isArray(response.dislikes) ? response.dislikes : [];
+
+            return {
+              ...response,
+              likes: [...response.likes, currentUserId],
+              dislikes: dislikes.filter(id => id !== currentUserId)
+            };
+          }
+          return response;
+        });
+        setResponses(updatedResponses);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  };
+
+  const toggleDislike = async (responseId, hasDisliked) => {
+    try {
+      if (hasDisliked) {
+        // Remove the dislike
+        await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses/${responseId}/undislike`, { userId: currentUserId });
+
+        const updatedResponses = responses.map(response => {
+          if (response._id === responseId) {
+            return {
+              ...response,
+              dislikes: response.dislikes.filter(id => id !== currentUserId),
+            };
+          }
+          return response;
+        });
+        setResponses(updatedResponses);
+      } else {
+        // Add the dislike
+        await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses/${responseId}/dislike`, { userId: currentUserId });
+
+        const updatedResponses = responses.map(response => {
+          if (response._id === responseId) {
+            const likes = Array.isArray(response.likes) ? response.likes : [];
+
+            return {
+              ...response,
+              dislikes: [...response.dislikes, currentUserId],
+              likes: likes.filter(id => id !== currentUserId)
+            };
+          }
+          return response;
+        });
+        setResponses(updatedResponses);
+      }
+    } catch (error) {
+      console.error('Error toggling dislike:', error);
     }
   };
 
@@ -48,12 +125,33 @@ const PostDetails = () => {
       <h1>{post.title}</h1>
       <p>{post.content}</p>
       <h6>- {post.authorId}</h6>
-      <br/>
+      <br />
       <h2>Responses</h2>
       <ul>
-        {responses.map((response, index) => (
-          <div key={index}>{response.content} <h6>- {response.authorId}</h6></div>
-        ))}
+        {responses.map((response, index) => {
+          const likeCount = response.likes?.length || 0;
+          const dislikeCount = response.dislikes?.length || 0;
+          const netLikes = likeCount - dislikeCount;
+          const hasLiked = response.likes.includes(currentUserId);
+          const hasDisliked = response.dislikes.includes(currentUserId);
+
+          return (
+            <div key={index}>
+              <p>{response.content} <h6>- {response.authorId}</h6></p>
+              <button
+                onClick={() => toggleLike(response._id, hasLiked)}
+              >
+                {hasLiked ? 'Unlike' : 'Like'}
+              </button>
+              <button
+                onClick={() => toggleDislike(response._id, hasDisliked)}
+              >
+                {hasDisliked ? 'Undislike' : 'Dislike'}
+              </button>
+              <span>Net Likes: {netLikes}</span>
+            </div>
+          );
+        })}
       </ul>
       <form onSubmit={handleAddResponse}>
         <textarea

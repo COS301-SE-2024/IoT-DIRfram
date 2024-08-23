@@ -98,7 +98,7 @@ module.exports = (client) => {
 
             // Find the responses related to this post
             const responses = await db.collection('Responses').find({ postId: postId }).toArray();
-             console.log(responses);
+            // console.log(responses);
 
             res.json({ post, responses });
         } catch (err) {
@@ -106,6 +106,138 @@ module.exports = (client) => {
             res.status(500).json({ error: 'Failed to fetch post details' });
         }
     });
+
+    // POST /responses/:responseId/like
+    router.post('/responses/:responseId/like', async (req, res) => {
+        try {
+            const { responseId } = req.params;
+            const { userId } = req.body;
+
+            if (!ObjectId.isValid(responseId)) {
+                return res.status(400).json({ error: 'Invalid response ID' });
+            }
+
+            const response = await db.collection('Responses').findOne({ _id: new ObjectId(responseId) });
+            if (!response) {
+                return res.status(404).json({ message: 'Response not found' });
+            }
+
+            // Remove user from dislikes if they previously disliked
+            await db.collection('Responses').updateOne(
+                { _id: new ObjectId(responseId) },
+                { $pull: { dislikes: userId } }
+            );
+
+            // Add user to likes if not already liked
+            await db.collection('Responses').updateOne(
+                { _id: new ObjectId(responseId) },
+                { $addToSet: { likes: userId } }
+            );
+
+            res.status(200).json({ message: 'Response liked' });
+        } catch (err) {
+            console.error('Error liking response:', err);
+            res.status(500).json({ error: 'Failed to like response' });
+        }
+    });
+
+    // POST /responses/:responseId/dislike
+    router.post('/responses/:responseId/dislike', async (req, res) => {
+        try {
+            const { responseId } = req.params;
+            const { userId } = req.body;
+
+            if (!ObjectId.isValid(responseId)) {
+                return res.status(400).json({ error: 'Invalid response ID' });
+            }
+
+            const response = await db.collection('Responses').findOne({ _id: new ObjectId(responseId) });
+            if (!response) {
+                return res.status(404).json({ message: 'Response not found' });
+            }
+
+            // Remove user from likes if they previously liked
+            await db.collection('Responses').updateOne(
+                { _id: new ObjectId(responseId) },
+                { $pull: { likes: userId } }
+            );
+
+            // Add user to dislikes if not already disliked
+            await db.collection('Responses').updateOne(
+                { _id: new ObjectId(responseId) },
+                { $addToSet: { dislikes: userId } }
+            );
+
+            res.status(200).json({ message: 'Response disliked' });
+        } catch (err) {
+            console.error('Error disliking response:', err);
+            res.status(500).json({ error: 'Failed to dislike response' });
+        }
+    });
+
+    // POST /responses/:responseId/unlike
+router.post('/responses/:responseId/unlike', async (req, res) => {
+    try {
+        const { responseId } = req.params;
+        const { userId } = req.body;
+
+        if (!ObjectId.isValid(responseId)) {
+            return res.status(400).json({ error: 'Invalid response ID' });
+        }
+
+        const response = await db.collection('Responses').findOne({ _id: new ObjectId(responseId) });
+        if (!response) {
+            return res.status(404).json({ message: 'Response not found' });
+        }
+
+        // Remove user from likes if they previously liked
+        const result = await db.collection('Responses').updateOne(
+            { _id: new ObjectId(responseId) },
+            { $pull: { likes: userId } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(400).json({ message: 'User has not liked this response' });
+        }
+
+        res.status(200).json({ message: 'Like removed' });
+    } catch (err) {
+        console.error('Error removing like:', err);
+        res.status(500).json({ error: 'Failed to remove like' });
+    }
+});
+
+// POST /responses/:responseId/undislike
+router.post('/responses/:responseId/undislike', async (req, res) => {
+    try {
+        const { responseId } = req.params;
+        const { userId } = req.body;
+
+        if (!ObjectId.isValid(responseId)) {
+            return res.status(400).json({ error: 'Invalid response ID' });
+        }
+
+        const response = await db.collection('Responses').findOne({ _id: new ObjectId(responseId) });
+        if (!response) {
+            return res.status(404).json({ message: 'Response not found' });
+        }
+
+        // Remove user from dislikes if they previously disliked
+        const result = await db.collection('Responses').updateOne(
+            { _id: new ObjectId(responseId) },
+            { $pull: { dislikes: userId } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(400).json({ message: 'User has not disliked this response' });
+        }
+
+        res.status(200).json({ message: 'Dislike removed' });
+    } catch (err) {
+        console.error('Error removing dislike:', err);
+        res.status(500).json({ error: 'Failed to remove dislike' });
+    }
+});
 
     return router;
 };
