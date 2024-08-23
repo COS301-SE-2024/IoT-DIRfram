@@ -15,12 +15,12 @@ const PostDetails = () => {
             try {
                 const postResponse = await axios.get(`${process.env.REACT_APP_API_URL}/posts/${postId}`);
                 const fetchedResponses = postResponse.data.responses;
-
+                // console.log(fetchedResponses);//debug
                 // Calculate netLikes and sort responses
                 const sortedResponses = fetchedResponses
                     .map(response => ({
                         ...response,
-                        netLikes: (response.likes.length || 0) - (response.dislikes.length || 0)
+                        netLikes: (response.likes?.length || 0) - (response.dislikes?.length || 0)
                     }))
                     .sort((a, b) => b.netLikes - a.netLikes);
                 setPost(postResponse.data.post);
@@ -36,14 +36,17 @@ const PostDetails = () => {
     const handleAddResponse = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses`, {
+            const result = await axios.post(`${process.env.REACT_APP_API_URL}/posts/responses`, {
                 postId,
                 content: newResponse,
                 authorId: currentUserId,
             });
+            // console.log(result.data);//debug
+            const newData = result.data;
 
-            setResponses([...responses, { content: newResponse, authorId: currentUserId, likes: [], dislikes: [] }]);
-            setNewResponse('');
+    // Add the new response to the state
+    setResponses([...responses, newData]);
+    setNewResponse('');
         } catch (error) {
             console.error('Error adding response:', error);
         }
@@ -59,7 +62,7 @@ const PostDetails = () => {
                     if (response._id === responseId) {
                         return {
                             ...response,
-                            likes: response.likes.filter(id => id !== currentUserId),
+                            likes: response.likes?.filter(id => id !== currentUserId),
                         };
                     }
                     return response;
@@ -98,7 +101,7 @@ const PostDetails = () => {
                     if (response._id === responseId) {
                         return {
                             ...response,
-                            dislikes: response.dislikes.filter(id => id !== currentUserId),
+                            dislikes: response.dislikes?.filter(id => id !== currentUserId),
                         };
                     }
                     return response;
@@ -114,7 +117,7 @@ const PostDetails = () => {
 
                         return {
                             ...response,
-                            dislikes: [...response.dislikes, currentUserId],
+                            dislikes: [...response?.dislikes, currentUserId],
                             likes: likes.filter(id => id !== currentUserId)
                         };
                     }
@@ -141,12 +144,13 @@ const PostDetails = () => {
                     const likeCount = response.likes?.length || 0;
                     const dislikeCount = response.dislikes?.length || 0;
                     const netLikes = likeCount - dislikeCount;
-                    const hasLiked = response.likes.includes(currentUserId);
-                    const hasDisliked = response.dislikes.includes(currentUserId);
+                    const hasLiked = response.likes?.includes(currentUserId);
+                    const hasDisliked = response.dislikes?.includes(currentUserId);
 
                     return (
                         <div key={index}>
-                            <p>{response.content} <h6>- {response.authorId}</h6></p>
+                            <h6>{response.authorId}'s response:</h6>
+                            <p>{response.content} </p>
                             <button
                                 onClick={() => toggleLike(response._id, hasLiked)}
                             >
@@ -158,6 +162,7 @@ const PostDetails = () => {
                                 {hasDisliked ? 'Undislike' : 'Dislike'}
                             </button>
                             <span><h6>{netLikes >= 0 ? netLikes + ' user(s) found this helpful' : Math.abs(netLikes) + ' user(s) found this unhelpful'} </h6></span>
+                            <hr/>
                         </div>
                     );
                 })}

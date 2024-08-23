@@ -41,20 +41,32 @@ module.exports = (client) => {
     router.post('/responses', async (req, res) => {
         try {
             const { postId, content, authorId } = req.body;
-
+    
             const newResponse = {
                 postId,
                 content,
                 authorId,
-                createdAt: new Date()
+                createdAt: new Date(),
+                likes: [],
+                dislikes: []
             };
-
-            await db.collection('Responses').insertOne(newResponse);
-            res.status(201).json({ message: 'Response created' });
+    
+            // Insert the new response into the database
+            const result = await db.collection('Responses').insertOne(newResponse);
+    
+            // Retrieve the newly created response with the generated _id
+            const createdResponse = await db.collection('Responses').findOne({ _id: result.insertedId });
+    
+            if (!createdResponse) {
+                return res.status(404).json({ error: 'Response not found' });
+            }
+    
+            // Respond with the newly created response
+            res.status(201).json(createdResponse);
         } catch (err) {
             res.status(500).json({ error: 'Failed to create response' });
         }
-    });
+    });    
 
     router.delete('/:postId', async (req, res) => {
         try {
