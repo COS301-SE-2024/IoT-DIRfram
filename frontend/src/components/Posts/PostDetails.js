@@ -44,9 +44,9 @@ const PostDetails = () => {
             // console.log(result.data);//debug
             const newData = result.data;
 
-    // Add the new response to the state
-    setResponses([...responses, newData]);
-    setNewResponse('');
+            // Add the new response to the state
+            setResponses([...responses, newData]);
+            setNewResponse('');
         } catch (error) {
             console.error('Error adding response:', error);
         }
@@ -161,8 +161,12 @@ const PostDetails = () => {
                             >
                                 {hasDisliked ? 'Undislike' : 'Dislike'}
                             </button>
-                            <span><h6>{netLikes >= 0 ? netLikes + ' user(s) found this helpful' : Math.abs(netLikes) + ' user(s) found this unhelpful'} </h6></span>
-                            <hr/>
+                            <span>
+                                <h6 style={{ color: netLikes >= 0 ? 'green' : 'red' }}>
+                                    {netLikes >= 0 ? netLikes + ' user(s) found this helpful' : Math.abs(netLikes) + ' user(s) found this unhelpful'}
+                                </h6>
+                            </span>
+                            <hr />
                         </div>
                     );
                 })}
