@@ -374,6 +374,12 @@ const IoT_Device = ({ deviceId }) => {
         <button onClick={clearFilters} className='remove-button'>Clear</button>
       </div>
       <br />
+      <Pagination
+        filteredDevices={devices}
+        devicesPerPage={devicesPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
       {currentDevices.length === 0 ? (
         <p>No IoT device data found.</p>
       ) : (
