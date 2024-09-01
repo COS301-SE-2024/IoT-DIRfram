@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
+import Header from '../Header/Header';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
@@ -17,6 +20,7 @@ const PostsList = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/posts`);
         setPosts(response.data);
+        console.log('Posts:', response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -58,17 +62,37 @@ const PostsList = () => {
 
   return (
     <div>
-      <h1>Posts</h1>
-      <button onClick={openModal}>Create Post</button>
+      <Header />
+      <div className="devices-header">
+        <h2 className='devices-title'>Posts</h2>
+        <div className='info'>
+          <p>
+            <small style={{ color: '#B7B5B7' }}><span style={{ color: 'white' }}>HINT:</span> Don't forget to consult our guide if you need help or get stuck <span style={{ color: 'white' }}>*<span style={{ color: '#007BFF' }}>blue icon</span> - bottom right</span></small>
+          </p>
+          <button onClick={openModal}>Create Post</button>
+        </div>
+        <hr className="section-break" />
+      </div>
       <ul>
-        {posts.map((post) => (
-          <div key={post._id}>
-            <Link to={`/posts/${post._id}`}>{post.title}</Link>
-            {post.authorId === currentUserId && (
-              <button onClick={() => handleDeletePost(post._id)}>Delete</button>
-            )}
-          </div>
-        ))}
+        {posts
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
+          .map((post) => (
+            <div key={post._id} className="forum-post">
+                <Link to={`/posts/${post._id}`}>{post.title}</Link>
+              <h6>
+                by {post.authorId} on {new Date(post.createdAt).toLocaleDateString()}
+              </h6>
+              {post.authorId === currentUserId && (
+                <button
+                  onClick={() => handleDeletePost(post._id)}
+                  className="icon-button delete-button"
+                >
+                  Delete <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+              )}
+            </div>
+          ))}
+
       </ul>
 
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Header from '../Header/Header';
 
 const PostDetails = () => {
     const { postId } = useParams();
@@ -134,6 +135,7 @@ const PostDetails = () => {
 
     return (
         <div>
+            <Header />
             <h1>{post.title}</h1>
             <p>{post.content}</p>
             <h6>- {post.authorId}</h6>

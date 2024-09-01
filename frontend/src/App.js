@@ -33,8 +33,8 @@ const App = () => {
         <Route path="/profile" element={<Layout><ProtectedRoute><Profile /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/edit-profile" element={<Layout><ProtectedRoute><EditProfile /></ProtectedRoute></Layout>} />
         <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
-        <Route path="/postslist" element={<PostsList />} />
-        <Route path="/posts/:postId" element={<PostDetails />} />
+        <Route path="/postslist" element={<Layout><ProtectedRoute><PostsList /></ProtectedRoute></Layout>} />
+        <Route path="/posts/:postId" element={<Layout><ProtectedRoute><PostDetails /></ProtectedRoute></Layout>} />
       </Routes>
     </RouterComponent>
   );
