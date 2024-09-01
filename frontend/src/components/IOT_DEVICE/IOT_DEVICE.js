@@ -62,6 +62,10 @@ const IoT_Device = ({ deviceId }) => {
     }
   }, [deviceId, getDeviceFiles]);
 
+  useEffect(() => {
+    setCurrentPage(1); // Reset to first page when devices change
+  }, [filteredDevices]);
+
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
     const [date, time] = timestamp.split('-');
@@ -375,7 +379,7 @@ const IoT_Device = ({ deviceId }) => {
       </div>
       <br />
       <Pagination
-        filteredDevices={devices}
+        filteredDevices={filteredDevices}
         devicesPerPage={devicesPerPage}
         currentPage={currentPage}
         paginate={paginate}
@@ -404,7 +408,7 @@ const IoT_Device = ({ deviceId }) => {
       </div> */}
 
       <Pagination
-        filteredDevices={devices}
+        filteredDevices={filteredDevices}
         devicesPerPage={devicesPerPage}
         currentPage={currentPage}
         paginate={paginate}

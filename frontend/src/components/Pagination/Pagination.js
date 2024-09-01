@@ -3,15 +3,10 @@ import './Pagination.css';
 
 const Pagination = ({ filteredDevices, devicesPerPage, currentPage, paginate }) => {
   const totalPages = Math.ceil(filteredDevices.length / devicesPerPage);
-  const pageNumbers = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
 
   const getVisiblePages = () => {
     if (totalPages <= 5) {
-      return pageNumbers;
+      return [...Array(totalPages).keys()].map(i => i + 1);
     }
 
     const start = Math.max(2, currentPage - 2);
@@ -19,7 +14,6 @@ const Pagination = ({ filteredDevices, devicesPerPage, currentPage, paginate }) 
 
     const pages = [1];
     
-    // Add pages between start and end
     if (start > 2) {
       pages.push("...");
     }
