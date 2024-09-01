@@ -12,6 +12,8 @@ const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showMyPosts, setShowMyPosts] = useState(false);
 
   // Replace with the actual current user ID
   const currentUserId = Cookies.get("username");
@@ -61,6 +63,15 @@ const PostsList = () => {
     }
   };
 
+  const getMyPosts = () => {
+    setShowMyPosts(!showMyPosts);
+  };
+
+  const filteredPosts = posts.filter(post =>
+    (post.title.toLowerCase().includes(searchTerm.toLowerCase()) || post.authorId.toLowerCase().includes(searchTerm.toLowerCase())) &&
+    (!showMyPosts || post.authorId === currentUserId)
+  );
+
   return (
     <div>
       <Header />
@@ -68,37 +79,55 @@ const PostsList = () => {
         <h2 className='devices-title'>Posts</h2>
         <div className='info'>
           <p>
-            <small style={{ color: '#B7B5B7' }}><span style={{ color: 'white' }}>HINT:</span> Don't forget to consult our guide if you need help or get stuck <span style={{ color: 'white' }}>*<span style={{ color: '#007BFF' }}>blue icon</span> - bottom right</span></small>
+            <small style={{ color: '#B7B5B7' }}>
+              <span style={{ color: 'white' }}>HINT:</span> Don't forget to consult our guide if you need help or get stuck 
+              <span style={{ color: 'white' }}>*<span style={{ color: '#007BFF' }}>blue icon</span> - bottom right</span>
+            </small>
           </p>
           <button onClick={openModal}>Create Post</button>
         </div>
+        <input
+          type="text"
+          placeholder="Search posts by title or author..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar"
+        />
+        <button onClick={getMyPosts} className="filter-button">
+          {showMyPosts ? 'Show All Posts' : 'Show My Posts'}
+        </button>
         <hr className="section-break" />
       </div>
       <ul>
-      {posts
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
-  .map((post) => (
-    <div key={post._id} className="forum-post card">
-      <div className="post-header">
-        <div className="post-title-author">
-          <Link to={`/posts/${post._id}`}>{post.title}</Link>
-          <p className="post-details">
-            @{post.authorId} - <cite>{new Date(post.createdAt).toLocaleString()}</cite>
-          </p>
-        </div>
-        {post.authorId === currentUserId && (
-          <button
-            onClick={() => handleDeletePost(post._id)}
-            className="icon-button delete-button"
-          >
-            Delete <FontAwesomeIcon icon={faTrashAlt} />
-          </button>
+        {filteredPosts.length > 0 ? (
+          filteredPosts
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
+            .map((post) => (
+              <div key={post._id} className="forum-post card">
+                <div className="post-header">
+                  <div className="post-title-author">
+                    <Link to={`/posts/${post._id}`}>{post.title}</Link>
+                    <p className="post-details">
+                      @{post.authorId} - <cite>{new Date(post.createdAt).toLocaleString()}</cite>
+                    </p>
+                  </div>
+                  {post.authorId === currentUserId && (
+                    <div>
+                      <p>Your post</p>
+                      <button
+                        onClick={() => handleDeletePost(post._id)}
+                        className="icon-button delete-button"
+                      >
+                        Delete <FontAwesomeIcon icon={faTrashAlt} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+        ) : (
+          <p>No posts match your search.</p>
         )}
-      </div>
-    </div>
-  ))}
-
-
       </ul>
 
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
