@@ -6,6 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import './IOT_DEVICE.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import Pagination from '../Pagination/Pagination';
 // import { set } from 'mongoose';
 
 ChartJS.register(
@@ -29,6 +30,11 @@ const IoT_Device = ({ deviceId }) => {
   const [secondDevice, setSecondDevice] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const devicesPerPage = 10; // Number of devices per page
+  const indexOfLastDevice = currentPage * devicesPerPage;
+  const indexOfFirstDevice = indexOfLastDevice - devicesPerPage;
+  const currentDevices = filteredDevices.slice(indexOfFirstDevice, indexOfLastDevice);
 
   const getDeviceFiles = useCallback(async () => {
     try {
@@ -36,16 +42,19 @@ const IoT_Device = ({ deviceId }) => {
         params: {
           device_id: deviceId,
           fromDate: fromDate || undefined,
-          toDate: toDate || undefined
-        }
+          toDate: toDate || undefined,
+        },
       });
-      setDeviceFiles(response.data);
-      setFilteredDevices(response.data);
-    } catch (e) {
-      setError(e);
+      const sortedDevices = response.data.sort(
+        (a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename))
+      );
+      setDeviceFiles(sortedDevices);
+      setFilteredDevices(sortedDevices);
+    } catch (error) {
+      setError(error);
       console.error('Error fetching device files:', error);
     }
-  }, [deviceId, fromDate, toDate, error]);
+  }, [deviceId, fromDate, toDate], error);
 
   useEffect(() => {
     if (deviceId) {
@@ -235,7 +244,7 @@ const IoT_Device = ({ deviceId }) => {
   //   setIsModalOpen(false);
   //   setSelectedDevice(null);
   // };
-  
+
   const handleItemClick = (device) => {
     if (!isComparing) {
       setSelectedDevice(device);
@@ -248,12 +257,12 @@ const IoT_Device = ({ deviceId }) => {
 
   const handleCompareClick = () => {
     if (selectedDevice && secondDevice) {
-       setIsComparing(true);
+      setIsComparing(true);
       toast.error('Already comparing.');
     } else {
       setIsComparing(true);
       setIsModalOpen(false);
-      
+
     }
   };
 
@@ -282,24 +291,21 @@ const IoT_Device = ({ deviceId }) => {
   };
 
   const filterDevicesByDate = () => {
-    const filtered = devices.filter(device => {
+    const filtered = devices.filter((device) => {
       const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
-
-      // Only convert and compare dates if fromDate or toDate is provided
       const from = fromDate ? new Date(fromDate).toISOString().split('T')[0] : null;
       const to = toDate ? new Date(toDate).toISOString().split('T')[0] : null;
-
-      // Apply filtering conditions based on whether fromDate and toDate are set
       return (!from || deviceDate >= from) && (!to || deviceDate <= to);
     });
-
     setFilteredDevices(filtered);
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
   const clearFilters = () => {
     setFromDate('');
     setToDate('');
     setFilteredDevices(devices);
+    setCurrentPage(1); // Reset to first page when clearing filters
   };
 
   const renderComparisonChart = () => {
@@ -310,7 +316,7 @@ const IoT_Device = ({ deviceId }) => {
       console.log(secondDevice);
       const comparisonData = generateNewVoltageData(data1, data2);
       return (
-        <Line data={comparisonData}  />
+        <Line data={comparisonData} />
         // options={options}
       );
     }
@@ -338,215 +344,137 @@ const IoT_Device = ({ deviceId }) => {
       ]
     };
   };
-  
 
-//   return (
-//     <div className="devices-list">
-//       <div className="date-filter">
-//         <label>
-//           From:
-//           <input
-//             type="date"
-//             value={fromDate}
-//             onChange={(e) => setFromDate(e.target.value)}
-//             className='date-input'
-//             onClick={(e) => e.target.showPicker()}
-//           />
-//         </label>
-//         <label>
-//           To:
-//           <input
-//             type="date"
-//             value={toDate}
-//             onChange={(e) => setToDate(e.target.value)}
-//             className='date-input'
-//             onClick={(e) => e.target.showPicker()}
-//           />
-//         </label>
-//         <button onClick={filterDevicesByDate}>Search</button>
-//         <button onClick={clearFilters} className='remove-button'>Clear</button>
-//       </div>
-//       <br />
-//       {filteredDevices.length === 0 ? (
-//         <p>No IoT device data found.</p>
-//       ) : (
-//         filteredDevices
-//           .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
-//           .map((device, index) => (
-//             <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
-//               <h3 className="filename">
-//                 IoT Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
-//               </h3>
-//             </div>
-//           ))
-//       )}
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-//       {isModalOpen && selectedDevice && (
-//         <div className="modal-overlay-iot" onClick={closeModal}>
-//           <div className="modal-content-iot" onClick={(e) => e.stopPropagation()}>
-//             <div className="modal-header">
-//               <h2>Device Details</h2>
-//               <button onClick={closeModal}>Close</button>
-//             </div>
-//             <div className="buttons-container">
-//               <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-//                 Download File <FontAwesomeIcon icon={faDownload} size="2x" />
-//               </button>
-//               <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-//                 Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-//               </button>
-//               <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-//                 Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
-//               </button>
-//             </div>
-//             <div className="modal-body">
-//               <div className='device-container-iot'>
-//                 <div className='left-container'>
-//                   <h2>Extracted from: {selectedDevice.device_name}</h2>
-//                   <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
-//                   <h3>Firmware and Chip information:</h3>
-//                   <pre className="device-content">{extractSegmentedContent(selectedDevice.content)}</pre>
-//                 </div>
-//                 <div className='right-container'>
-//                   <h3>Full Content</h3>
-//                   <div className="content-window">
-//                     <pre className="device-content">{selectedDevice.content}</pre>
-//                   </div>
-//                 </div>
-//                 {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
-//                   <div className='voltage-chart'>
-//                     <h3>Current Data</h3>
-//                     {/* style={{ height: '400px', width: '800px' }} */}
-//                     <div className='graphDiv'>
-//                       <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
-//                     </div>
-//                     <div className="stats">
-//                       <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-//                       <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
-//                       <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
-//                     </div>
-//                   </div>
-//                 )}
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//       <ToastContainer />
-//     </div>
-//   );
-// };
+  return (
+    <div className="devices-list">
+      <div className="date-filter">
+        <label>
+          From:
+          <input
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            className='date-input'
+            onClick={(e) => e.target.showPicker()}
+          />
+        </label>
+        <label>
+          To:
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            className='date-input'
+            onClick={(e) => e.target.showPicker()}
+          />
+        </label>
+        <button onClick={filterDevicesByDate}>Search</button>
+        <button onClick={clearFilters} className='remove-button'>Clear</button>
+      </div>
+      <br />
+      {currentDevices.length === 0 ? (
+        <p>No IoT device data found.</p>
+      ) : (
+        currentDevices
+          .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
+          .map((device, index) => (
+            <div key={indexOfFirstDevice + index} className="device-item" onClick={() => handleItemClick(device)}>
+              <h3 className="filename">
+                IoT Device {indexOfFirstDevice + index + 1}<br /> {extractTimeFromFilename(device.filename)}
+              </h3>
+            </div>
+          ))
+      )}
 
-return (
-  <div className="devices-list">
-    <div className="date-filter">
-      <label>
-        From:
-        <input
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-          className='date-input'
-          onClick={(e) => e.target.showPicker()}
-        />
-      </label>
-      <label>
-        To:
-        <input
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-          className='date-input'
-          onClick={(e) => e.target.showPicker()}
-        />
-      </label>
-      <button onClick={filterDevicesByDate}>Search</button>
-      <button onClick={clearFilters} className='remove-button'>Clear</button>
-    </div>
-    <br />
-    {filteredDevices.length === 0 ? (
-      <p>No IoT device data found.</p>
-    ) : (
-      filteredDevices
-        .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
-        .map((device, index) => (
-          <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
-            <h3 className="filename">
-              IoT Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
-            </h3>
-          </div>
-        ))
-    )}
+      {/* Pagination controls
+      <div className="pagination">
+        {[...Array(Math.ceil(filteredDevices.length / devicesPerPage)).keys()].map(number => (
+          <button key={number + 1} onClick={() => paginate(number + 1)} className={`page-link ${currentPage === number + 1 ? 'active' : ''}`}>
+            {number + 1}
+          </button>
+        ))}
+      </div> */}
 
-    {isModalOpen && (
-      <div className="modal-overlay-iot" onClick={closeModal}>
-        <div className="modal-content-iot" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-header">
-            <h2>Device Details</h2>
-            <button onClick={closeModal}>Close</button>
-          </div>
-          <div className="buttons-container">
-            {secondDevice ? (
-              <>
-                <button className="icon-button" onClick={() => setSecondDevice(null)}>Cancel Comparison</button>
-                <div className="comparison-chart">
-                  <h3>Comparison Chart</h3>
-                  {renderComparisonChart()}
-                  
-                </div>
-              </>
-            ) : (
-              <>
-                <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                  Download File <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-                {/* <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+      <Pagination
+        filteredDevices={devices}
+        devicesPerPage={devicesPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
+
+      {isModalOpen && (
+        <div className="modal-overlay-iot" onClick={closeModal}>
+          <div className="modal-content-iot" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Device Details</h2>
+              <button onClick={closeModal}>Close</button>
+            </div>
+            <div className="buttons-container">
+              {secondDevice ? (
+                <>
+                  <button className="icon-button" onClick={() => setSecondDevice(null)}>Cancel Comparison</button>
+                  <div className="comparison-chart">
+                    <h3>Comparison Chart</h3>
+                    {renderComparisonChart()}
+
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
+                    Download File <FontAwesomeIcon icon={faDownload} size="2x" />
+                  </button>
+                  {/* <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
                   Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
                 </button> */}
-                <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-                  Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
-                </button>
-                <button className="icon-button compare-button" onClick={() => handleCompareClick()}>
-                  Compare Current <FontAwesomeIcon icon={faExchange} size="2x" />
-                </button>
-              </>
-            )}
-          </div>
-          <div className="modal-body">
-            <div className='device-container-iot'>
-              <div className='left-container'>
-                <h2>Extracted from: {selectedDevice.device_name}</h2>
-                <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
-                <h3>Firmware and Chip information:</h3>
-                <pre className="device-content">{extractSegmentedContent(selectedDevice.content)}</pre>
-              </div>
-              <div className='right-container'>
-                <h3>Full Content</h3>
-                <div className="content-window">
-                  <pre className="device-content">{selectedDevice.content}</pre>
-                </div>
-              </div>
-              {selectedDevice.voltage && selectedDevice.voltage.length > 0 && !secondDevice && (
-                <div className='voltage-chart'>
-                  <h3>Current Data</h3>
-                  <div className='graphDiv'>
-                    <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
-                  </div>
-                  <div className="stats">
-                    <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-                    <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
-                    <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
-                  </div>
-                </div>
+                  <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
+                    Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
+                  </button>
+                  <button className="icon-button compare-button" onClick={() => handleCompareClick()}>
+                    Compare Current <FontAwesomeIcon icon={faExchange} size="2x" />
+                  </button>
+                </>
               )}
+            </div>
+
+            <div className="modal-body">
+              <div className='device-container-iot'>
+                <div className='left-container'>
+                  <h2>Extracted from: {selectedDevice.device_name}</h2>
+                  <p><strong>Extracted Time: </strong>{extractTimeFromFilename(selectedDevice.filename)}</p>
+                  <h3>Firmware and Chip information:</h3>
+                  <pre className="device-content">{extractSegmentedContent(selectedDevice.content)}</pre>
+                </div>
+                <div className='right-container'>
+                  <h3>Full Content</h3>
+                  <div className="content-window">
+                    <pre className="device-content">{selectedDevice.content}</pre>
+                  </div>
+                </div>
+                {selectedDevice.voltage && selectedDevice.voltage.length > 0 && !secondDevice && (
+                  <div className='voltage-chart'>
+                    <h3>Current Data</h3>
+                    <div className='graphDiv'>
+                      <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
+                    </div>
+                    <div className="stats">
+                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
+                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
+                      <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
-    <ToastContainer />
-  </div>
-);};
+      )}
+      <ToastContainer />
+    </div>
+  );
+};
 
 
 export default IoT_Device;

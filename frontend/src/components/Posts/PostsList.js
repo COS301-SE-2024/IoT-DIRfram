@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import Header from '../Header/Header';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './PostsList.css';
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
@@ -74,24 +75,29 @@ const PostsList = () => {
         <hr className="section-break" />
       </div>
       <ul>
-        {posts
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
-          .map((post) => (
-            <div key={post._id} className="forum-post">
-                <Link to={`/posts/${post._id}`}>{post.title}</Link>
-              <h6>
-                by {post.authorId} on {new Date(post.createdAt).toLocaleDateString()}
-              </h6>
-              {post.authorId === currentUserId && (
-                <button
-                  onClick={() => handleDeletePost(post._id)}
-                  className="icon-button delete-button"
-                >
-                  Delete <FontAwesomeIcon icon={faTrashAlt} />
-                </button>
-              )}
-            </div>
-          ))}
+      {posts
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
+  .map((post) => (
+    <div key={post._id} className="forum-post card">
+      <div className="post-header">
+        <div className="post-title-author">
+          <Link to={`/posts/${post._id}`}>{post.title}</Link>
+          <p className="post-details">
+            @{post.authorId} - <cite>{new Date(post.createdAt).toLocaleString()}</cite>
+          </p>
+        </div>
+        {post.authorId === currentUserId && (
+          <button
+            onClick={() => handleDeletePost(post._id)}
+            className="icon-button delete-button"
+          >
+            Delete <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
+        )}
+      </div>
+    </div>
+  ))}
+
 
       </ul>
 

@@ -3,6 +3,11 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Header from '../Header/Header';
+import './PostDetails.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as regularThumbsUp, faThumbsDown as regularThumbsDown } from '@fortawesome/free-regular-svg-icons';
+
 
 const PostDetails = () => {
     const { postId } = useParams();
@@ -25,6 +30,7 @@ const PostDetails = () => {
                     }))
                     .sort((a, b) => b.netLikes - a.netLikes);
                 setPost(postResponse.data.post);
+                console.log('Post:', postResponse.data.post);
                 setResponses(sortedResponses);
             } catch (error) {
                 console.error('Error fetching post details:', error);
@@ -136,10 +142,27 @@ const PostDetails = () => {
     return (
         <div>
             <Header />
-            <h1>{post.title}</h1>
-            <p>{post.content}</p>
-            <h6>- {post.authorId}</h6>
-            <br />
+            <div className="post-container">
+                <div className="post-header">
+                    <h1 className="post-title">{post.title}</h1>
+                    <span className="post-author">{new Date(post.createdAt).toLocaleString()}</span>
+                </div>
+                <p className="post-content">{post.content}</p>
+                <h6 className="post-author" id='username'> @{post.authorId}</h6>
+                <div className="post-divider"></div>
+            </div>
+
+            <form onSubmit={handleAddResponse} className="response-form">
+                <label htmlFor="response" className="response-label">Add a response:</label>
+                <textarea
+                    value={newResponse}
+                    onChange={(e) => setNewResponse(e.target.value)}
+                    placeholder="Add a response"
+                    required
+                    className="response-textarea"
+                />
+                <button type="submit" className="submit-button">Submit Response</button>
+            </form>
             <h2>Responses</h2>
             <ul>
                 {responses.map((response, index) => {
@@ -150,38 +173,32 @@ const PostDetails = () => {
                     const hasDisliked = response.dislikes?.includes(currentUserId);
 
                     return (
-                        <div key={index}>
-                            <h6>{response.authorId}'s response:</h6>
+                        <div key={index} className='post-response'>
+                            <h6>@{response.authorId}'s response:</h6>
                             <p>{response.content} </p>
                             <button
                                 onClick={() => toggleLike(response._id, hasLiked)}
+                                className={`like-button ${hasLiked ? 'liked' : ''}`}
                             >
-                                {hasLiked ? 'Unlike' : 'Like'}
+                                <FontAwesomeIcon icon={hasLiked ? faThumbsUp : regularThumbsUp} size='xs' />
                             </button>
                             <button
                                 onClick={() => toggleDislike(response._id, hasDisliked)}
+                                className={`dislike-button ${hasDisliked ? 'disliked' : ''}`}
                             >
-                                {hasDisliked ? 'Undislike' : 'Dislike'}
+                                <FontAwesomeIcon icon={hasDisliked ? faThumbsDown : regularThumbsDown} size='xs' />
                             </button>
+                            <hr />
                             <span>
                                 <h6 style={{ color: netLikes >= 0 ? 'green' : 'red' }}>
                                     {netLikes >= 0 ? netLikes + ' user(s) found this helpful' : Math.abs(netLikes) + ' user(s) found this unhelpful'}
                                 </h6>
                             </span>
-                            <hr />
                         </div>
                     );
                 })}
             </ul>
-            <form onSubmit={handleAddResponse}>
-                <textarea
-                    value={newResponse}
-                    onChange={(e) => setNewResponse(e.target.value)}
-                    placeholder="Add a response"
-                    required
-                />
-                <button type="submit">Submit Response</button>
-            </form>
+
         </div>
     );
 };
