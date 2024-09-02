@@ -406,9 +406,13 @@ module.exports = (client) => {
       };
 
       users.forEach(async (user) => {
-        console.log(`Sending email to ${user.email}`);
-        mailOptions.to = user.email;
-        await transporter.sendMail(mailOptions);
+        if (user.notifications && user.notifications.newDataAvailable) { // Check if the notification is enabled
+          console.log(`Sending email to ${user.email}`);
+          mailOptions.to = user.email;
+          await transporter.sendMail(mailOptions);
+        } else {
+          console.log(`User ${user.username} has notifications for new data disabled.`);
+        }
       });
 
       res.status(200).json({ message: "Data uploaded successfully and notifications sent!" });

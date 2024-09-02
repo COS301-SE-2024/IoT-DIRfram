@@ -91,9 +91,13 @@ module.exports = (client) => {
             };
 
             users.forEach(async (user) => {
-                console.log(`Sending email to ${user.email}`);
-                mailOptions.to = user.email;
-                await transporter.sendMail(mailOptions);
+                if (user.notifications && user.notifications.newResponseToPosts) {
+                    console.log(`Sending email to ${user.email}`);
+                    mailOptions.to = user.email;
+                    await transporter.sendMail(mailOptions);
+                } else {
+                    console.log(`User ${user.username} has notifications for new responses disabled.`);
+                }
             });
 
             // Respond with the newly created response
