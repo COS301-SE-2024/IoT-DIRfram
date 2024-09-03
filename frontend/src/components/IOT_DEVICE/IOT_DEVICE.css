@@ -42,6 +42,10 @@
     color: #4BC0C0; /* Green color for edit button */
   }
 
+  .compare-button {
+    color: #9966FF; /* Purple color for compare button */
+  }
+
   .content-window {
     max-height: calc(15 * 1.2em); /* Adjust line height as needed */
     overflow-y: auto;

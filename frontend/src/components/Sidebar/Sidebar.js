@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Assuming you're using Font Awesome icons
-import { faHome, faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
+import { faHome, faUser, faCog, faSignOutAlt, faComments } from '@fortawesome/free-solid-svg-icons'; // Import specific icons
 import Cookies from 'js-cookie'; // Ensure you have js-cookie installed
 import './Sidebar.css';
 
@@ -20,6 +20,11 @@ const Sidebar = ({ isOpen, handleToggleSidebar }) => {
           <li>
             <Link to="/dashboard" onClick={handleToggleSidebar}>
               <FontAwesomeIcon icon={faHome} /> Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/postslist" onClick={handleToggleSidebar}>
+              <FontAwesomeIcon icon={faComments} /> Posts
             </Link>
           </li>
           <li>

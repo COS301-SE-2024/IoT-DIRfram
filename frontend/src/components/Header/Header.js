@@ -33,6 +33,11 @@ const Header = () => {
           </Link>
         </div>
 
+        {/* <div>
+        <Link to="/postslist">
+          <button className="edit-button-device">Posts</button>
+        </Link>
+        </div> */}
         <div>
           <BackButton />
           <ForwardButton />

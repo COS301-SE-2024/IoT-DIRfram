@@ -1,0 +1,48 @@
+.forum-post {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #4f4f4f46;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .post-title-author {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .post-title-author a {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+    color: #0D47F1; /*#333;*/
+  }
+  
+  .post-details {
+    font-size: 0.875rem;
+    color: #ebebeb;
+  }
+  
+  .delete-button {
+    background-color: transparent;
+    border: none;
+    color: #f00;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  
+  .delete-button:hover {
+    color: #c00;
+  }
+
+  Modal {
+    z-index: 1000;
+  }
+  
