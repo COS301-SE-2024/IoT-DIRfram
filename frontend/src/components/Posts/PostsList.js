@@ -130,7 +130,11 @@ const PostsList = () => {
         )}
       </ul>
 
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal-overlay">
+      <div className="modal-content">
+        <button className="close" onClick={closeModal}>
+          &times;
+        </button>
         <h2>Create Post</h2>
         <input
           type="text"
@@ -143,9 +147,12 @@ const PostsList = () => {
           value={newPost.content}
           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
         />
-        <button onClick={handleCreatePost}>Post</button>
-        <button onClick={closeModal}>Cancel</button>
-      </Modal>
+        <div className="modal-actions">
+          <button onClick={handleCreatePost}>Post</button>
+          <button onClick={closeModal}>Cancel</button>
+        </div>
+      </div>
+    </Modal>
     </div>
   );
 };
