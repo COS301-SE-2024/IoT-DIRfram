@@ -16,7 +16,7 @@ import sys  # Add this to use sys.exit()
 import subprocess
 
 # MongoDB connection URI
-uri = "mongodb+srv://uart:t*stp**sw**d@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
+uri = "mongodb+srv://uart:testpassword@codecraftersiotdirfram.zbblz89.mongodb.net/?retryWrites=true&w=majority&appName=CodeCraftersIOTDirfram"
 
 def main(lcd):
     try:
@@ -26,8 +26,8 @@ def main(lcd):
         baudrate = 115200
         args = parser.parse_args()
         port = "/dev/" + args.port 
-        lcd.clear()
-        lcd.message(f"OPENING PORT\n{args.port}", 4, 0.2)
+        # lcd.clear()
+        # lcd.message(f"Please turn device on", 4, 0.1)
         # Open the serial port
         try:
             ser = serial.Serial(port=port, baudrate=baudrate, timeout=1)
@@ -44,9 +44,9 @@ def main(lcd):
 
             lcd.clear()
             lcd.lcd_byte(LCD_LINE_1, LCD_CMD)
-            lcd.lcd_string(f"READING DATA", 2)
+            lcd.lcd_string(f"PLEASE ENSURE", 2)
             lcd.lcd_byte(LCD_LINE_2, LCD_CMD)
-            lcd.lcd_string(f"FROM PORT", 2)
+            lcd.lcd_string(f"DEVICE IS ON", 2)
             with open(log_filename, 'a') as log_file:
                 print("Reading data from serial port")
                 while True:
@@ -86,33 +86,33 @@ def main(lcd):
         sys.exit(1)
 
 def check_garbage(filepath, lcd):
-    # Regex to identify garbage lines
+    # Regex to identify garbage lines (non-ASCII characters)
     garbage_regex = re.compile(r"[^\x00-\x7F]")
     flag = False
-    content = ""
-    # Path to the text file
-    print(filepath)
-    file_path = filepath
     warning_line = "WARNING: Values may be read using wrong baud rate.\n\n"
     empty_line = "WARNING: The file is empty, no data was read."
+    only_empty_lines = True  # Flag to track if the file only contains empty/garbage lines
+
     try:
-        # Read the file and check each line
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.readlines()
+        # Read the file
+        with open(filepath, 'r', encoding='utf-8') as file:
+            content = file.readlines()  # Read the content of the file
             print(content)
 
-            if not content:
-                with open(file_path, 'w') as file:
-                    file.write(empty_line)
+        # Check if the file contains only empty or garbage lines
+        for line_num, line in enumerate(content, start=1):
+            if line.strip() not in ('', '\x00'):  # Check if the line is not empty or just null characters
+                only_empty_lines = False  # If any line is valid, change the flag
+            if garbage_regex.search(line):  # If garbage is found
+                warning_line += f"Garbage detected in line {line_num}: {line.strip()}\n"
+                flag = True
 
-            for line_num, line in enumerate(file, start=1):
-                if garbage_regex.search(line):
-                    warning_line += f"Garbage detected in line {line_num}: {line.strip()}\n"
-                    flag = True
-
-        if flag:
+        if only_empty_lines:  # If all lines are empty or garbage
+            with open(filepath, 'w', encoding='utf-8') as file:
+                file.write(empty_line)
+        elif flag:  # If garbage was found, prepend the warning to the content
             content.insert(0, warning_line)
-            with open(file_path, 'w') as file:
+            with open(filepath, 'w', encoding='utf-8') as file:
                 file.writelines(content)
 
     except Exception as e:
@@ -125,7 +125,6 @@ def check_garbage(filepath, lcd):
         print(f"An error occurred: {e}")
         time.sleep(5)
 
-    
 def upload_to_server(filepath, voltage_arr, lcd):
     # Create a new client and connect to the server
     # client = MongoClient(uri, server_api=ServerApi('1'))
@@ -141,7 +140,7 @@ def upload_to_server(filepath, voltage_arr, lcd):
     try:
         with open(file_path, 'r') as file:
             file_content = file.read()  # Read the entire content of the file
-
+        print(file_content)
         device_name = os.uname()[1]
         device_serial_number = get_raspberry_pi_serial_number()
         # Create a document to insert into the collection
@@ -551,7 +550,7 @@ if __name__ == '__main__':
     #     # Delay for 1 second
     #     time.sleep(1)
 
-    for _ in range(120):
+    for _ in range(60):
         voltage = getVoltage(channel0) #channel0.voltage
         current = voltage * 20
         lcd.lcd_byte(LCD_LINE_1, LCD_CMD)
@@ -571,7 +570,7 @@ if __name__ == '__main__':
     lcd.clear()
     # lcd.message('NO DATA\nTO DISPLAY', 2)
 
-    for _ in range(120):
+    for _ in range(30):
         temp, msg = check_CPU_temp()
         print(f"temperature {temp}°C")
         print(f"full message {msg}")
