@@ -75,7 +75,8 @@ module.exports = (client) => {
 
       // Find devices assigned to the user
       const devices = await usersToDevicesCollection.find({ username }).toArray();
-
+      console.log(`Found ${devices.length} devices assigned to user ${username}`);
+      console.log(devices);
       // console.log(devices);
       const deviceIds = devices.map((device) => device.device_id);
 
@@ -87,6 +88,7 @@ module.exports = (client) => {
         const associatedDevice = devices.find(device => device.device_id === deviceDetail._id.toString());
         return {
           ...deviceDetail,
+          isAdmin: associatedDevice ? associatedDevice.isAdmin : false, // Append isAdmin attribute
           custom_name: associatedDevice ? associatedDevice.device_name : null, // Append device_name as custom_name
         };
       });
@@ -153,47 +155,56 @@ module.exports = (client) => {
   router.post('/addDeviceToUser', async (req, res) => {
     try {
       const { device_id, username } = req.body;
-
-      //Find user in Auth database
+  
+      // Find user in Auth database
       const user = await usersCollection.findOne({
         username,
       });
-
+  
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
-
-      //Find device in pi_devices database
+  
+      // Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
-
+  
       if (!device) {
         return res.status(400).json({ error: 'Device does not exist' });
       }
-
-      //Check if device is already assigned to user
+  
+      // Check if device is already assigned to any user
+      const deviceAssigned = await usersToDevicesCollection.findOne({
+        device_id,
+      });
+  
+      // Check if device is already assigned to the current user
       const userToDevice = await usersToDevicesCollection.findOne({
         username,
         device_id,
       });
-
+  
       if (userToDevice) {
         return res.status(400).json({ error: 'Device already assigned to user' });
       }
-
-      //Add device to user
+  
+      // Determine if the user should be admin (first user to add the device)
+      const isAdmin = !deviceAssigned; // If device isn't assigned to any user, set isAdmin to true
+  
+      // Add device to user with optional isAdmin attribute
       await usersToDevicesCollection.insertOne({
         username,
         device_id,
+        isAdmin: isAdmin || false, // Set isAdmin to true if first user, otherwise false
       });
-
-      return res.status(200).json({ message: 'Device added to user' });
-
+  
+      return res.status(200).json({ message: 'Device added to user', isAdmin });
+  
     } catch (err) {
       res.status(500).json({ error: 'Failed to add device' });
     }
-  });
+  });  
 
   router.post('/updateDeviceName', async (req, res) => {
     try {
