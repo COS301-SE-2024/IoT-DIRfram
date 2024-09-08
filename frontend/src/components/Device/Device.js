@@ -144,9 +144,15 @@ const Device = () => {
                     Cookies.set('deviceId', device._id);
 
                     // Check if the isAdmin property exists and set it in cookies if it does
-                    console.log('device:', device);
+                    // console.log('device:', device);
                     if (device.isAdmin) {
+                      // console.log('isAdmin:', device.isAdmin);
                       Cookies.set('isAdmin', device.isAdmin);
+                    }
+                    else
+                    {
+                      // console.log('isAdmin:', false);
+                      Cookies.set('isAdmin', false);
                     }
                   }}
                 >

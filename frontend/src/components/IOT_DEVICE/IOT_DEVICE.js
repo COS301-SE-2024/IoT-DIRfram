@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-const IoT_Device = ({ deviceId }) => {
+const IoT_Device = ({ deviceId, isAdmin}) => {
   const [devices, setDeviceFiles] = useState([]);
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
@@ -29,7 +29,7 @@ const IoT_Device = ({ deviceId }) => {
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [secondDevice, setSecondDevice] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
-
+  // console.log('isAdmin:', isAdmin);
   const [currentPage, setCurrentPage] = useState(1);
   const devicesPerPage = 10; // Number of devices per page
   const indexOfLastDevice = currentPage * devicesPerPage;
