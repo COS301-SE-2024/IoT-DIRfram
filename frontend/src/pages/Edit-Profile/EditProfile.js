@@ -96,6 +96,7 @@ function EditProfile() {
           <img src={defaultAvatar} alt="Avatar" className="avatar" />
         </div>
         <form className="edit-profile-form" onSubmit={handleSubmit}>
+        <div className="form-group">
           <label>
             Username:
             <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
@@ -104,32 +105,38 @@ function EditProfile() {
             Change Password:
             <input type="password" name="password" value={userDetails.password} onChange={handleChange} />
           </label>
-          <label>
-            Confirm Password:
-            <input type="password" name="confirmPassword" value={userDetails.confirmPassword} onChange={handleChange} />
-          </label>
+        </div>
+        <div className="form-group">
           <label>
             Email:
             <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
           </label>
           <label>
+            Confirm Password:
+            <input type="password" name="confirmPassword" value={userDetails.confirmPassword} onChange={handleChange} />
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
             Name (optional):
             <input type="text" name="name" value={userDetails.name} onChange={handleChange} />
-          </label>
-          <label>
-            Surname (optional):
-            <input type="text" name="surname" value={userDetails.surname} onChange={handleChange} />
           </label>
           <label>
             Age (optional):
             <input type="number" name="age" value={userDetails.age} onChange={handleChange} />
           </label>
-          <div className="button-container">
-          {/* className="save-button" */}
-            <button type="submit" >Save</button>
-            <button type="button" className="remove-button" onClick={handleClose}>Close</button>
-          </div>
-        </form>
+        </div>
+        <div className="form-group">
+        <label>
+            Surname (optional):
+            <input type="text" name="surname" value={userDetails.surname} onChange={handleChange} />
+          </label>
+        </div>
+        <div className="button-container">
+          <button type="submit" className="save-button">Save</button>
+          <button type="button" className="remove-button" onClick={handleClose}>Close</button>
+        </div>
+      </form>
         <ToastContainer />
       </div>
     </div>

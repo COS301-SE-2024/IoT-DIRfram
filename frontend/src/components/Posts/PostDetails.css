@@ -1,0 +1,209 @@
+h2 {
+    padding-left: 40px;
+}
+
+.post-response {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #30303046;
+    margin-right: 1.5rem;
+}
+
+.post-response h4 {
+    color: #4BC0C0;
+}
+
+.post-response p {
+    padding: 0.5rem;
+}
+
+.like-button,
+.dislike-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.like-button:active,
+.dislike-button:active {
+    transform: scale(1.2);
+}
+
+.like-button.liked .fa-thumbs-up {
+    /* color: #007bff; */
+    color: green;
+}
+
+.dislike-button.disliked .fa-thumbs-down {
+    color: #f00;
+}
+
+.like-button .fa-thumbs-up {
+    color: #ccc;
+}
+
+.dislike-button .fa-thumbs-down {
+    color: #ccc;
+}
+
+/* Overall styling for the response form */
+.response-form {
+    max-width: 1000px; /* Limit the form width for better readability */
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto; /* Center the form horizontally and add top/bottom margin */
+    padding: 20px; /* Add padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #161b22d1; /* Match the modal's background color */
+    color: white; /* Ensure the text is white for readability */
+}
+
+/* Styling for the label */
+.response-label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: white; /* Ensure the label text is white */
+}
+
+/* Styling for the textarea */
+.response-textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Ensure a comfortable starting height */
+    padding: 12px; /* Add padding inside the textarea */
+    border: 1px solid #30363D; /* Darker border to match the modal */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #0D1117; /* Match the modal's input background color */
+    color: white; /* Ensure the text is white */
+    margin-bottom: 15px; /* Space between the textarea and submit button */
+    transition: border-color 0.2s;
+}
+
+/* Styling for the submit button */
+.submit-button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Hover and active states for the submit button */
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.submit-button:active {
+    transform: scale(0.98);
+}
+
+
+/* Styling for the post container */
+.post-container {
+    max-width: 90%; 
+    margin: 20px auto; 
+    padding: 20px;
+    border: 1px solid #30363D; 
+    border-radius: 8px; 
+    background-color: #161b22d1; 
+    color: white; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  }
+  
+  /* Style for the post title */
+  .post-container .post-title {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the post author and timestamp */
+  .post-container .post-author {
+    color: #b0b0b0; /* A lighter gray for the timestamp and author */
+    font-size: 14px;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  /* Style for the post content */
+  .post-container .post-content {
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 15px;
+  }
+  
+  /* Additional styling for the username if needed */
+  .post-container #username {
+    color: #4BC0C0; /* A distinct color for the username */
+  }
+  
+  /* Divider styling */
+  .post-container .post-divider {
+    margin-top: 20px;
+    border-top: 1px solid #30363D;
+  }
+
+/* Styling for the post header to use flexbox */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    /* Space below the header */
+}
+
+/* Styling for the post title */
+.post-title {
+    font-size: 2rem;
+    /* Larger font size for the title */
+    font-weight: bold;
+    /* Bold title text */
+    margin-bottom: 10px;
+    /* Space below the title */
+    color: #333;
+    /* Dark gray color for the title */
+}
+
+/* Styling for the post content */
+.post-content {
+    font-size: 1rem;
+    /* Standard font size for readability */
+    line-height: 1.6;
+    /* Increase line height for better readability */
+    color: #555;
+    /* Medium gray color for the content */
+    margin-bottom: 20px;
+    /* Space below the content */
+}
+
+/* Styling for the author information */
+.post-author {
+    font-size: 0.875rem;
+    /* Slightly smaller font size for the author */
+    color: #3b3b3b;
+    /* Lighter gray color for the author */
+    text-align: right;
+    /* Align author information to the right */
+}
+
+#username:hover {
+    color: #0D47F1;
+}
+
+/* Styling for the line break */
+.post-divider {
+    border-top: 1px solid #ddd;
+    /* Light border line */
+    margin: 20px 0;
+    /* Margin above and below the line */
+}

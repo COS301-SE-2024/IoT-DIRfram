@@ -38,9 +38,11 @@ connectToDatabase();
 
 const deviceRoutes = require('./routes/device')(client); 
 const authRoutes = require('./routes/auth')(client); 
+const postRoutes = require('./routes/posts')(client);
 
 app.use('/device', deviceRoutes);
 app.use('/auth', authRoutes);
+app.use('/posts', postRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
