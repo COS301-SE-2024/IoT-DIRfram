@@ -140,8 +140,17 @@ const Device = () => {
                 <Link
                   to="/raspberrypi"
                   className="device-link"
-                  onClick={() => Cookies.set('deviceId', device._id)}
+                  onClick={() => {
+                    Cookies.set('deviceId', device._id);
+
+                    // Check if the isAdmin property exists and set it in cookies if it does
+                    console.log('device:', device);
+                    if (device.isAdmin) {
+                      Cookies.set('isAdmin', device.isAdmin);
+                    }
+                  }}
                 >
+
                   <img
                     src={device.device_name === "raspberrypi" ? image : orangeImage}
                     alt="Device"
