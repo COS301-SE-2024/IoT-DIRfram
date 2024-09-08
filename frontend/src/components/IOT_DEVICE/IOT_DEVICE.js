@@ -61,18 +61,18 @@ const IoT_Device = ({ deviceId }) => {
     return segments[1] ? segments[1] : segments[0];
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, username) => {
     const confirmed = window.confirm("Are you sure you want to delete this device?");
     if (!confirmed) {
       return;
     }
     try {
       await axios.delete('http://localhost:3001/device/deleteFile', {
-        data: { file_id: id }
+        data: { file_id: id, username: username }
       });
       setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
       setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
-
+  
       toast.success('Item Deleted', {
         position: 'top-center',
         onClose: () => closeModal(),

@@ -143,43 +143,49 @@ module.exports = (client) => {
   router.post('/addDeviceToUser', async (req, res) => {
     try {
       const { device_id, username } = req.body;
-
-      //Find user in Auth database
+  
+      // Find user in Auth database
       const user = await usersCollection.findOne({
         username,
       });
-
+  
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
-
-      //Find device in pi_devices database
+  
+      // Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
-
+  
       if (!device) {
         return res.status(400).json({ error: 'Device does not exist' });
       }
-
-      //Check if device is already assigned to user
+  
+      // Check if device is already assigned to user
       const userToDevice = await usersToDevicesCollection.findOne({
         username,
         device_id,
       });
-
+  
       if (userToDevice) {
         return res.status(400).json({ error: 'Device already assigned to user' });
       }
-
-      //Add device to user
+  
+      // Add device to user
       await usersToDevicesCollection.insertOne({
         username,
         device_id,
       });
-
-      return res.status(200).json({ message: 'Device added to user' });
-
+  
+      // Set the username as the admin of the device
+      await piDevicesCollection.updateOne(
+        { _id: device_id },
+        { $set: { admin: username } }
+      );
+  
+      return res.status(200).json({ message: 'Device added to user and set as admin' });
+  
     } catch (err) {
       res.status(500).json({ error: 'Failed to add device' });
     }
@@ -237,43 +243,48 @@ module.exports = (client) => {
   router.post('/removeDeviceFromUser', async (req, res) => {
     try {
       const { device_id, username } = req.body;
-
-      //Find user in Auth database
+  
+      // Find user in Auth database
       const user = await usersCollection.findOne({
         username,
       });
-
+  
       if (!user) {
         return res.status(400).json({ error: 'User not found' });
       }
-
-      //Find device in pi_devices database
+  
+      // Find device in pi_devices database
       const device = await piDevicesCollection.findOne({
         _id: device_id,
       });
-
+  
       if (!device) {
         return res.status(400).json({ error: 'Device does not exist' });
       }
-
-      //Check if device is assigned to user
+  
+      // Check if the username is the admin of the device
+      if (device.admin !== username) {
+        return res.status(403).json({ error: 'User is not authorized to remove this device' });
+      }
+  
+      // Check if device is assigned to user
       const userToDevice = await usersToDevicesCollection.findOne({
         username,
         device_id,
       });
-
+  
       if (!userToDevice) {
         return res.status(400).json({ error: 'Device not assigned to user' });
       }
-
-      //Remove device from user
+  
+      // Remove device from user
       await usersToDevicesCollection.deleteOne({
         username,
         device_id,
       });
-
+  
       return res.status(200).json({ message: 'Device removed from user' });
-
+  
     } catch (err) {
       res.status(500).json({ error: 'Failed to remove device' });
     }
@@ -314,29 +325,34 @@ module.exports = (client) => {
     }
   });
 
-  router.delete('/deleteFile', async (req, res) => {
+   router.delete('/deleteFile', async (req, res) => {
     try {
-      const { file_id } = req.body;
-      // console.log(file_id);
-
+      const { file_id, username } = req.body;
+  
       var mongoose = require('mongoose');
       var id = new mongoose.Types.ObjectId(file_id);
-      //Find file in file_data database
+  
+      // Find file in file_data database
       const file = await deviceFilesCollection.findOne({
         _id: id,
       });
-      // console.log(file);
+  
       if (!file) {
         return res.status(400).json({ error: 'File does not exist' });
       }
-      
-      //Delete file from file_data database
+  
+      // Check if the username matches
+      if (file.username !== username) {
+        return res.status(403).json({ error: 'User is not authorized to delete this file' });
+      }
+  
+      // Delete file from file_data database
       await deviceFilesCollection.deleteOne({
         _id: id,
       });
-
+  
       return res.status(200).json({ message: 'File deleted' });
-
+  
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Failed to delete file' });
