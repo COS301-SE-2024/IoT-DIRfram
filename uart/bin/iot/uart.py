@@ -550,7 +550,7 @@ if __name__ == '__main__':
     #     # Delay for 1 second
     #     time.sleep(1)
 
-    for _ in range(60):
+    for _ in range(45):
         voltage = getVoltage(channel0) #channel0.voltage
         current = voltage * 20
         lcd.lcd_byte(LCD_LINE_1, LCD_CMD)
