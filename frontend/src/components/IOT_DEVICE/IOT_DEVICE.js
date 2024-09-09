@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faExchange } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
+import { faDownload, faExchange, faTrashAlt } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-const IoT_Device = ({ deviceId }) => {
+const IoT_Device = ({ deviceId, isAdmin }) => {
   const [devices, setDeviceFiles] = useState([]);
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
@@ -29,8 +29,8 @@ const IoT_Device = ({ deviceId }) => {
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [secondDevice, setSecondDevice] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
+  console.log('isAdmin:', isAdmin);
   const devicesPerPage = 10; // Number of devices per page
   const indexOfLastDevice = currentPage * devicesPerPage;
   const indexOfFirstDevice = indexOfLastDevice - devicesPerPage;
@@ -78,27 +78,27 @@ const IoT_Device = ({ deviceId }) => {
     return segments[1] ? segments[1] : segments[0];
   };
 
-  // const handleDelete = async (id) => {
-  //   const confirmed = window.confirm("Are you sure you want to delete this device?");
-  //   if (!confirmed) {
-  //     return;
-  //   }
-  //   try {
-  //     await axios.delete('http://localhost:3001/device/deleteFile', {
-  //       data: { file_id: id }
-  //     });
-  //     setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
-  //     setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this device?");
+    if (!confirmed) {
+      return;
+    }
+    try {
+      await axios.delete('http://localhost:3001/device/deleteFile', {
+        data: { file_id: id }
+      });
+      setDeviceFiles((prevDevices) => prevDevices.filter(device => device._id !== id));
+      setFilteredDevices((prevDevices) => prevDevices.filter(device => device._id !== id));
 
-  //     toast.success('Item Deleted', {
-  //       position: 'top-center',
-  //       onClose: () => closeModal(),
-  //     });
+      toast.success('Item Deleted', {
+        position: 'top-center',
+        onClose: () => closeModal(),
+      });
 
-  //   } catch (error) {
-  //     console.error('Error deleting device:', error);
-  //   }
-  // };
+    } catch (error) {
+      console.error('Error deleting device:', error);
+    }
+  };
 
   const downloadFile = (content, filename) => {
     const fileExtension = prompt("Choose file format: 'xml' or 'text'");
@@ -436,9 +436,9 @@ const IoT_Device = ({ deviceId }) => {
                   <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
                     Download File <FontAwesomeIcon icon={faDownload} size="2x" />
                   </button>
-                  {/* <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+                  {isAdmin === "true" && (<button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
                   Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-                </button> */}
+                </button>)}
                   <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
                     Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
                   </button>

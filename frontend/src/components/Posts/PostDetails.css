@@ -1,3 +1,7 @@
+h2 {
+    padding-left: 40px;
+}
+
 .post-response {
     margin-bottom: 1.5rem;
     padding: 1rem;
@@ -5,6 +9,14 @@
     border-radius: 8px;
     background-color: #30303046;
     margin-right: 1.5rem;
+}
+
+.post-response h4 {
+    color: #4BC0C0;
+}
+
+.post-response p {
+    padding: 0.5rem;
 }
 
 .like-button,
@@ -40,33 +52,36 @@
 
 /* Overall styling for the response form */
 .response-form {
+    max-width: 1000px; /* Limit the form width for better readability */
     display: flex;
     flex-direction: column;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    /* background-color: #f9f9f9; */
+    margin: 50px auto; /* Center the form horizontally and add top/bottom margin */
+    padding: 20px; /* Add padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #161b22d1; /* Match the modal's background color */
+    color: white; /* Ensure the text is white for readability */
+}
+
+/* Styling for the label */
+.response-label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: white; /* Ensure the label text is white */
 }
 
 /* Styling for the textarea */
 .response-textarea {
-    resize: vertical;
-    /* min-height: 100px; */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Ensure a comfortable starting height */
+    padding: 12px; /* Add padding inside the textarea */
+    border: 1px solid #30363D; /* Darker border to match the modal */
+    border-radius: 4px; /* Rounded corners */
     font-size: 14px;
     line-height: 1.5;
-    /* background-color: #fff; */
-    margin-bottom: 10px;
+    background-color: #0D1117; /* Match the modal's input background color */
+    color: white; /* Ensure the text is white */
+    margin-bottom: 15px; /* Space between the textarea and submit button */
     transition: border-color 0.2s;
-}
-
-/* Styling for the textarea on focus */
-.response-textarea:focus {
-    border-color: #007bff;
-    outline: none;
 }
 
 /* Styling for the submit button */
@@ -94,20 +109,49 @@
 
 /* Styling for the post container */
 .post-container {
-    max-width: 90%;
-    /* Limit the maximum width for better readability */
-    /* margin: 0 auto; */
-    margin: 20px auto;
-    /* Center the post container horizontally */
+    max-width: 90%; 
+    margin: 20px auto; 
     padding: 20px;
-    /* Add padding around the content */
-    border: 1px solid #ddd;
-    /* Light border around the post */
-    border-radius: 8px;
-    /* Rounded corners */
-    background-color: #fff;
-    /* White background for contrast */
-}
+    border: 1px solid #30363D; 
+    border-radius: 8px; 
+    background-color: #161b22d1; 
+    color: white; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  }
+  
+  /* Style for the post title */
+  .post-container .post-title {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the post author and timestamp */
+  .post-container .post-author {
+    color: #b0b0b0; /* A lighter gray for the timestamp and author */
+    font-size: 14px;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  /* Style for the post content */
+  .post-container .post-content {
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 15px;
+  }
+  
+  /* Additional styling for the username if needed */
+  .post-container #username {
+    color: #4BC0C0; /* A distinct color for the username */
+  }
+  
+  /* Divider styling */
+  .post-container .post-divider {
+    margin-top: 20px;
+    border-top: 1px solid #30363D;
+  }
 
 /* Styling for the post header to use flexbox */
 .post-header {

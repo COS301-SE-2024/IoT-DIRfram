@@ -174,7 +174,7 @@ const PostDetails = () => {
 
                     return (
                         <div key={index} className='post-response'>
-                            <h6>@{response.authorId}'s response:</h6>
+                            <h4>@{response.authorId}'s response:</h4>
                             <p>{response.content} </p>
                             <button
                                 onClick={() => toggleLike(response._id, hasLiked)}

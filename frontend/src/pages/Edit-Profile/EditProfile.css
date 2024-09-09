@@ -1,54 +1,67 @@
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .edit-profile-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-  }
-  
-  .edit-profile-form label {
-    margin-bottom: 10px;
-    font-size: 18px;
-  }
-  
-  .edit-profile-form input {
-    /* padding: 8px;
-    margin-left: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px; */
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #30363D;
-    background-color: #161b22d1;
-    color: white;
-    outline: none;
-  }
-  
-  .save-button {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-  
-  .save-button:hover {
-    background-color: darkgreen;
-  }
-  
-  .edit-profile-container {
-    display: flex;
-    max-width: 700px;
-    margin: 100px auto;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #f0f0f017; 
-    border: 2px solid #2f314653; 
-    border-radius: 4px; 
-    transition: transform 1s ease;
-  }
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 20px;
+  min-width: 300px; /* Ensure labels and inputs have enough width */
+}
+
+.edit-profile-form label {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.edit-profile-form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #30363D;
+  background-color: #161b22d1;
+  color: white;
+  outline: none;
+  width: 100%; /* Make inputs take full width of their container */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the end */
+  gap: 10px;
+}
+
+.save-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: darkgreen;
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.remove-button:hover {
+  background-color: darkred;
+}
