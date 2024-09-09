@@ -254,7 +254,7 @@ def get_voltage(lcd):
     current_values = []
     lcd.clear()
     # Loop to read the analog input for 20 seconds
-    for _ in range(20):
+    for _ in range(40):
         voltage = getVoltage(channel0)  # Read voltage
         current = voltage * 20  # Calculate current
         current_values.append(current)  # Store current value in array
@@ -263,7 +263,7 @@ def get_voltage(lcd):
         lcd.lcd_byte(LCD_LINE_2, LCD_CMD)
         lcd.lcd_string(f"Curr: {current:.6f}A", 2)
         print(f"Analog Value 0: {channel0.value / 65536:.6f}, Voltage: {channel0.voltage:.6f}V, Current: {current:.6f}A")
-        time.sleep(1)  # Delay for 1 second
+        time.sleep(0.5)  # Delay for 1 second
 
     return current_values
 
