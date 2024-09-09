@@ -5,9 +5,8 @@ import Cookies from 'js-cookie';
 import Header from '../Header/Header';
 import './PostDetails.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as regularThumbsUp, faThumbsDown as regularThumbsDown } from '@fortawesome/free-regular-svg-icons';
-
 
 const PostDetails = () => {
     const { postId } = useParams();
@@ -56,6 +55,17 @@ const PostDetails = () => {
             setNewResponse('');
         } catch (error) {
             console.error('Error adding response:', error);
+        }
+    };
+
+    const handleDeleteResponse = async (responseId) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/posts/responses/${responseId}`, {
+                data: { username: currentUserId }
+            });
+            setResponses(responses.filter(response => response._id !== responseId));
+        } catch (error) {
+            console.error('Error deleting response:', error);
         }
     };
 
@@ -188,6 +198,14 @@ const PostDetails = () => {
                             >
                                 <FontAwesomeIcon icon={hasDisliked ? faThumbsDown : regularThumbsDown} size='xs' />
                             </button>
+                            {response.authorId === currentUserId && (
+                                <button
+                                    onClick={() => handleDeleteResponse(response._id)}
+                                    className="delete-button"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} size='xs' />
+                                </button>
+                            )}
                             <hr />
                             <span>
                                 <h6 style={{ color: netLikes >= 0 ? 'green' : 'red' }}>
