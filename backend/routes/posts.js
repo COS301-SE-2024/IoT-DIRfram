@@ -12,7 +12,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-
 module.exports = (client) => {
     const db = client.db('uart_data');
     const clientDB = client.db('Auth');
@@ -74,20 +73,17 @@ module.exports = (client) => {
 
             const user = await db.collection('Posts').findOne({ _id: new ObjectId(postId) });
 
-            // console.log(user);
-
             const users = await usersCollection.find({ username: user.authorId }).toArray();
-            // console.log(users);
 
             const mailOptions = {
                 from: 'iotdirfram@gmail.com',
                 subject: 'Response to post',
                 html: `
-        <p>New response to your post</p>
-        <h1 style="font-size: 24px; font-weight: bold;">${user.title}</h1>
-        <p>Go check it out.</p>
-        <p>Thank you,<br>IoT-DIRfram Team</p>
-    `,
+                    <p>New response to your post</p>
+                    <h1 style="font-size: 24px; font-weight: bold;">${user.title}</h1>
+                    <p>Go check it out.</p>
+                    <p>Thank you,<br>IoT-DIRfram Team</p>
+                `,
             };
 
             users.forEach(async (user) => {
@@ -127,6 +123,37 @@ module.exports = (client) => {
         }
     });
 
+    // Delete a response
+    router.delete('/responses/:responseId', async (req, res) => {
+        try {
+            const { responseId } = req.params;
+            const { username } = req.body; // Assuming username is sent in the request body
+
+            // Find the response
+            const response = await db.collection('Responses').findOne({ _id: new ObjectId(responseId) });
+
+            if (!response) {
+                return res.status(404).json({ message: 'Response not found' });
+            }
+
+            // Check if the username matches the authorId
+            if (response.authorId !== username) {
+                return res.status(403).json({ error: 'User is not authorized to delete this response' });
+            }
+
+            // Delete the response
+            const result = await db.collection('Responses').deleteOne({ _id: new ObjectId(responseId) });
+
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'Response not found' });
+            }
+
+            res.status(200).json({ message: 'Response deleted' });
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to delete response' });
+        }
+    });
+
     // Get post details along with responses
     router.get('/:postId', async (req, res) => {
         try {
@@ -142,14 +169,12 @@ module.exports = (client) => {
 
             // Find the post
             const post = await db.collection('Posts').findOne({ _id: objectId });
-            // console.log(post);
             if (!post) {
                 return res.status(404).json({ message: 'Post not found' });
             }
 
             // Find the responses related to this post
             const responses = await db.collection('Responses').find({ postId: postId }).toArray();
-            // console.log(responses);
 
             res.json({ post, responses });
         } catch (err) {
