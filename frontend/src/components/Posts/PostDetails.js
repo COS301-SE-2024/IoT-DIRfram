@@ -184,7 +184,10 @@ const PostDetails = () => {
 
                     return (
                         <div key={index} className='post-response'>
-                            <h4>@{response.authorId}'s response:</h4>
+                            <div className="response-header">
+                                <h4>@{response.authorId}'s response:</h4>
+                                <span className="response-date">{new Date(response.createdAt).toLocaleString()}</span>
+                            </div>
                             <p>{response.content} </p>
                             <button
                                 onClick={() => toggleLike(response._id, hasLiked)}
@@ -202,6 +205,7 @@ const PostDetails = () => {
                                 <button
                                     onClick={() => handleDeleteResponse(response._id)}
                                     className="delete-button"
+                                    title="You can delete your own response"
                                 >
                                     <FontAwesomeIcon icon={faTrash} size='xs' />
                                 </button>
