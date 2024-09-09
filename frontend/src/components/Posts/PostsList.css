@@ -4,8 +4,26 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #4f4f4f46;
+    transition: transform 0.3s ease, font-size 0.3s ease;
+  }
+
+  .forum-post:hover .post-title-author a {
+    color: #ADD8E6; /* Light blue color */
+  }
+  .forum-post:hover {
+    transform: scale(1.01);
+  }
+
+  .forum-post .post-title-author a,
+  .forum-post .post-details {
+      transition: font-size 0.3s ease;
   }
   
+  .forum-post:hover .post-title-author a,
+  .forum-post:hover .post-details {
+      font-size: 1.05em; 
+  }
+
   .post-header {
     display: flex;
     justify-content: space-between;
