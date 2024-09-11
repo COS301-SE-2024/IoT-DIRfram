@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faExchange, faTrashAlt } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
+import { faDownload, faExchange, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
@@ -235,9 +235,12 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
     const max = Math.max(...voltage).toFixed(6);
     const min = Math.min(...voltage).toFixed(6);
     const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
-
-    return { max, min, avg };
-  };
+    
+    const maxIndex = voltage.indexOf(Math.max(...voltage));
+    const minIndex = voltage.indexOf(Math.min(...voltage));
+  
+    return { max, maxIndex, min, minIndex, avg };
+  };  
 
   // const handleItemClick = (device) => {
   //   setSelectedDevice(device);
@@ -320,12 +323,19 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
       console.log(secondDevice);
       const comparisonData = generateNewVoltageData(data1, data2);
       return (
-        <Line data={comparisonData} />
         // options={options}
+        <div className='graphDiv'>
+          <Line data={comparisonData} options={compOptions}/>
+        </div>
       );
     }
     return null;
   };
+
+  const compOptions = {
+    aspectRatio: 3,
+    maintainAspectRatio: true,
+  }
 
   const generateNewVoltageData = (voltage1, voltage2 = []) => {
     return {
@@ -421,10 +431,12 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
               <h2>Device Details</h2>
               <button onClick={closeModal}>Close</button>
             </div>
-            <div className="buttons-container">
+            <div className="modal-body">
+            {/* className="buttons-container" */}
+            <div>
               {secondDevice ? (
                 <>
-                  <button className="icon-button" onClick={() => setSecondDevice(null)}>Cancel Comparison</button>
+                  <button className="icon-button delete-button" onClick={() => setSecondDevice(null)}>Cancel Comparison <FontAwesomeIcon icon={faBan}/></button>
                   <div className="comparison-chart">
                     <h3>Comparison Chart</h3>
                     {renderComparisonChart()}
@@ -434,22 +446,22 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
               ) : (
                 <>
                   <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                    Download File <FontAwesomeIcon icon={faDownload} size="2x" />
+                    Download File <FontAwesomeIcon icon={faDownload}/>
                   </button>
                   {isAdmin === "true" && (<button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-                  Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-                </button>)}
+                    Delete Info <FontAwesomeIcon icon={faTrashAlt}/>
+                  </button>)}
                   <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-                    Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
+                    Download Current <FontAwesomeIcon icon={faDownload}/>
                   </button>
                   <button className="icon-button compare-button" onClick={() => handleCompareClick()}>
-                    Compare Current <FontAwesomeIcon icon={faExchange} size="2x" />
+                    Compare Current <FontAwesomeIcon icon={faExchange}/>
                   </button>
                 </>
               )}
             </div>
 
-            <div className="modal-body">
+           
               <div className='device-container-iot'>
                 <div className='left-container'>
                   <h2>Extracted from: {selectedDevice.device_name}</h2>
@@ -470,8 +482,8 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
                       <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
                     </div>
                     <div className="stats">
-                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
+                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max} - Point {calculateStats(selectedDevice.voltage).maxIndex + 1}</p>
+                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min} - Point {calculateStats(selectedDevice.voltage).minIndex + 1}</p>
                       <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
                     </div>
                   </div>

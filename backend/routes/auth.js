@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+// const secret = crypto.randomBytes(64).toString('hex');
+// console.log(secret);
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'iotdirfram@gmail.com',
+    pass: 'hzxv etub xkpg ngri', // Add your password here
+  },
+});
+
 
 module.exports = (client) => {
   const db = client.db('Auth');
@@ -15,6 +28,79 @@ module.exports = (client) => {
     return crypto.createHash('sha256').update(password + salt).digest('hex');
   };
 
+  router.post('/forgot-password', async (req, res) => {
+    try {
+      const { email } = req.body;
+      // console.log('Received email:', email);
+      const user = await usersCollection.findOne({ email });
+      // console.log('User:', user);
+      if (!user) {
+        return res.status(404).json({ error: 'Email not found' });
+      }
+  
+      // Generate a reset token that expires in 1 hour
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      // console.log('Token:', token);
+      // Generate the reset link
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+      // console.log('Reset link:', resetLink);
+      // Send email with the reset link
+      const mailOptions = {
+        from: 'iotdirfram@gmail.com',
+        to: email,
+        subject: 'Password Reset',
+        text: `Click the link to reset your password: ${resetLink} \n\n The link expires in 1 hour \n\n If you didn't request a password reset, ignore this email.`,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.status(500).json({ error: 'Error sending email' });
+        } else {
+          res.status(200).json({ message: 'Password reset link sent' });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+
+  router.post('/reset-password', async (req, res) => {
+    try {
+      const { token, newPassword, confirmNewPassword } = req.body;
+  
+      if (newPassword !== confirmNewPassword) {
+        return res.status(400).json({ error: 'Passwords do not match' });
+      }
+  
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const email = decoded.email;
+  
+      const user = await usersCollection.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Hash new password
+      const salt = generateSalt();
+      const hashedPassword = hashPassword(newPassword, salt);
+  
+      // Update the user's password
+      await usersCollection.updateOne(
+        { email: email },
+        { $set: { password: hashedPassword, salt: salt } }
+      );
+      console.log('Password reset successfully');
+      res.status(200).json({ message: 'Password reset successfully' });
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        res.status(400).json({ error: 'Reset link expired' });
+      } else {
+        res.status(500).json({ error: 'Server error' });
+      }
+    }
+  });
+  
+  
   router.post('/register', async (req, res) => {
     try {
       const { username, email, password, confirmPassword } = req.body;

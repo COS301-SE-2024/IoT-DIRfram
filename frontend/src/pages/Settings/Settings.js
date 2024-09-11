@@ -97,24 +97,26 @@ const Settings = () => {
           <div className='setting-item'>
             <label>Receive an email notification for the following:</label>
             <div className='notification-options'>
-              <label>
+              <p>
                 <input
                   type="checkbox"
                   name="newDataAvailable"
                   checked={notifications.newDataAvailable}
                   onChange={handleNotificationChange}
+                  class="checkbox-round"
                 />
                 When new IoT data is uploaded
-              </label>
-              <label>
+              </p>
+              <p>
                 <input
                   type="checkbox"
                   name="newResponseToPosts"
                   checked={notifications.newResponseToPosts}
                   onChange={handleNotificationChange}
+                  class="checkbox-round"
                 />
                 When there's a new response to my posts
-              </label>
+              </p>
             </div>
           </div>
         </div>
