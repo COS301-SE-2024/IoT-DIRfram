@@ -14,6 +14,8 @@ import Layout from './pages/Help/Layout';
 import EditProfile from './pages/Edit-Profile/EditProfile';
 import PostsList from './components/Posts/PostsList';
 import PostDetails from './components/Posts/PostDetails';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ForgotPassword/ResetPassword';
 import './App.css';
 
 const App = () => {
@@ -35,6 +37,8 @@ const App = () => {
         <Route path="/settings" element={<Layout><ProtectedRoute><Settings /></ProtectedRoute></Layout>} /> {/* Wrapped with Layout */}
         <Route path="/postslist" element={<Layout><ProtectedRoute><PostsList /></ProtectedRoute></Layout>} />
         <Route path="/posts/:postId" element={<Layout><ProtectedRoute><PostDetails /></ProtectedRoute></Layout>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} /> {/* New route for reset password */}
       </Routes>
     </RouterComponent>
   );

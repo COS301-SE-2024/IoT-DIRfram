@@ -30,6 +30,7 @@ function Profile() {
       getUserProfile(username)
         .then(data => {
           setUserDetails(data);
+          console.log(data);
 
           // Store user details in cookies
           Cookies.set('username', data.username, { expires: 7 });
@@ -78,10 +79,10 @@ function Profile() {
               <p><strong>Age:</strong></p>
             </div>
             <div className="text-right">
-              <p>{userDetails.email}</p>
-              <p>{userDetails.name}</p>
-              <p>{userDetails.surname}</p>
-              <p>{userDetails.age}</p>
+              <p>{userDetails.email ? userDetails.email : "None"}</p>
+              <p>{userDetails.name ? userDetails.name : "None"}</p>
+              <p>{userDetails.surname ? userDetails.surname : "None"}</p>
+              <p>{userDetails.age ? userDetails.age : "None"}</p>
             </div>
           </div>
         </div>

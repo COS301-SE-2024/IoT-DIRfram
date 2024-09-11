@@ -4,6 +4,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+
 dotenv.config();
 
 const app = express();
@@ -11,6 +12,7 @@ const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 app.use(cors());
+// app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 const uri = process.env.MONGO_URI;
 console.log("Connecting to MongoDB with URI:", uri);//debug
