@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     // Get the token from the URL
     const query = new URLSearchParams(useLocation().search);
@@ -25,9 +28,14 @@ const ResetPassword = () => {
             .then(data => {
                 if (data.message) {
                     setMessage(data.message);
+                    toast.success(data.message, {
+                        position: 'top-center',
+                        onClose: () => navigate('/login'),
+                    });
                     setError('');
                 } else if (data.error) {
                     setError(data.error);
+                    toast.error(data.error);
                 }
             })
             .catch(err => setError('An error occurred.'));
@@ -61,6 +69,7 @@ const ResetPassword = () => {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };

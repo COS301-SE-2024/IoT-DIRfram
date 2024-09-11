@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleForgotPassword = (e) => {
         e.preventDefault();
-        console.log(email);
+        // console.log(email);
         fetch(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
             method: 'POST',
             headers: {
@@ -19,9 +22,14 @@ const ForgotPassword = () => {
             .then(data => {
                 if (data.message) {
                     setMessage(data.message);
+                    toast.success(data.message, {
+                        position: 'top-center',
+                        onClose: () => navigate('/login'),
+                    });
                     setError('');
                 } else if (data.error) {
                     setError(data.error);
+                    toast.error(data.error);
                 }
             })
             .catch(err => setError('An error occurred.'));
@@ -47,6 +55,7 @@ const ForgotPassword = () => {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };
