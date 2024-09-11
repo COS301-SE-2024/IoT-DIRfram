@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons for password visibility
 import 'react-toastify/dist/ReactToastify.css';
 import './EditProfile.css';
 import Header from '../../components/Header/Header';
@@ -18,6 +19,8 @@ function EditProfile() {
     age: Cookies.get('age') || '',
   });
 
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -83,6 +86,14 @@ function EditProfile() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   const handleClose = () => {
     navigate('/profile');
   };
@@ -103,7 +114,17 @@ function EditProfile() {
           </label>
           <label>
             Change Password:
-            <input type="password" name="password" value={userDetails.password} onChange={handleChange} />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={userDetails.password}
+                onChange={handleChange}
+              />
+              <span className="toggle-password" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </label>
         </div>
         <div className="form-group">
@@ -113,7 +134,17 @@ function EditProfile() {
           </label>
           <label>
             Confirm Password:
-            <input type="password" name="confirmPassword" value={userDetails.confirmPassword} onChange={handleChange} />
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
+                value={userDetails.confirmPassword}
+                onChange={handleChange}
+              />
+              <span className="toggle-password" onClick={toggleConfirmPasswordVisibility}>
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </label>
         </div>
         <div className="form-group">
