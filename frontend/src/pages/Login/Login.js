@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons for password visibility
 import './Login.css'; // Import CSS file for styling
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,23 +27,27 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Invalid credentials');
-        })
-        .then(data => {
-          Cookies.set('session', data.sessionId, { expires: 1 }); // Set session cookie for 1 day
-          Cookies.set('username', username, { expires: 1 }); // Set session cookie for 1 day
-          navigate('/dashboard'); // Redirect to dashboard
-        })
-        .catch(err => {
-          setError(err.message);
-        });
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Invalid credentials');
+      })
+      .then(data => {
+        Cookies.set('session', data.sessionId, { expires: 1 }); // Set session cookie for 1 day
+        Cookies.set('username', username, { expires: 1 }); // Set session cookie for 1 day
+        navigate('/dashboard'); // Redirect to dashboard
+      })
+      .catch(err => {
+        setError(err.message);
+      });
     } else {
       setError('Please enter username and password');
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Toggle password visibility
   };
 
   return (
@@ -62,13 +68,18 @@ const Login = () => {
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'} // Conditionally change input type
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span className="toggle-password" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle icon */}
+              </span>
+            </div>
           </div>
           <button type="submit" className="btn-submit">Login</button>
         </form>
