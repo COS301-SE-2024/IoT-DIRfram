@@ -3,6 +3,8 @@ const express = require('express');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const authRoutes = require('../routes/auth');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const app = express();
 app.use(express.json());
@@ -10,11 +12,20 @@ app.use(express.json());
 let mongoServer;
 let mockClient;
 
+jest.mock('nodemailer');
+jest.mock('jsonwebtoken');
+
+const mockSendMail = jest.fn().mockResolvedValue({ response: 'Email sent' });
+nodemailer.createTransport.mockReturnValue({ sendMail: mockSendMail });
+process.env.JWT_SECRET = 'test_secret';
+process.env.FRONTEND_URL = 'http://localhost:3000';
+
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
   mockClient = new MongoClient(uri, { useUnifiedTopology: true });
   await mockClient.connect();
+
   app.use('/auth', authRoutes(mockClient));
 });
 
@@ -231,6 +242,45 @@ describe('Auth API', () => {
     expect(response.body.message).toBe('Email already taken');
   });
   
+  test('should update notification settings', async () => {
+    const updateData = {
+      username: 'testuser',
+      notifications: {
+        newDataAvailable: true,
+        newResponseToPosts: false
+      }
+    };
+  
+    const response = await request(app).post('/auth/updateNotifications').send(updateData);
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Notification settings updated successfully.');
+  });
+  
+  jest.mock('nodemailer');
 
+  // test('should handle forgot password request', async () => {
+  //   const response = await request(app).post('/auth/forgot-password').send({ email: 'testuser@example.com' });
+  //   console.log('Forgot password result:', response.body);
+  //   expect(response.status).toBe(200);
+  //   expect(response.body.message).toBe('Password reset link sent');
+  //   expect(mockSendMail).toHaveBeenCalled();
+  // });  
+  
+  
+  test('should reset password', async () => {
+    process.env.JWT_SECRET = 'test_secret';
+    jwt.verify.mockReturnValue({ email: 'testuser@example.com' });
+  
+    const resetData = {
+      token: 'mockedToken',
+      newPassword: 'newPassword123',
+      confirmNewPassword: 'newPassword123'
+    };
+  
+    const response = await request(app).post('/auth/reset-password').send(resetData);
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Password reset successfully');
+  });  
+  
 
 });
