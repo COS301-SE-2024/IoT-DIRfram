@@ -125,18 +125,19 @@ describe('Device API', () => {
   });
 
   test('should retrieve devices for user', async () => {
-    //await request(app).post('/device/addDeviceToUser').send({ device_id: 'device123', username: 'testuser' });
-
+    await request(app).post('/device/addDeviceToUser').send({ device_id: 'device1234', username: 'testuser' });
+  
     const response = await request(app).post('/device/devicesForUser').send({ username: 'testuser' });
-    console.log(response.body);
+    // console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body).toEqual([
       {
         _id: 'device1234',
         deviceName: 'Test Device',
+        isAdmin: true
       },
     ]);
-  });
+  });  
 
   test('should delete a device file', async () => {
     const response = await request(app).delete('/device/deleteFile').send({ file_id: testID.toString() });
@@ -190,6 +191,43 @@ describe('Device API', () => {
     const response = await request(app).delete('/device/deleteFile').send({ file_id: testID });
     expect(response.status).toBe(400);
     expect(response.body.error).toBe('File does not exist');
+  });
+  
+
+  test('should update device name', async () => {
+    // First, add the device to the database
+    await request(app).post('/device/addDevice').send({ device_id: 'device123', deviceName: 'Test Device' });
+  
+    // Then, add the device to the user
+    await request(app).post('/device/addDeviceToUser').send({ device_id: 'device123', username: 'testuser' });
+  
+    const updateData = {
+      device_id: 'device123',
+      device_name: 'Updated Device Name',
+      username: 'testuser'
+    };
+  
+    const response = await request(app).post('/device/updateDeviceName').send(updateData);
+    // console.log('Update device name result:', response.body);
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Device name updated successfully');
+  });  
+  
+  
+  
+  test('should upload UART data', async () => {
+    const uartData = {
+      type: 'uart',
+      content: 'Test UART data',
+      filename: 'test.txt',
+      device_name: 'Test Device',
+      device_serial_number: 'device123',
+      voltage: '5V'
+    };
+  
+    const response = await request(app).post('/device/upload_uart').send(uartData);
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Data uploaded successfully and notifications sent!');
   });
   
   
