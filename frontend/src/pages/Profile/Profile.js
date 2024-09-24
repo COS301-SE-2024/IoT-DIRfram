@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { getUserProfile } from './ProfileConfig'; // Ensure this function fetches data from your API
 import './Profile.css';
 import Header from '../../components/Header/Header';
-// import defaultAvatar from '../../assets/profile1.jpg';
+import gsap from 'gsap';
 
 function Profile() {
   const [userDetails, setUserDetails] = useState({
@@ -52,6 +52,16 @@ function Profile() {
           });
         });
     }
+  }, []);
+
+  useEffect(() => {
+    gsap.from(".profile-container", {
+      duration: 1,
+      opacity: 10,
+      y: 50,
+      ease: "power3.out",
+      stagger: 0.2
+    });
   }, []);
 
   return (
