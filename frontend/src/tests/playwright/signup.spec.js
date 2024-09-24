@@ -50,4 +50,29 @@ test.describe('Signup Flow', () => {
     await page.click('button[type="submit"]');
     await expect(page.locator('text=Passwords do not match').first()).toBeVisible();
   });
+
+  test('shows validation errors with invalid email', async ({ page }) => {
+    await page.goto('http://localhost:3000/signup');
+
+    await page.fill('input[name="username"]', 'newuser5');
+    await page.fill('input[name="email"]', 'invalid-email@email.x');
+    await page.fill('input[name="password"]', 'Password123');
+    await page.fill('input[name="confirmPassword"]', 'Password123');
+
+    await page.click('button[type="submit"]');
+    await expect(page.locator('text=Invalid email address')).toBeVisible();
+  });
+
+  test('shows validation errors with invalid password', async ({ page }) => {
+    await page.goto('http://localhost:3000/signup');
+
+    await page.fill('input[name="username"]', 'newuser');
+    await page.fill('input[name="email"]', 'email@email.com');
+    await page.fill('input[name="password"]', 'password');
+    await page.fill('input[name="confirmPassword"]', 'password');
+
+    await page.click('button[type="submit"]');
+    await expect(page.locator('text=Password must be at least 8 characters long and include at least one number').first()).toBeVisible();
+  });
+
 });
