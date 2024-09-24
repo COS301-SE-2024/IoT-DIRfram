@@ -15,7 +15,7 @@ BACKEND_PID=$(lsof -t -i:$BACKEND_PORT)
 
 # Start frontend server
 echo "Starting frontend server..."
-(cd frontend && npm start &) # Replace with your actual command to start the frontend
+(cd frontend && REACT_APP_API_URL=http://localhost:3001 npm start &) # Replace with your actual command to start the frontend
 FRONTEND_PID=$!
 
 # Wait for the frontend server to start
