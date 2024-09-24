@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test.describe('Login Flow', () => {
+
   test.beforeEach(async ({ page }) => {
     // Navigate to the login page before each test
     await page.goto('http://localhost:3000/login');
@@ -30,4 +31,5 @@ test.describe('Login Flow', () => {
     const errorMessage = await page.locator('.error');
     await expect(errorMessage).toContainText('Invalid credentials');
   });
+
 });
