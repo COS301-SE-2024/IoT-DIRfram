@@ -1,9 +1,11 @@
+const fs = require('fs');
 const { test, expect } = require('@playwright/test');
 
 test.describe('Dashboard Flow', () => {
-    // First log in
+    
 
     test.beforeEach(async ({ page }) => {
+        await page.coverage.startJSCoverage(); // Start JS coverage
         // Navigate to the login page before each test
         await page.goto('http://localhost:3000/login');
         await page.fill('#username', 'DaganTheKing');
@@ -13,6 +15,11 @@ test.describe('Dashboard Flow', () => {
         await page.click('button[type="submit"]');
         await expect(page).toHaveURL(/\/dashboard/);
     });
+
+    test.afterEach(async ({ page }) => {
+        const jsCoverage = await page.coverage.stopJSCoverage(); // Stop JS coverage
+        fs.writeFileSync(`coverage/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
+      });
 
     test('opens and closes the Add Device modal', async ({ page }) => {
         await page.click('.addButton'); // Click the "Add device" button

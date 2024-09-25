@@ -49,3 +49,7 @@ else
 fi
 
 echo "E2E tests completed."
+
+echo "Generating code coverage report..."
+
+(cd frontend && npx nyc report --reporter=lcov)

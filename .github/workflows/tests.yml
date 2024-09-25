@@ -45,7 +45,13 @@ jobs:
         run: npm run test:frontend
         working-directory: ./frontend
 
+      name: Run e2e tests and collect coverage
+        run: npm run test:e2e:full
+        working-directory: .
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      
+

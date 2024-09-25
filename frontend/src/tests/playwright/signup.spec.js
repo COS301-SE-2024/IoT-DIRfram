@@ -1,6 +1,16 @@
+const fs = require('fs');
 const { test, expect } = require('@playwright/test');
 
 test.describe('Signup Flow', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.coverage.startJSCoverage(); // Start JS coverage
+  });
+
+  test.afterEach(async ({ page }) => {
+    const jsCoverage = await page.coverage.stopJSCoverage(); // Stop JS coverage
+    fs.writeFileSync(`coverage/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
+  });
+
   test('signs up successfully with valid credentials', async ({ page }) => {
     await page.goto('http://localhost:3000/signup');
 
