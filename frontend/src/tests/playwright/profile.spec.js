@@ -42,6 +42,19 @@ test.describe('Dashboard Flow', () => {
     });
 
     test ('edits user information', async ({ page }) => {
+        await page.click('text=Edit Profile');
+        await page.fill('input[name="name"]', 'Dagan');
+        await page.fill('input[name="surname"]', 'TheKing');
+        await page.fill('input[name="age"]', '22');
+        await page.fill('input[name="email"]', 'daganthequeen@gmail.com');
+
+        await page.click('.save-button');
+        await page.click('text=Close');
+
+        await expect(page.locator('text=Dagan').nth(1)).toBeVisible();
+        await expect(page.locator('text=TheKing').nth(1)).toBeVisible();
+        await expect(page.locator('text=22')).toBeVisible();
+        await expect(page.locator('text=daganthequeen@gmail.com')).toBeVisible();
         
     });
 
