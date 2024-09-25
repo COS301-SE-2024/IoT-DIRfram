@@ -13,7 +13,6 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "gsap": "^3.12.5",
-    "jest": "^27.5.1",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
@@ -84,6 +83,8 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.6.0",
     "identity-obj-proxy": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "jest": "^27.5.1",
     "nyc": "^17.1.0",
     "playwright": "^1.47.2"
   },
