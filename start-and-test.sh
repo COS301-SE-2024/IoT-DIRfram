@@ -52,4 +52,4 @@ echo "E2E tests completed."
 
 echo "Generating code coverage report..."
 
-(cd frontend/coverage/playwright && npx nyc report --report-dir=coverage/playwright --reporter=lcov --reporter=text-summary)
+(cd frontend/coverage/playwright && npx nyc report --report-dir=coverage/playwright --reporter=lcov --reporter=text)

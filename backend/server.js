@@ -115,7 +115,7 @@ async function startServer() {
 
     await pi_devicesCollection.insertOne({
       _id: "1000000013dcc3ee",
-      device_name: "raspberrypi2",
+      device_name: "raspberrypi1",
     });
 
     await users_devicesCollection.insertOne({
