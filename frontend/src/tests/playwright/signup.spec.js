@@ -1,5 +1,13 @@
 const fs = require('fs');
 const { test, expect } = require('@playwright/test');
+const path = require('path');
+
+const coverageDir = path.join(__dirname, 'coverage', 'playwright');
+if (!fs.existsSync(coverageDir)) {
+    fs.mkdirSync(coverageDir, { recursive: true });
+}
+
+
 
 test.describe('Signup Flow', () => {
   test.beforeEach(async ({ page }) => {

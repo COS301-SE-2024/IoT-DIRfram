@@ -1,5 +1,11 @@
 const fs = require('fs');
 const { test, expect } = require('@playwright/test');
+const path = require('path');
+
+const coverageDir = path.resolve(__dirname, '../../../coverage/playwright');
+if (!fs.existsSync(coverageDir)) {
+    fs.mkdirSync(coverageDir, { recursive: true });
+}
 
 test.describe('Dashboard Flow', () => {
     
