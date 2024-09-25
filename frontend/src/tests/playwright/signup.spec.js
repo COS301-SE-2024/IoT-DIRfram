@@ -8,7 +8,7 @@ test.describe('Signup Flow', () => {
 
   test.afterEach(async ({ page }) => {
     const jsCoverage = await page.coverage.stopJSCoverage(); // Stop JS coverage
-    fs.writeFileSync(`coverage/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
+    fs.writeFileSync(`coverage/playwright/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
   });
 
   test('signs up successfully with valid credentials', async ({ page }) => {

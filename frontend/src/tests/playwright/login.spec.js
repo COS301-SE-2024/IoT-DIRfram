@@ -11,7 +11,7 @@ test.describe('Login Flow', () => {
 
   test.afterEach(async ({ page }) => {
     const jsCoverage = await page.coverage.stopJSCoverage(); // Stop JS coverage
-    fs.writeFileSync(`coverage/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
+    fs.writeFileSync(`coverage/playwright/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
   });
 
   test('logs in successfully with valid credentials', async ({ page }) => {
