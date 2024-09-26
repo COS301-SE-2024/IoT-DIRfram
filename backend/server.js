@@ -108,6 +108,16 @@ async function startServer() {
       surname: "Jiden"
     });
 
+    await usersCollection.insertOne({
+      username: "testuser",
+      email: "testemail@email.com",
+      password: hashedPassword,
+      salt: salt,
+      age: "21",
+      name: "Test",
+      surname: "User"
+    });
+
     await pi_devicesCollection.insertOne({
       _id: "1000000013dcc3ed",
       device_name: "raspberrypi",
@@ -145,7 +155,16 @@ async function startServer() {
       _id: new ObjectId("66c7a5b4ce7e80fd2206ba97"),
       title:"How to Turn on Device",
       content: "I'm having trouble turning it on, any help would be appreciated",
-      authorId: "DaganTheKing",
+      authorId: "BoeJiden",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    //Make a post with test user
+    await postsCollection.insertOne({
+      title:"Search Testing",
+      content: "Does the search function work?",
+      authorId:"testuser",
       createdAt: new Date(),
       updatedAt: new Date(),
     });

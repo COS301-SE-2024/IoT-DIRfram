@@ -29,7 +29,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "test:frontend": "jest --config jest.frontend.config.js --coverage",
+    "test:frontend": "jest --coverage",
     "eject": "react-scripts eject",
     "test:e2e": "npx playwright test"
   },
