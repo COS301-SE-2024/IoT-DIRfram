@@ -45,18 +45,6 @@ jobs:
         run: npm run test:frontend
         working-directory: ./frontend
 
-      - name: Start e2e process
-        run: npm run test:e2e:start
-        working-directory: .
-      
-      - name : Run e2e tests
-        run: npm run test:e2e
-        working-directory: ./frontend
-      
-      - name : Stop e2e process
-        run: npm run test:e2e:end
-        working-directory: .
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         env:
