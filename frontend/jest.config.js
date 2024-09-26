@@ -13,6 +13,6 @@ module.exports = {
     'node_modules/(?!axios)',
   ],
   collectCoverage: true,
-  coverageDirectory: 'coverage/jest',
+  coverageDirectory: 'coverage',
   coverageReporters: ['json', 'lcov', 'text', 'clover']
 };

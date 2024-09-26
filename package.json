@@ -7,7 +7,8 @@
     "@playwright/test": "^1.47.2"
   },
   "scripts": {
-    "test:e2e:full": "./start-and-test.sh"
+    "test:e2e:start": "./start-e2e.sh",
+    "test:e2e:end": "./end-e2e.sh"
   },
   "keywords": [],
   "author": "",

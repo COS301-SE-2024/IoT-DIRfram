@@ -95,7 +95,11 @@ async function startServer() {
       salt: salt,
       age: "21",
       name: "Monica",
-      surname: "King"
+      surname: "King",
+      notifications: {
+        newDataAvailable: true,
+        newResponseToPosts: false
+      }
     });
 
     await usersCollection.insertOne({
@@ -137,7 +141,7 @@ async function startServer() {
     await file_dataCollection.insertOne({
       type: "text",
       content: "ContentHere",
-      filename: "file.txt",
+      filename: "log_2024:08:06-18:44:58.txt",
       device_name: "raspberrypi",
       device_serial_number: "1000000013dcc3ed",
       //array of 40 floats
@@ -147,6 +151,24 @@ async function startServer() {
         5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6.0, 6.1, 6.2,
         6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7.0, 7.1, 7.2
       ],
+
+    });
+
+    await file_dataCollection.insertOne({
+      type: "text",
+      content: "ContentHere",
+      filename: "log_2024:06:24-13:09:52.txt",
+      device_name: "raspberrypi",
+      device_serial_number: "1000000013dcc3ed",
+      //random array of 40 floats starting at 7.2 and descending to 3.3
+      voltage: [
+        7.2, 7.1, 7.0, 6.9, 6.8, 6.7, 6.6, 6.5, 6.4, 6.3,
+        6.2, 6.1, 6.0, 5.9, 5.8, 5.7, 5.6, 5.5, 5.4, 5.3,
+        5.2, 5.1, 5.0, 4.9, 4.8, 4.7, 4.6, 4.5, 4.4, 4.3,
+        4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3
+      ],
+      //inserted in 2023
+
 
     });
     // create objectId 66c7a5b4ce7e80fd2206ba97
