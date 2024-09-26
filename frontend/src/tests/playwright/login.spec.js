@@ -1,9 +1,23 @@
+const fs = require('fs');
 const { test, expect } = require('@playwright/test');
+const path = require('path');
+
+const coverageDir = path.resolve(__dirname, '../../../playwrightcoverage');
+if (!fs.existsSync(coverageDir)) {
+    fs.mkdirSync(coverageDir, { recursive: true });
+}
 
 test.describe('Login Flow', () => {
+
   test.beforeEach(async ({ page }) => {
+    await page.coverage.startJSCoverage();
     // Navigate to the login page before each test
     await page.goto('http://localhost:3000/login');
+  });
+
+  test.afterEach(async ({ page }) => {
+    const jsCoverage = await page.coverage.stopJSCoverage(); // Stop JS coverage
+    fs.writeFileSync(`playwrightcoverage/coverage-${Date.now()}.json`, JSON.stringify(jsCoverage)); // Save coverage
   });
 
   test('logs in successfully with valid credentials', async ({ page }) => {
@@ -30,4 +44,5 @@ test.describe('Login Flow', () => {
     const errorMessage = await page.locator('.error');
     await expect(errorMessage).toContainText('Invalid credentials');
   });
+
 });

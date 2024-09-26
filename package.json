@@ -1,0 +1,16 @@
+{
+  "name": "iot-dirfram",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">IoT-DIRfram</h1>\r <p align=\"center\">\r   <img src=\"https://github.com/COS301-SE-2024/IoT-DIRfram/assets/111583652/37fd8e4a-6e18-4c0a-9d09-fca3d2fca5c2\" alt=\"code-crafters-logo\" width=\"700\"/>\r </p>\r <p align=\"center\">\r   <img src=\"https://github.com/COS301-SE-2024/IoT-DIRfram/assets/111583652/5e14524d-cf38-4e70-b5f5-38403158a446\" alt=\"code-crafters-logo\" width=\"200\"/>\r </p>\r <p align=\"center\">\r   Welcome to the GitHub repository for Code Crafter's Raspberry Pi IoT-DirFram project!\r </p>",
+  "main": "index.js",
+  "devDependencies": {
+    "@playwright/test": "^1.47.2"
+  },
+  "scripts": {
+    "test:e2e:start": "./start-e2e.sh",
+    "test:e2e:end": "./end-e2e.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
