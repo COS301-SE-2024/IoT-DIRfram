@@ -139,7 +139,7 @@ const Signup = () => {
         throw new Error('Network response was not ok.');
       })
       .then(data => {
-        console.log('Success:', data);
+        // console.log('Success:', data);
         // Redirect to the dashboard
         navigate('/dashboard');
       })

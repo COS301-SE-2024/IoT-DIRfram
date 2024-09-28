@@ -29,7 +29,7 @@ const PostDetails = () => {
                     }))
                     .sort((a, b) => b.netLikes - a.netLikes);
                 setPost(postResponse.data.post);
-                console.log('Post:', postResponse.data.post);
+                // console.log('Post:', postResponse.data.post);
                 setResponses(sortedResponses);
             } catch (error) {
                 console.error('Error fetching post details:', error);

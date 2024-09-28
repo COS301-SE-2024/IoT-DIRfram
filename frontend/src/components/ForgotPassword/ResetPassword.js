@@ -16,7 +16,7 @@ const ResetPassword = () => {
 
     const handleResetPassword = (e) => {
         e.preventDefault();
-        console.log(token);
+        //console.log(token);
         fetch(`${process.env.REACT_APP_API_URL}/auth/reset-password`, {
             method: 'POST',
             headers: {

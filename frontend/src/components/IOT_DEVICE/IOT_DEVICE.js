@@ -30,7 +30,7 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
   const [secondDevice, setSecondDevice] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  console.log('isAdmin:', isAdmin);
+  // console.log('isAdmin:', isAdmin);
   const devicesPerPage = 10; // Number of devices per page
   const indexOfLastDevice = currentPage * devicesPerPage;
   const indexOfFirstDevice = indexOfLastDevice - devicesPerPage;
@@ -319,8 +319,8 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
     if (selectedDevice && secondDevice) {
       const data1 = selectedDevice.voltage || [];
       const data2 = secondDevice.voltage || [];
-      console.log(selectedDevice);
-      console.log(secondDevice);
+      // console.log(selectedDevice);
+      // console.log(secondDevice);
       const comparisonData = generateNewVoltageData(data1, data2);
       return (
         // options={options}
