@@ -38,7 +38,7 @@ const IoT_Device = ({ deviceId, isAdmin }) => {
 
   const getDeviceFiles = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:3001/device/getDeviceFiles', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/device/getDeviceFiles`, {
         params: {
           device_id: deviceId,
           fromDate: fromDate || undefined,
