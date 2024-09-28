@@ -89,7 +89,7 @@ module.exports = (client) => {
         { email: email },
         { $set: { password: hashedPassword, salt: salt } }
       );
-      console.log('Password reset successfully');
+      // console.log('Password reset successfully');
       res.status(200).json({ message: 'Password reset successfully' });
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
@@ -135,10 +135,10 @@ module.exports = (client) => {
         },
       };
 
-      console.log('Received new user:', newUser);
+      // console.log('Received new user:', newUser);
 
       await usersCollection.insertOne(newUser);
-      console.log('User registered successfully');
+      // console.log('User registered successfully');
       res.status(201).json({ message: 'User registered' });
     } catch (err) {
       console.error('Error registering user:', err);

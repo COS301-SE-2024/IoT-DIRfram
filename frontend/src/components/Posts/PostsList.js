@@ -23,7 +23,7 @@ const PostsList = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/posts`);
         setPosts(response.data);
-        console.log('Posts:', response.data);
+        // console.log('Posts:', response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }

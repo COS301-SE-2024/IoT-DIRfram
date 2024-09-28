@@ -28,7 +28,7 @@ const Settings = () => {
           const userData = await response.json();
           // If userData.notifications doesn't exist, default to an empty object
           setNotifications(userData.notifications ?? {});
-          console.log('User data fetched successfully:', userData);
+          // console.log('User data fetched successfully:', userData);
         } else {
           console.error('Failed to fetch user data');
         }
@@ -52,7 +52,7 @@ const Settings = () => {
 
   const handleNotificationChange = (event) => {
     const { name, checked } = event.target;
-    console.log(name, checked);
+    // console.log(name, checked);
     setNotifications({ ...notifications, [name]: checked });
   };
 
@@ -71,7 +71,7 @@ const Settings = () => {
   
       const data = await response.json();
       if (response.ok) {
-        console.log(data.message);
+        // console.log(data.message);
         setUnsavedChanges(false); // Reset unsaved changes state after saving
       } else {
         console.error(data.message);

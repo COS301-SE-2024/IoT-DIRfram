@@ -44,6 +44,7 @@ jobs:
 
             # Start the backend
             cd ../backend
+            npm install
             pm2 stop backend
             pm2 start server.js --name backend
 

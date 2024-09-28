@@ -75,8 +75,8 @@ module.exports = (client) => {
 
       // Find devices assigned to the user
       const devices = await usersToDevicesCollection.find({ username }).toArray();
-      console.log(`Found ${devices.length} devices assigned to user ${username}`);
-      console.log(devices);
+      // console.log(`Found ${devices.length} devices assigned to user ${username}`);
+      // console.log(devices);
       // console.log(devices);
       const deviceIds = devices.map((device) => device.device_id);
 
@@ -404,10 +404,10 @@ module.exports = (client) => {
       // Find user IDs who have access to this Raspberry Pi
       const userDevices = await usersToDevicesCollection.find({ device_id: device_serial_number }).toArray();
       const userIds = userDevices.map(userDevice => userDevice.username);
-      console.log(`Found ${userIds[0]} users with access to this Raspberry Pi`);
+      // console.log(`Found ${userIds[0]} users with access to this Raspberry Pi`);
       // Find user details for these user IDs
       const users = await usersCollection.find({ username: { $in: userIds } }).toArray();
-      console.log(`Found ${users.length} users with access to this Raspberry Pi`);
+      // console.log(`Found ${users.length} users with access to this Raspberry Pi`);
 
       // Send an email to each user
       const mailOptions = {

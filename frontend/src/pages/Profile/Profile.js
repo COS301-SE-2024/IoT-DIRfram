@@ -30,7 +30,7 @@ function Profile() {
       getUserProfile(username)
         .then(data => {
           setUserDetails(data);
-          console.log(data);
+          // console.log(data);
 
           // Store user details in cookies
           Cookies.set('username', data.username, { expires: 7 });
