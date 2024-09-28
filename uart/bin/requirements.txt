@@ -1,2 +1,4 @@
 pyserial
 pymongo
+adafruit-circuitpython-busio
+adafruit-circuitpython-ads1x15

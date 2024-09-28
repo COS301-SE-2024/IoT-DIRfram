@@ -12,11 +12,11 @@ export const getUserProfile = (username) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      console.log('getUserProfile response:', response);
+      // console.log('getUserProfile response:', response);
       return response.json();
     })
     .catch(err => {
-      console.error('Error fetching profile:', err);
+      // console.error('Error fetching profile:', err);
       throw err;
     });
 };

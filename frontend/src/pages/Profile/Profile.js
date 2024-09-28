@@ -18,11 +18,19 @@ function Profile() {
   });
 
   useEffect(() => {
+    document.body.classList.add('profile-page');
+    return () => {
+      document.body.classList.remove('profile-page');
+    };
+  }, []);
+  
+  useEffect(() => {
     const username = Cookies.get('username');
     if (username) {
       getUserProfile(username)
         .then(data => {
           setUserDetails(data);
+          console.log(data);
 
           // Store user details in cookies
           Cookies.set('username', data.username, { expires: 7 });
@@ -51,26 +59,30 @@ function Profile() {
       <Header />
       <h1 style={{ textAlign: 'center' }}>Profile</h1>
       <div className="profile-container">
+        <div className="profile-header">
+          <div className="avatar-container">
+            {/* <img src={defaultAvatar} alt="Avatar" className="avatar" /> */}
+            <FontAwesomeIcon icon={faUser} size="4x" />
+          </div>
+          <div className="username-container">
+            <p><strong>{userDetails.username}</strong></p>
+          </div>
+        </div>
+      </div>
+      <div className="profile-container">
         <div className="profile-details">
-        <div className="avatar-container">
-              {/* <img src={defaultAvatar} alt="Avatar" className="avatar" /> */}
-              <FontAwesomeIcon icon={faUser} size="4x" />
-            </div>
           <div className="text-container">
             <div className="text-left">
-              <p><strong>Username:</strong></p>
               <p><strong>Email:</strong></p>
               <p><strong>Name:</strong></p>
               <p><strong>Surname:</strong></p>
               <p><strong>Age:</strong></p>
             </div>
-           
             <div className="text-right">
-              <p>{userDetails.username}</p>
-              <p>{userDetails.email}</p>
-              <p>{userDetails.name}</p>
-              <p>{userDetails.surname}</p>
-              <p>{userDetails.age}</p>
+              <p>{userDetails.email ? userDetails.email : "None"}</p>
+              <p>{userDetails.name ? userDetails.name : "None"}</p>
+              <p>{userDetails.surname ? userDetails.surname : "None"}</p>
+              <p>{userDetails.age ? userDetails.age : "None"}</p>
             </div>
           </div>
         </div>

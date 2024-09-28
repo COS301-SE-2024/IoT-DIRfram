@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css'; 
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons for password visibility
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [emailAvailable, setEmailAvailable] = useState(true);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,16 +38,16 @@ const Signup = () => {
       },
       body: JSON.stringify({ username }),
     })
-      .then(response => {
-        if (response.status === 400) {
-          setUsernameAvailable(false);
-        } else {
-          setUsernameAvailable(true);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    .then(response => {
+      if (response.status === 400) {
+        setUsernameAvailable(false);
+      } else {
+        setUsernameAvailable(true);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   };
 
   const checkEmailAvailability = (email) => {
@@ -55,16 +58,16 @@ const Signup = () => {
       },
       body: JSON.stringify({ email }),
     })
-      .then(response => {
-        if (response.status === 400) {
-          setEmailAvailable(false);
-        } else {
-          setEmailAvailable(true);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    .then(response => {
+      if (response.status === 400) {
+        setEmailAvailable(false);
+      } else {
+        setEmailAvailable(true);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   };
 
   const handleChange = (e) => {
@@ -73,6 +76,14 @@ const Signup = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Toggle password visibility
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword); // Toggle confirm password visibility
   };
 
   const validateEmail = (email) => {
@@ -112,7 +123,6 @@ const Signup = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      console.log('Form submitted:', formData);
       setErrors({});
       // API call to register the user
       fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
@@ -172,26 +182,36 @@ const Signup = () => {
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'} // Conditionally change input type
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <span className="toggle-password" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle icon */}
+              </span>
+            </div>
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'} // Conditionally change input type
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <span className="toggle-password" onClick={toggleConfirmPasswordVisibility}>
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
             {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
           </div>
           <button type="submit" className="btn-submit">Sign up</button>

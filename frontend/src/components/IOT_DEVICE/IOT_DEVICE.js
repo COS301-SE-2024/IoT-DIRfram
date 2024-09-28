@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faExchange, faTrashAlt, faBan } from '@fortawesome/free-solid-svg-icons';//faTrashAlt
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './IOT_DEVICE.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import Pagination from '../Pagination/Pagination';
+// import { set } from 'mongoose';
 
 ChartJS.register(
   CategoryScale,
@@ -17,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-const IoT_Device = ({ deviceId }) => {
+const IoT_Device = ({ deviceId, isAdmin }) => {
   const [devices, setDeviceFiles] = useState([]);
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
@@ -25,6 +27,14 @@ const IoT_Device = ({ deviceId }) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [filteredDevices, setFilteredDevices] = useState([]);
+  const [secondDevice, setSecondDevice] = useState(null);
+  const [isComparing, setIsComparing] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  console.log('isAdmin:', isAdmin);
+  const devicesPerPage = 10; // Number of devices per page
+  const indexOfLastDevice = currentPage * devicesPerPage;
+  const indexOfFirstDevice = indexOfLastDevice - devicesPerPage;
+  const currentDevices = filteredDevices.slice(indexOfFirstDevice, indexOfLastDevice);
 
   const getDeviceFiles = useCallback(async () => {
     try {
@@ -32,22 +42,29 @@ const IoT_Device = ({ deviceId }) => {
         params: {
           device_id: deviceId,
           fromDate: fromDate || undefined,
-          toDate: toDate || undefined
-        }
+          toDate: toDate || undefined,
+        },
       });
-      setDeviceFiles(response.data);
-      setFilteredDevices(response.data);
-    } catch (e) {
-      setError(e);
+      const sortedDevices = response.data.sort(
+        (a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename))
+      );
+      setDeviceFiles(sortedDevices);
+      setFilteredDevices(sortedDevices);
+    } catch (error) {
+      setError(error);
       console.error('Error fetching device files:', error);
     }
-  }, [deviceId, fromDate, toDate, error]);
+  }, [deviceId, fromDate, toDate], error);
 
   useEffect(() => {
     if (deviceId) {
       getDeviceFiles();
     }
   }, [deviceId, getDeviceFiles]);
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to first page when devices change
+  }, [filteredDevices]);
 
   const extractTimeFromFilename = (filename) => {
     const timestamp = filename.slice(4, -4);
@@ -77,7 +94,7 @@ const IoT_Device = ({ deviceId }) => {
         position: 'top-center',
         onClose: () => closeModal(),
       });
-      
+
     } catch (error) {
       console.error('Error deleting device:', error);
     }
@@ -218,19 +235,51 @@ const IoT_Device = ({ deviceId }) => {
     const max = Math.max(...voltage).toFixed(6);
     const min = Math.min(...voltage).toFixed(6);
     const avg = (voltage.reduce((sum, val) => sum + val, 0) / voltage.length).toFixed(6);
+    
+    const maxIndex = voltage.indexOf(Math.max(...voltage));
+    const minIndex = voltage.indexOf(Math.min(...voltage));
+  
+    return { max, maxIndex, min, minIndex, avg };
+  };  
 
-    return { max, min, avg };
-  };
+  // const handleItemClick = (device) => {
+  //   setSelectedDevice(device);
+  //   setIsModalOpen(true);
+  // };
+
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedDevice(null);
+  // };
 
   const handleItemClick = (device) => {
-    setSelectedDevice(device);
-    setIsModalOpen(true);
+    if (!isComparing) {
+      setSelectedDevice(device);
+      setIsModalOpen(true);
+    } else {
+      setSecondDevice(device);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCompareClick = () => {
+    if (selectedDevice && secondDevice) {
+      setIsComparing(true);
+      toast.error('Already comparing.');
+    } else {
+      setIsComparing(true);
+      setIsModalOpen(false);
+
+    }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedDevice(null);
+    setSecondDevice(null);
+    setIsComparing(false);
   };
+
 
   const downloadVoltageAsCsv = (voltage, filename) => {
     let csvContent = "data:text/csv;charset=utf-8,Point,Current (A)\n";
@@ -249,25 +298,68 @@ const IoT_Device = ({ deviceId }) => {
   };
 
   const filterDevicesByDate = () => {
-    const filtered = devices.filter(device => {
+    const filtered = devices.filter((device) => {
       const deviceDate = new Date(extractTimeFromFilename(device.filename)).toISOString().split('T')[0];
-
-      // Only convert and compare dates if fromDate or toDate is provided
       const from = fromDate ? new Date(fromDate).toISOString().split('T')[0] : null;
       const to = toDate ? new Date(toDate).toISOString().split('T')[0] : null;
-
-      // Apply filtering conditions based on whether fromDate and toDate are set
       return (!from || deviceDate >= from) && (!to || deviceDate <= to);
     });
-
     setFilteredDevices(filtered);
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
   const clearFilters = () => {
     setFromDate('');
     setToDate('');
     setFilteredDevices(devices);
+    setCurrentPage(1); // Reset to first page when clearing filters
   };
+
+  const renderComparisonChart = () => {
+    if (selectedDevice && secondDevice) {
+      const data1 = selectedDevice.voltage || [];
+      const data2 = secondDevice.voltage || [];
+      console.log(selectedDevice);
+      console.log(secondDevice);
+      const comparisonData = generateNewVoltageData(data1, data2);
+      return (
+        // options={options}
+        <div className='graphDiv'>
+          <Line data={comparisonData} options={compOptions}/>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const compOptions = {
+    aspectRatio: 3,
+    maintainAspectRatio: true,
+  }
+
+  const generateNewVoltageData = (voltage1, voltage2 = []) => {
+    return {
+      labels: voltage1.map((_, index) => `Point ${index + 1}`),
+      datasets: [
+        {
+          label: 'Device 1 Current (A)',
+          data: voltage1,
+          fill: true,
+          backgroundColor: 'rgba(75,192,192,0.2)',
+          borderColor: 'rgba(75,192,192,1)',
+        },
+        {
+          label: 'Device 2 Current (A)',
+          data: voltage2,
+          fill: true,
+          backgroundColor: 'rgba(153,102,255,0.2)',
+          borderColor: 'rgba(153,102,255,1)',
+        }
+      ]
+    };
+  };
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="devices-list">
@@ -296,39 +388,80 @@ const IoT_Device = ({ deviceId }) => {
         <button onClick={clearFilters} className='remove-button'>Clear</button>
       </div>
       <br />
-      {filteredDevices.length === 0 ? (
+      <Pagination
+        filteredDevices={filteredDevices}
+        devicesPerPage={devicesPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
+      {currentDevices.length === 0 ? (
         <p>No IoT device data found.</p>
       ) : (
-        filteredDevices
+        currentDevices
           .sort((a, b) => new Date(extractTimeFromFilename(b.filename)) - new Date(extractTimeFromFilename(a.filename)))
           .map((device, index) => (
-            <div key={index} className="device-item" onClick={() => handleItemClick(device)}>
+            <div key={indexOfFirstDevice + index} className="device-item" onClick={() => handleItemClick(device)}>
               <h3 className="filename">
-                IoT Device {index + 1}<br /> {extractTimeFromFilename(device.filename)}
+                IoT Device {indexOfFirstDevice + index + 1}<br /> {extractTimeFromFilename(device.filename)}
               </h3>
             </div>
           ))
       )}
 
-      {isModalOpen && selectedDevice && (
+      {/* Pagination controls
+      <div className="pagination">
+        {[...Array(Math.ceil(filteredDevices.length / devicesPerPage)).keys()].map(number => (
+          <button key={number + 1} onClick={() => paginate(number + 1)} className={`page-link ${currentPage === number + 1 ? 'active' : ''}`}>
+            {number + 1}
+          </button>
+        ))}
+      </div> */}
+
+      <Pagination
+        filteredDevices={filteredDevices}
+        devicesPerPage={devicesPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
+
+      {isModalOpen && (
         <div className="modal-overlay-iot" onClick={closeModal}>
           <div className="modal-content-iot" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Device Details</h2>
               <button onClick={closeModal}>Close</button>
             </div>
-            <div className="buttons-container">
-              <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
-                Download File <FontAwesomeIcon icon={faDownload} size="2x" />
-              </button>
-              <button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
-                Delete Info <FontAwesomeIcon icon={faTrashAlt} size="2x" />
-              </button>
-              <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
-                Download Current <FontAwesomeIcon icon={faDownload} size="2x" />
-              </button>
-            </div>
             <div className="modal-body">
+            {/* className="buttons-container" */}
+            <div>
+              {secondDevice ? (
+                <>
+                  <button className="icon-button delete-button" onClick={() => setSecondDevice(null)}>Cancel Comparison <FontAwesomeIcon icon={faBan}/></button>
+                  <div className="comparison-chart">
+                    <h3>Comparison Chart</h3>
+                    {renderComparisonChart()}
+
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button className="icon-button edit-button" onClick={() => downloadFile(selectedDevice.content, selectedDevice.filename)}>
+                    Download File <FontAwesomeIcon icon={faDownload}/>
+                  </button>
+                  {isAdmin === "true" && (<button className="icon-button delete-button" onClick={() => handleDelete(selectedDevice._id)}>
+                    Delete Info <FontAwesomeIcon icon={faTrashAlt}/>
+                  </button>)}
+                  <button className="icon-button green-button" onClick={() => downloadVoltageAsCsv(selectedDevice.voltage, selectedDevice.filename)}>
+                    Download Current <FontAwesomeIcon icon={faDownload}/>
+                  </button>
+                  <button className="icon-button compare-button" onClick={() => handleCompareClick()}>
+                    Compare Current <FontAwesomeIcon icon={faExchange}/>
+                  </button>
+                </>
+              )}
+            </div>
+
+           
               <div className='device-container-iot'>
                 <div className='left-container'>
                   <h2>Extracted from: {selectedDevice.device_name}</h2>
@@ -342,16 +475,15 @@ const IoT_Device = ({ deviceId }) => {
                     <pre className="device-content">{selectedDevice.content}</pre>
                   </div>
                 </div>
-                {selectedDevice.voltage && selectedDevice.voltage.length > 0 && (
+                {selectedDevice.voltage && selectedDevice.voltage.length > 0 && !secondDevice && (
                   <div className='voltage-chart'>
                     <h3>Current Data</h3>
-                    {/* style={{ height: '400px', width: '800px' }} */}
                     <div className='graphDiv'>
                       <Line data={generateVoltageData(selectedDevice.voltage)} options={options} />
                     </div>
                     <div className="stats">
-                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max}</p>
-                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min}</p>
+                      <p><strong>Max Current:</strong> {calculateStats(selectedDevice.voltage).max} - Point {calculateStats(selectedDevice.voltage).maxIndex + 1}</p>
+                      <p><strong>Min Current:</strong> {calculateStats(selectedDevice.voltage).min} - Point {calculateStats(selectedDevice.voltage).minIndex + 1}</p>
                       <p><strong>Average Current:</strong> {calculateStats(selectedDevice.voltage).avg}</p>
                     </div>
                   </div>
@@ -365,5 +497,6 @@ const IoT_Device = ({ deviceId }) => {
     </div>
   );
 };
+
 
 export default IoT_Device;

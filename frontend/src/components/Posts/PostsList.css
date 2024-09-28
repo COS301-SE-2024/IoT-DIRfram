@@ -1,0 +1,184 @@
+.forum-post {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #4f4f4f46;
+    transition: transform 0.3s ease, font-size 0.3s ease;
+  }
+
+  .forum-post:hover .post-title-author a {
+    color: #ADD8E6; /* Light blue color */
+  }
+  .forum-post:hover {
+    transform: scale(1.01);
+  }
+
+  .forum-post .post-title-author a,
+  .forum-post .post-details {
+      transition: font-size 0.3s ease;
+  }
+  
+  .forum-post:hover .post-title-author a,
+  .forum-post:hover .post-details {
+      font-size: 1.05em; 
+  }
+
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .post-title-author {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .post-title-author a {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+    color: #0D47F1; /*#333;*/
+  }
+  
+  .post-details {
+    font-size: 0.875rem;
+    color: #ebebeb;
+  }
+  
+  .delete-button {
+    background-color: transparent;
+    border: none;
+    color: #f00;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  
+  .delete-button:hover {
+    color: #c00;
+  }
+
+  Modal {
+    z-index: 1000;
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    color: white;
+  }
+  
+  .modal-content {
+    background: #161b22d1;
+    max-width: 600px; /* Set a fixed max width for consistency */
+    width: 100%;
+    max-height: 80%; /* Ensure the modal doesn't exceed the viewport height */
+    overflow: hidden;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #30363D;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  }
+  
+  .modal-content h2 {
+    color: white;
+  }
+
+  .modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #30363D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #161b22d1;
+    font-size: 18px;
+  }
+  
+  .modal-content input{
+    width: 90%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #30363D;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #0D1117;
+    justify-content: center;
+    color: white;
+  }
+
+  .modal-content input::placeholder{
+    color: rgba(255, 255, 255, 0.258);
+  }
+  
+  .modal-content textarea{
+    width: 90%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #30363D;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #0D1117;
+    justify-content: center;
+    color: white;
+  }
+  
+  .modal-body textarea {
+    resize: vertical;
+    min-height: 120px; /* Adjusted for better balance */
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    border-top: 1px solid #30363D;
+  }
+  
+  .modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  .modal-actions button:first-child {
+    background-color: #0E51F8; /* Blue color for the Post button */
+  }
+  
+  .modal-actions button:last-child {
+    background-color: #c82333; /* Red color for the Cancel button */
+  }
+  
+  .modal-actions button:hover {
+    opacity: 0.9;
+  }
+  
+  .close {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .close:hover {
+    color: #c82333; /* Red color on hover */
+  }
+  
