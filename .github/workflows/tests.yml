@@ -53,8 +53,8 @@ jobs:
       - name: Execute E2E and Integration Tests
         run: |
             chmod +x ./.github/workflows/scripts/e2e-integration-full.sh
-            chmod +x ./.github/workflows/scripts/e2e-start.sh
-            chmod +x ./.github/workflows/scripts/e2e-end.sh
+            chmod +x ./.github/workflows/scripts/start-e2e.sh
+            chmod +x ./.github/workflows/scripts/end-e2e.sh
             ./.github/workflows/scripts/e2e-integration-full.sh
             
       
