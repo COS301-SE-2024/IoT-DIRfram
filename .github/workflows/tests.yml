@@ -96,5 +96,7 @@ jobs:
           fi
 
           echo "E2E tests completed."
+          
+        working-directory: .
       
 
