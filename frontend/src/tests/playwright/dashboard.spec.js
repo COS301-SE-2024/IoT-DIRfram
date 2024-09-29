@@ -80,6 +80,15 @@ test.describe('Dashboard Flow', () => {
         await page.click('.logout-btn');
         await expect(page).toHaveURL(/\/splash/); // Ensure we are redirected to the splash
     });
+
+    test('performance test for dashboard load', async ({ page }) => {
+        const startTime = Date.now();
+        await page.goto('http://localhost:3000/dashboard');
+        const loadTime = Date.now() - startTime;
+        console.log(`Dashboard load time: ${loadTime}ms`);
+        expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+    });
+    
     
 
 });

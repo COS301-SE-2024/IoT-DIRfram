@@ -58,4 +58,12 @@ test.describe('Dashboard Flow', () => {
         
     });
 
+    test('performance test for profile load', async ({ page }) => {
+        const startTime = Date.now();
+            await page.goto('http://localhost:3000/profile');
+            const loadTime = Date.now() - startTime;
+            console.log(`Profile load time: ${loadTime}ms`);
+            expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+      });
+
 });

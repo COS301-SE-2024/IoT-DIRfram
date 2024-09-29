@@ -71,6 +71,14 @@ test.describe('RaspberryPi Flow', () => {
         await expect(page.locator('text=IoT Device 1')).toBeVisible();
     });
 
+    test('performance test for raspberrypi load', async ({ page }) => {
+        const startTime = Date.now();
+            await page.goto('http://localhost:3000/raspberrypi');
+            const loadTime = Date.now() - startTime;
+            console.log(`Raspberrypi load time: ${loadTime}ms`);
+            expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+      });
+
 
 
 });

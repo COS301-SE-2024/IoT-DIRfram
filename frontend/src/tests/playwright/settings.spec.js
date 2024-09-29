@@ -56,6 +56,13 @@ test.describe('Settings Flow', () => {
         await expect (page.locator('input[name="newDataAvailable"]').first()).not.toBeChecked();
         await expect (page.locator('input[name="newResponseToPosts"]').first()).toBeChecked();
     });
+    test('performance test for settings load', async ({ page }) => {
+        const startTime = Date.now();
+            await page.goto('http://localhost:3000/settings');
+            const loadTime = Date.now() - startTime;
+            console.log(`Settings load time: ${loadTime}ms`);
+            expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+      });
 
 
 });
