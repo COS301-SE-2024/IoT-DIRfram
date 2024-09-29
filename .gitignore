@@ -33,3 +33,4 @@ python
 uart
 frontend/.nyc_output
 frontend/playwrightcoverage
+backend/coverage/
