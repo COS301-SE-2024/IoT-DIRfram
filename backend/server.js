@@ -26,7 +26,7 @@ async function connectToDatabase() {
     // Use mock database
     mongoServer = await MongoMemoryServer.create();
     const mockUri = mongoServer.getUri();
-    console.log("Connecting to mock MongoDB with URI:", mockUri);
+    //console.log("Connecting to mock MongoDB with URI:", mockUri);
     client = new MongoClient(mockUri, {
       serverApi: {
         version: ServerApiVersion.v1,
@@ -38,7 +38,7 @@ async function connectToDatabase() {
   } else {
     // Use real MongoDB database
     const uri = process.env.MONGO_URI;
-    console.log("Connecting to real MongoDB with URI:", uri); // Debug
+    //console.log("Connecting to real MongoDB with URI:", uri); // Debug
     client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
