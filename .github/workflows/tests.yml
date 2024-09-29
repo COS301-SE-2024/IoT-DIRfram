@@ -51,7 +51,11 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Execute E2E and Integration Tests
-        run: npm run test:e2e-integration:full
-        working-directory: .
+        run: |
+            chmod +x ./.github/workflows/scripts/e2e-integration-full.sh
+            chmod +x ./.github/workflows/scripts/e2e-start.sh
+            chmod +x ./.github/workflows/scripts/e2e-end.sh
+            ./.github/workflows/scripts/e2e-integration-full.sh
+            
       
 
