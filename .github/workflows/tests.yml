@@ -51,7 +51,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: E2E and Integration
-      script: |
+        run: |
         echo "Starting backend and frontend servers, this may take some time..."
 
         # Start backend server
