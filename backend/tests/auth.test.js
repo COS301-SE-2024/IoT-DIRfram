@@ -1,10 +1,20 @@
 const request = require('supertest');
+const mockSendMail = jest.fn((mailOptions, callback) => callback());
+jest.mock('nodemailer', () => ({
+  createTransport: jest.fn().mockReturnValue({
+    sendMail: mockSendMail
+  })
+}));
+jest.mock('jsonwebtoken');
+
 const express = require('express');
+
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const authRoutes = require('../routes/auth');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+
 
 const app = express();
 app.use(express.json());
@@ -12,11 +22,6 @@ app.use(express.json());
 let mongoServer;
 let mockClient;
 
-jest.mock('nodemailer');
-jest.mock('jsonwebtoken');
-
-const mockSendMail = jest.fn().mockResolvedValue({ response: 'Email sent' });
-nodemailer.createTransport.mockReturnValue({ sendMail: mockSendMail });
 process.env.JWT_SECRET = 'test_secret';
 process.env.FRONTEND_URL = 'http://localhost:3000';
 
@@ -255,8 +260,6 @@ describe('Auth API', () => {
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Notification settings updated successfully.');
   });
-  
-  jest.mock('nodemailer');
 
   // test('should handle forgot password request', async () => {
   //   const response = await request(app).post('/auth/forgot-password').send({ email: 'testuser@example.com' });
@@ -281,6 +284,72 @@ describe('Auth API', () => {
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Password reset successfully');
   });  
+
+  describe('Forgot Password Endpoint', () => {
+    beforeEach(async () => {
+      // Clear previous mock calls and implementations
+      mockSendMail.mockClear();
+      nodemailer.createTransport.mockClear();
+      jwt.sign.mockClear();
+
+      // Reset the in-memory database
+      const db = mockClient.db();
+      await db.collection('users').deleteMany({});
+
+      // Register a test user
+      const newUser = {
+        username: 'testuser',
+        email: 'testuser@example.com',
+        password: 'password123',
+        confirmPassword: 'password123',
+      };
+      await request(app).post('/auth/register').send(newUser);
+    });
+
+    test('should handle forgot password request successfully', async () => {
+      // Mock jwt.sign to return a fixed token
+      jwt.sign.mockReturnValue('mockedToken');
+
+      const response = await request(app)
+        .post('/auth/forgot-password')
+        .send({ email: 'testuser@example.com' });
+
+      // Assertions
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe('Password reset link sent');
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+
+      // Verify the email content
+      const mailOptions = mockSendMail.mock.calls[0][0];
+      expect(mailOptions.to).toBe('testuser@example.com');
+      expect(mailOptions.subject).toBe('Password Reset');
+      expect(mailOptions.text).toContain('Click the link to reset your password');
+      expect(mailOptions.text).toContain(process.env.FRONTEND_URL);
+      expect(mailOptions.text).toContain('mockedToken');
+    });
+
+    test('should return 404 if email not found', async () => {
+      const response = await request(app)
+        .post('/auth/forgot-password')
+        .send({ email: 'nonexistent@example.com' });
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe('Email not found');
+      expect(mockSendMail).not.toHaveBeenCalled();
+    });
+
+    test('should return 500 if email not sent', async () => {
+      // Mock sendMail to throw an error
+      mockSendMail.mockImplementationOnce((mailOptions, callback) => callback(new Error('Failed to send email')));
+
+      const response = await request(app)
+        .post('/auth/forgot-password')
+        .send({ email: 'testuser@example.com' });
+
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe('Error sending email');
+    });
+  });
   
 
 });

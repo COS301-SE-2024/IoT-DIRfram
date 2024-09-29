@@ -17,14 +17,14 @@ describe('IoT_Device Component', () => {
   const mockDeviceData = [
     {
       _id: '1',
-      filename: 'testfile1.txt',
+      filename: 'log_2024:08:06-18:44:58.txt',
       content: 'Device content 1\n\n\nFirmware and Chip information 1',
       voltage: [1.0, 2.0, 3.0],
       device_name: 'Device 1',
     },
     {
       _id: '2',
-      filename: 'testfile2.txt',
+      filename: 'log_2024:06:24-13:09:52.txt',
       content: 'Device content 2\n\n\nFirmware and Chip information 2',
       voltage: [2.0, 3.0, 4.0],
       device_name: 'Device 2',
@@ -77,6 +77,55 @@ describe('IoT_Device Component', () => {
     expect(screen.getByText('Firmware and Chip information 1')).toBeInTheDocument();
     expect(screen.getByText('Current Data')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart')).toBeInTheDocument();
+  });
+
+  test('handles error fetching device data', async () => {
+    axios.get.mockRejectedValue(new Error('Error fetching device files'));
+
+    await act(async () => {
+      render(<IoT_Device deviceId="test-device-id" isAdmin="true" />);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('No IoT device data found.')).toBeInTheDocument();
+    });
+  });
+
+  test('filters devices by date', async () => {
+    await act(async () => {
+      render(<IoT_Device deviceId="test-device-id" isAdmin="true" />);
+    });
+
+    fireEvent.change(screen.getByLabelText('From:'), { target: { value: '2024-01-01' } });
+    fireEvent.change(screen.getByLabelText('To:'), { target: { value: '2024-12-31' } });
+    fireEvent.click(screen.getByText('Search'));
+
+    await waitFor(() => {
+      expect(screen.getByText((content, element) => content.includes('IoT Device 1'))).toBeInTheDocument();
+      expect(screen.getByText((content, element) => content.includes('IoT Device 2'))).toBeInTheDocument();
+    });
+  });
+
+  test('clears date filters', async () => {
+    await act(async () => {
+      render(<IoT_Device deviceId="test-device-id" isAdmin="true" />);
+    });
+
+    fireEvent.change(screen.getByLabelText('From:'), { target: { value: '2024-01-01' } });
+    fireEvent.change(screen.getByLabelText('To:'), { target: { value: '2024-12-31' } });
+    fireEvent.click(screen.getByText('Search'));
+
+    await waitFor(() => {
+      expect(screen.getByText((content, element) => content.includes('IoT Device 1'))).toBeInTheDocument();
+      expect(screen.getByText((content, element) => content.includes('IoT Device 2'))).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Clear'));
+
+    await waitFor(() => {
+      expect(screen.getByText((content, element) => content.includes('IoT Device 1'))).toBeInTheDocument();
+      expect(screen.getByText((content, element) => content.includes('IoT Device 2'))).toBeInTheDocument();
+    });
   });
 
 //   test('handles delete device', async () => {
