@@ -66,13 +66,13 @@ Follow [this link](http://165.227.161.136:3000) to access our deployed website.
 
 ## PDF Links
 ### User manual: 
-[View the PDF](./Documentation/User Manual.pdf)
+[View the User Manual](./Documentation/User%20Manual.pdf)
 ### Coding standards: 
-[View the PDF](./Documentation/Coding Standards.pdf)
+[View the PDF](./Documentation/Coding%Standards.pdf)
 ### Testing policy: 
-[View the PDF](./Documentation/Testing Doc.pdf)
+[View the PDF](./Documentation/Testing%Doc.pdf)
 ### Technical installation manual: 
-[View the PDF](./Documentation/Technology Requirements.pdf)
+[View the PDF](./Documentation/Technology%Requirements.pdf)
 
 ## Manuals
 ### Access our manuals:
