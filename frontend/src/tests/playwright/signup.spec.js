@@ -93,4 +93,12 @@ test.describe('Signup Flow', () => {
     await expect(page.locator('text=Password must be at least 8 characters long and include at least one number').first()).toBeVisible();
   });
 
+  test('performance test for signup load', async ({ page }) => {
+    const startTime = Date.now();
+        await page.goto('http://localhost:3000/signup');
+        const loadTime = Date.now() - startTime;
+        console.log(`Signup load time: ${loadTime}ms`);
+        expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+  });
+
 });

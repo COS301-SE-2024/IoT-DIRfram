@@ -45,4 +45,12 @@ test.describe('Login Flow', () => {
     await expect(errorMessage).toContainText('Invalid credentials');
   });
 
+  test('performance test for login load', async ({ page }) => {
+    const startTime = Date.now();
+        await page.goto('http://localhost:3000/login');
+        const loadTime = Date.now() - startTime;
+        console.log(`Login load time: ${loadTime}ms`);
+        expect(loadTime).toBeLessThan(2000); // Expect load time to be under 2 seconds
+  });
+
 });
