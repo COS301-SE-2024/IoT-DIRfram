@@ -56,7 +56,7 @@ function EditProfile() {
         }),
       });
 
-      console.log('Update profile response:', response);
+      // console.log('Update profile response:', response);
 
       if (response.ok) {
         const data = await response.json();

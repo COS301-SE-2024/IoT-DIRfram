@@ -6,12 +6,37 @@ import Signup from '../pages/Signup/Signup';
 import '@testing-library/jest-dom/extend-expect';
 
 // Mock fetch API
+//Global variable to determine whether check-username and check-email fetch requests are supposed to be successful or not
+let success = true;
+
 global.fetch = jest.fn((url) => {
   if (url.includes('/auth/check-username') || url.includes('/auth/check-email')) {
-    return Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve({}),
-    });
+    if (success) {
+      return Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve({ available: true }),
+      });
+    }
+    else {
+      return Promise.resolve({
+        status: 400,
+        json: () => Promise.resolve({ available: false }),
+      });
+    }
+  }
+  if (url.includes('/auth/check-email')) {
+    if (success) {
+      return Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve({ available: true }),
+      });
+    }
+    else {
+      return Promise.resolve({
+        status: 400,
+        json: () => Promise.resolve({ available: false }),
+      });
+    }
   }
   if (url.includes('/auth/register')) {
     return Promise.resolve({
@@ -99,7 +124,132 @@ describe('Signup Component', () => {
       expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/auth/check-username'), expect.any(Object));
       expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/auth/check-email'), expect.any(Object));
     });
+
+    
   });
+
+  test('shows error for invalid email', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Signup />
+        </MemoryRouter>
+      );
+    });
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'invalid-email' } });
+      fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Invalid email address')).toBeInTheDocument();
+    });
+  });
+
+  test('shows error for invalid password', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Signup />
+        </MemoryRouter>
+      );
+    });
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'short' } });
+      fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Password must be at least 8 characters long and include at least one number')).toBeInTheDocument();
+    });
+  });
+
+  test('shows error for password mismatch', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Signup />
+        </MemoryRouter>
+      );
+    });
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
+      fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'differentpassword' } });
+      fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
+    });
+  });
+
+  test('shows error for unavailable username', async () => {
+    success = false;
+    global.fetch.mockImplementationOnce((url) => {
+      if (url.includes('/auth/check-username')) {
+        return Promise.resolve({
+          status: 400,
+          json: () => Promise.resolve({ available: false }),
+        });
+      }
+      return Promise.reject(new Error('Unknown API endpoint'));
+    });
+
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Signup />
+        </MemoryRouter>
+      );
+    });
+
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+      jest.runAllTimers();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Username is already taken')).toBeInTheDocument();
+    });
+
+    success = true;
+  });
+
+  test('shows error for unavailable email', async () => {
+    success = false;
+    global.fetch.mockImplementationOnce((url) => {
+      if (url.includes('/auth/check-email')) {
+        return Promise.resolve({
+          status: 400,
+          json: () => Promise.resolve({ available: false }),
+        });
+      }
+      return Promise.reject(new Error('Unknown API endpoint'));
+    });
+
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Signup />
+        </MemoryRouter>
+      );
+    });
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'testuser@example.com' } });
+      jest.runAllTimers();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Email is already taken')).toBeInTheDocument();
+    });
+    success = true;
+  });
+
 
   // test('submits the form', async () => {
   //   await act(async () => {

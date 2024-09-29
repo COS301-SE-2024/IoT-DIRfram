@@ -6,13 +6,20 @@ body, html, #root {
   color: #fff; /* Text color */
 }
 
-.splash-page {
-  flex-direction: column;
+/* .splash-page { */
+  /* flex-direction: column; */
   /* background: url('../../assets/splash1.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed; */
+  /* height: 100%; */
+/* } */
+
+.splash-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
 }
 
@@ -89,17 +96,25 @@ h1 {
   margin: 10px auto; 
 }
 
-.outer-container {
+/* .outer-container {
   margin: 20px;
   padding: 20px;
   border-radius: 15px;
   display: flex;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
+  justify-content: center; Center content vertically
+  align-items: center; Center content horizontally
   height: 100%;
+} */
+
+.outer-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align children to the top */
+  height: 100%; /* Use full height */
+  flex-grow: 1; /* Allow this container to grow */
 }
 
-.splash-content {
+/* .splash-content {
   margin-top: 20px;
   margin-right: 20px;
   margin-left: 20PX;
@@ -107,9 +122,22 @@ h1 {
   border-radius: 15px;
   background-color: #1e1e1ed7;
   display: grid;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
+  justify-content: center; Center content vertically
+  align-items: center; Center content horizontally
   height: 80%;
+  max-height: 80%;
+} */
+
+.splash-content {
+  width: 80%; /* Make it responsive */
+  max-height: 80%; /* Ensure it doesn't exceed 80% of parent */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: space-between; /* Space out content */
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #1e1e1ed7;
+  overflow: hidden; /* Prevent overflow */
 }
 /* Carousel styles */
 /* .carousel-root {
@@ -127,15 +155,20 @@ h1 {
   padding-bottom: 20px;
 }
 
-.content {
+/* .content {
   width: 60%;
-}
+} */
 
 .carousel-container {
   float:right;
   align-items: center;
   justify-content: center;
   border-radius: 15%;
+}
+
+.carousel-container {
+  width: 35%;
+  padding-bottom: 20px;
 }
 
 
@@ -176,3 +209,24 @@ h1 {
 .carousel .control-dots .dot.selected {
   background-color: #fff;
 } */
+
+.footerSplash {
+  /* position: fixed; */
+  /* left: 0;
+  bottom: 0; */
+  /* width: 100%; */
+  /* background-color: #1e1e1ed7; */
+  color: white;
+  text-align: center;
+  /* padding-top: 10px; */
+  font-size: small;
+}
+
+
+.content {
+  width: 60%; /* Ensure consistent width */
+  padding: 20px;
+  text-align: center; /* Center content text */
+}
+
+

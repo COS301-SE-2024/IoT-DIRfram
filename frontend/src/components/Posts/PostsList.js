@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import Header from '../Header/Header';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 import './PostsList.css';
 
 const PostsList = () => {
@@ -23,7 +24,7 @@ const PostsList = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/posts`);
         setPosts(response.data);
-        console.log('Posts:', response.data);
+        // console.log('Posts:', response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -102,8 +103,14 @@ const PostsList = () => {
         {filteredPosts.length > 0 ? (
           filteredPosts
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by most recent
-            .map((post) => (
-              <div key={post._id} className="forum-post card">
+            .map((post, index) => (
+              <motion.div 
+                key={post._id} 
+                className="forum-post card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
+              >
                 <div className="post-header">
                   <div className="post-title-author">
                     <Link to={`/posts/${post._id}`}>{post.title}</Link>
@@ -123,7 +130,7 @@ const PostsList = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))
         ) : (
           <p>No posts match your search.</p>
@@ -131,28 +138,28 @@ const PostsList = () => {
       </ul>
 
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal-overlay">
-      <div className="modal-content">
-        <button className="close" onClick={closeModal}>
-          &times;
-        </button>
-        <h2>Create Post</h2>
-        <input
-          type="text"
-          placeholder="Title"
-          value={newPost.title}
-          onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          value={newPost.content}
-          onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-        />
-        <div className="modal-actions">
-          <button onClick={handleCreatePost}>Post</button>
-          <button onClick={closeModal}>Cancel</button>
+        <div className="modal-content">
+          <button className="close" onClick={closeModal}>
+            &times;
+          </button>
+          <h2>Create Post</h2>
+          <input
+            type="text"
+            placeholder="Title"
+            value={newPost.title}
+            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+          />
+          <textarea
+            placeholder="Description"
+            value={newPost.content}
+            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+          />
+          <div className="modal-actions">
+            <button onClick={handleCreatePost}>Post</button>
+            <button onClick={closeModal}>Cancel</button>
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
     </div>
   );
 };

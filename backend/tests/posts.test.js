@@ -1,9 +1,18 @@
 const request = require('supertest');
+
+const mockSendMail = jest.fn((mailOptions) => {});
+jest.mock('nodemailer', () => ({
+  createTransport: jest.fn().mockReturnValue({
+    sendMail: mockSendMail
+  })
+}));
+
 const express = require('express');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const postsRoutes = require('../routes/posts');
 const { ObjectId } = require('mongodb');
+const nodemailer = require('nodemailer');
 
 const app = express();
 app.use(express.json());
@@ -18,10 +27,27 @@ beforeAll(async () => {
     await mockClient.connect();
     
     const db = mockClient.db('uart_data');
+    const Clientdb = mockClient.db('Auth');
     
     // Clear existing data
     await db.collection('Posts').deleteMany({});
     await db.collection('Responses').deleteMany({});
+    await Clientdb.collection('Users').deleteMany({});
+
+      // Register a test user
+    const newUser = {
+      username: 'testuser',
+      email: 'testuser@example.com',
+      password: 'password123',
+      salt: 'placeholder',
+      age: 25,
+      name: 'Test User',
+      surname: 'Test Surname',
+      notifications: {
+        newResponseToPosts: true,
+      }
+    };
+    await Clientdb.collection('Users').insertOne(newUser);
   
     // Insert test data
     const postResult = await db.collection('Posts').insertOne({
@@ -51,6 +77,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    mockSendMail.mockClear();
+    nodemailer.createTransport.mockClear();
     const db = mockClient.db('uart_data');
     await db.collection('Posts').deleteMany({});
     await db.collection('Responses').deleteMany({});
@@ -101,7 +129,7 @@ describe('Posts API', () => {
     expect(Array.isArray(response.body)).toBe(true);
   });
 
-  test('should create a response to a post', async () => {
+  test('should create a response and send an email', async () => {
     const newResponse = {
       postId: '123456789012345678901234',
       content: 'Test Response',
@@ -111,6 +139,33 @@ describe('Posts API', () => {
     const response = await request(app).post('/posts/responses').send(newResponse);
     expect(response.status).toBe(201);
     expect(response.body.content).toBe('Test Response');
+    const sendMailMock = nodemailer.createTransport().sendMail;
+    expect(sendMailMock).toHaveBeenCalledTimes(1);
+
+    // Verify the email content
+    const mailOptions = sendMailMock.mock.calls[0][0];
+    expect(mailOptions.to).toBe('testuser@example.com');
+    expect(mailOptions.subject).toBe('Response to post');
+    expect(mailOptions.html).toContain('New response to your post');
+    expect(mailOptions.html).toContain('Test Post');
+  });
+
+  test('should create a response without sending an email', async () => {
+    //set testuser to have notifications disabled
+    const Clientdb = mockClient.db('Auth');
+    await Clientdb.collection('Users').updateOne({ username: 'testuser' }, { $set: { 'notifications.newResponseToPosts': false } });
+
+    const newResponse = {
+      postId: '123456789012345678901234',
+      content: 'Test Response',
+      authorId: 'responder'
+    };
+
+    const response = await request(app).post('/posts/responses').send(newResponse);
+    expect(response.status).toBe(201);
+    expect(response.body.content).toBe('Test Response');
+    const sendMailMock = nodemailer.createTransport().sendMail;
+    expect(sendMailMock).toHaveBeenCalledTimes(0);
   });
 
   test('should delete a post', async () => {

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test:e2e:start": "./start-e2e.sh",
-    "test:e2e:end": "./end-e2e.sh"
+    "test:e2e:end": "./end-e2e.sh",
+    "test:e2e-integration:full": "./e2e-integration-full.sh"
   },
   "keywords": [],
   "author": "",
