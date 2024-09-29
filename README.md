@@ -69,13 +69,13 @@ User manual:
 [View the User Manual](./Documentation/User%20Manual.pdf)
 
 Coding standards: 
-[View the PDF](./Documentation/Coding%Standards.pdf)
+[View the Coding Standards](./Documentation/Coding%Standards.pdf)
 
 Testing policy: 
-[View the PDF](./Documentation/Testing%Doc.pdf)
+[View the Testing Doc](./Documentation/Testing%Doc.pdf)
 
 Technical installation manual: 
-[View the PDF](./Documentation/Technology%Requirements.pdf)
+[View the Technology Requirements](./Documentation/Technology%Requirements.pdf)
 
 ## Manuals
 ### Access our manuals:
