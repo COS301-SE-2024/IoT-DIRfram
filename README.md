@@ -72,7 +72,7 @@ Coding standards:
 [View the Coding Standards](./Documentation/Coding%20Standards.pdf)
 
 Testing policy: 
-[View the Testing Doc](./Documentation/Testing%Doc.pdf)
+[View the Testing Doc](./Documentation/Testing%20Doc.pdf)
 
 Technical installation manual: 
 [View the Technology Requirements](./Documentation/Technology%Requirements.pdf)
