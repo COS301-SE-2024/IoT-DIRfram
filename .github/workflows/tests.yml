@@ -49,5 +49,9 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Execute E2E and Integration Tests
+        run: npm run test:e2e-integration:full
+        working-directory: .
       
 
