@@ -54,12 +54,15 @@ jobs:
         run: |
           echo "Starting backend and frontend servers, this may take some time..."
 
+          # list directory
+          ls -la
+
           # Start backend server
-          (cd /backend && USE_MOCK_DB=true NODE_ENV=test npm start &) # Replace with your actual command to start the backend
+          (cd ./backend && USE_MOCK_DB=true NODE_ENV=test npm start &)
           BACKEND_PID=$!
 
           # Start frontend server
-          (cd /frontend && REACT_APP_API_URL=http://localhost:3001 npm start &) # Replace with your actual command to start the frontend
+          (cd ./frontend && REACT_APP_API_URL=http://localhost:3001 npm start &)
           FRONTEND_PID=$!
 
 
@@ -67,7 +70,7 @@ jobs:
 
           sleep 60
 
-          (cd /frontend && npm run test:e2e)
+          (cd ./frontend && npm run test:e2e)
 
           # Get the actual backend server PID
           BACKEND_PORT=3001 # Replace with the port your backend uses
@@ -96,7 +99,7 @@ jobs:
           fi
 
           echo "E2E tests completed."
-          
+
         working-directory: .
       
 
