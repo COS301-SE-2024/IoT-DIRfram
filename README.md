@@ -69,7 +69,7 @@ User manual:
 [View the User Manual](./Documentation/User%20Manual.pdf)
 
 Coding standards: 
-[View the Coding Standards](./Documentation/Coding%Standards.pdf)
+[View the Coding Standards](./Documentation/Coding%20Standards.pdf)
 
 Testing policy: 
 [View the Testing Doc](./Documentation/Testing%Doc.pdf)
