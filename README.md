@@ -66,7 +66,7 @@ Follow [this link](http://165.227.161.136:3000) to access our deployed website.
 
 ## PDF Links
 Testing policy: 
-[View the Testing Doc](./Documentation/Testing%20Doc.pdf)
+[View the Testing Doc](./Documentation/Testing%20Policy.pdf)
 
 ## Manuals
 ### Access our manuals:
