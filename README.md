@@ -63,19 +63,11 @@ Follow [this link](http://165.227.161.136:3000) to access our deployed website.
 - Demo 1: [CodeCrafters-Demo1](https://drive.google.com/drive/folders/1C7eJl1ASyc34OYd9XrLWe7_obueCJH8E?usp=sharing)
 - Demo 2: [CodeCrafters-Demo2](https://drive.google.com/file/d/1iBnHdKHSudtYCWEkNKCwpGBSsQTjt_pv/view?usp=sharing)
 - Demo 3: [CodeCrafters-Demo3](https://drive.google.com/file/d/1yoVWX57l2jNtrnrx8A1hzZzjUipvPuEx/view?usp=sharing)
+- Demo 4: [CodeCrafters-Demo4](https://drive.google.com/drive/folders/1-u7K4kRPvfsFyr0uZ_tA3RkGFAR185tx?usp=sharing)
 
 ## PDF Links
-User manual: 
-[View the User Manual](./Documentation/User%20Manual.pdf)
-
-Coding standards: 
-[View the Coding Standards](./Documentation/Coding%20Standards.pdf)
-
 Testing policy: 
-[View the Testing Doc](./Documentation/Testing%20Doc.pdf)
-
-Technical installation manual: 
-[View the Technology Requirements](./Documentation/Technology%20Requirements.pdf)
+[View the Testing Doc](./Documentation/Testing%20Policy.pdf)
 
 ## Manuals
 ### Access our manuals:
